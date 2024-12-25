@@ -9,7 +9,7 @@ const SidebarNavigationList = ({
   return (
     <nav className="border-b border-[#343434] py-6 grid gap-1 sm:gap-0">
       {items.map((item) => (
-        <SidebarNavigationItem item={item} />
+        <SidebarNavigationItem key={item.href} item={item} />
       ))}
     </nav>
   );

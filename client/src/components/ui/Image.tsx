@@ -16,11 +16,13 @@ const Image = ({
   width = "200",
   height = "200",
 }: ImageProps) => {
+  if (!src || src === "") return null;
   return (
     <IKImage
       className={twMerge(className)}
       alt={alt}
       path={src}
+      onError={() => {}}
       loading="lazy"
       lqip={{
         active: true,
