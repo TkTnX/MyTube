@@ -6,7 +6,7 @@ const RootLayout = () => {
   return (
     <>
       <Header />
-      <main className="flex items-start gap-14 mx-4 sm:mx-8 xl:mx-16">
+      <main className="flex items-start sm:gap-3 gap-7 md:gap-14 mx-4 sm:mx-8 xl:mx-16">
         <Sidebar />
         <Outlet />
       </main>

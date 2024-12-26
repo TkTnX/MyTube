@@ -44,3 +44,25 @@ export const SidebarNavigationItems2: SidebarNavigationItemType[] = [
     imgPath: "/icons/playlists",
   },
 ];
+
+export const CategoriesList = [
+  "All",
+  "Subscriptions",
+  "Posts",
+  "Music",
+  "Tech",
+  "Design",
+  "Live",
+  "Playlists",
+  "Cats",
+  "Electronics",
+  "New Creators",
+  "Art",
+  "Tech News",
+  "Lofi beats",
+  "UI/UX Redesign",
+  "Web",
+  "Frontend",
+  "React JS",
+  "Next JS",
+];

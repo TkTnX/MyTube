@@ -1,5 +1,12 @@
-import { Search, User } from "lucide-react";
+import { Loader2, Search, User } from "lucide-react";
 import Image from "../ui/Image";
+import {
+  ClerkLoading,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const HeaderActions = () => {
   return (
@@ -31,11 +38,21 @@ const HeaderActions = () => {
           alt="Settings"
         />
       </button>
-      <button className="w-6 h-6 rounded-full hover:opacity-80 transition">
-        <User />
-      </button>
+      <SignedIn>
+        <button className="w-6 h-6 rounded-full hover:opacity-80 transition">
+          <UserButton />
+        </button>
+      </SignedIn>
+      <SignedOut>
+        <Link to="/sign-in" className="w-6 h-6 rounded-full hover:opacity-80 transition">
+          <User />
+        </Link>
+      </SignedOut>
+      <ClerkLoading>
+        <Loader2 className="w-6 h-6 animate-spin" />
+      </ClerkLoading>
     </div>
   );
-}
+};
 
-export default HeaderActions
+export default HeaderActions;

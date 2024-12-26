@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.21.0",
+    "@clerk/themes": "^2.2.3",
     "imagekitio-react": "^4.2.0",
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
