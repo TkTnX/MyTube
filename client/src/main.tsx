@@ -7,7 +7,7 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import { dark } from "@clerk/themes";
 import "./index.css";
 
-
+// * TODO: Начало создание backend
 
 const router = createBrowserRouter([
   {
