@@ -7,6 +7,7 @@ import cors from "cors";
 const app = express();
 
 app.use(cors());
+app.use("/webhooks", webhooksRoute);
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -15,6 +16,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
 app.use(express.json(process.env.CLIENT_URL));
 
 const PORT = 3000;
@@ -27,8 +29,6 @@ app.use((error, req, res, next) => {
     stack: error.stack,
   });
 });
-
-app.use("/webhooks", webhooksRoute);
 
 app.use("/videos", videosRoute);
 app.use("/users", usersRoute);

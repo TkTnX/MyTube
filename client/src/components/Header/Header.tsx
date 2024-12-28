@@ -2,9 +2,6 @@ import HeaderLeft from "./HeaderLeft";
 import HeaderSearch from "./HeaderSearch";
 import HeaderActions from "./HeaderActions";
 
-// * TODO: Main section категории (как на макете)
-// * TODO: Main section с видео 
-// TODO: CLERK
 
 
 const Header = () => {

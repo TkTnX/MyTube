@@ -17,12 +17,12 @@ const VideosListItem = ({ video }: { video: VideoType }) => {
         </span>
       </div>
       {/* VIDEO DETAILS */}
-      {/* <div className="mt-4 flex items-start gap-4">
+      <div className="mt-4 flex items-start gap-4">
         <Link
           to={`/channel/${video.author.username}`}
           className="relative min-w-9 min-h-9"
         >
-          <Image
+          <img
             src={video.author.img}
             width="36"
             height="36"
@@ -43,7 +43,7 @@ const VideosListItem = ({ video }: { video: VideoType }) => {
         <button>
           <MoreVertical size={24} />
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };

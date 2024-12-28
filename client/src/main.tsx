@@ -8,7 +8,6 @@ import { dark } from "@clerk/themes";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// TODO: Подключить clerk & mongodb
 
 const router = createBrowserRouter([
   {

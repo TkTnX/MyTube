@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const userModel = new Schema({
   clerkId: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
   },
   username: {
