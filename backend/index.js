@@ -1,6 +1,7 @@
 import express from "express";
 import videosRoute from "./routes/videos.route.js";
 import usersRoute from "./routes/user.route.js";
+import webhooksRoute from "./routes/webhooks.route.js";
 import connectDB from "./lib/connectDB.js";
 import cors from "cors";
 const app = express();
@@ -26,6 +27,8 @@ app.use((error, req, res, next) => {
     stack: error.stack,
   });
 });
+
+app.use("/webhooks", webhooksRoute);
 
 app.use("/videos", videosRoute);
 app.use("/users", usersRoute);

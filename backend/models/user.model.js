@@ -1,6 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 const userModel = new Schema({
+  clerkId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   username: {
     type: String,
     required: true,

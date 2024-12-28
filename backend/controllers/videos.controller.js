@@ -1,7 +1,7 @@
 import Video from "../models/video.model.js";
 
 export const getVideos = async (req, res) => {
-  const videos = await Video.find();
+  const videos = await Video.find().populate("author", "username img");
   res.status(200).json(videos);
 };
 

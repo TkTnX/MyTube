@@ -6,8 +6,9 @@ import RootLayout from "./layouts/RootLayout";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { dark } from "@clerk/themes";
 import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// * TODO: Начало создание backend
+// TODO: Подключить clerk & mongodb
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,8 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
@@ -37,12 +40,14 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ClerkProvider
-      appearance={{ baseTheme: dark }}
-      publishableKey={PUBLISHABLE_KEY}
-      afterSignOutUrl="/"
-    >
-      <RouterProvider router={router} />
-    </ClerkProvider>
+    <QueryClientProvider client={queryClient}>
+      <ClerkProvider
+        appearance={{ baseTheme: dark }}
+        publishableKey={PUBLISHABLE_KEY}
+        afterSignOutUrl="/"
+      >
+        <RouterProvider router={router} />
+      </ClerkProvider>
+    </QueryClientProvider>
   </StrictMode>
 );
