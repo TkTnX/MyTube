@@ -4,10 +4,17 @@ import usersRoute from "./routes/user.route.js";
 import webhooksRoute from "./routes/webhooks.route.js";
 import connectDB from "./lib/connectDB.js";
 import cors from "cors";
+import bodyParser from "body-parser";
 const app = express();
 
 app.use(cors());
-app.use("/webhooks", webhooksRoute);
+
+app.use(
+  "/webhooks",
+  bodyParser.raw({ type: "application/json" }),
+  webhooksRoute
+);
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -17,7 +24,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.json(process.env.CLIENT_URL));
+app.use(express.json());
 
 const PORT = 3000;
 

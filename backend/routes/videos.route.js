@@ -1,7 +1,12 @@
 import express from "express";
-import { getVideos, createVideo } from "../controllers/videos.controller.js";
+import {
+  getVideos,
+  createVideo,
+  getVideo,
+} from "../controllers/videos.controller.js";
 const router = express.Router();
 
 router.get("/", getVideos);
-router.post("/", createVideo)
+router.get("/:id", getVideo);
+router.post("/", createVideo);
 export default router;

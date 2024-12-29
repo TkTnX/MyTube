@@ -30,6 +30,14 @@ const userModel = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
   },
+  subscribers: {
+    type: Number,
+    default: 0,
+  },
+  subscriptions: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+  },
 });
 
 export default mongoose.model("User", userModel);

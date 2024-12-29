@@ -11,8 +11,8 @@ const Sidebar = () => {
   return (
     <div
       className={twMerge(
-        "text-center sm:text-left sm:min-w-32 lg:min-w-60 h-[calc(100vh-80px)]",
-        !isOpen && "sm:w-auto"
+        "text-center sm:text-left sm:min-w-32 lg:min-w-60 h-[calc(100vh-80px)] sticky top-20",
+        !isOpen && "sm:min-w-0 lg:min-w-0 min-w-0 !text-center"
       )}
     >
       {/* Sidebar Website Navigation */}

@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Homepage, SignInPage, SignUpPage } from "./routes";
+import { Homepage, SignInPage, SignUpPage, VideoPage } from "./routes";
 import RootLayout from "./layouts/RootLayout";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { dark } from "@clerk/themes";
@@ -24,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUpPage />,
+      },
+      {
+        path: "/watch/:id",
+        element: <VideoPage />,
       },
     ],
   },
