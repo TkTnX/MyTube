@@ -1,5 +1,33 @@
 import { SidebarNavigationItemType } from "./types";
 
+export const SidebarNavigationItemsSmall: SidebarNavigationItemType[] = [
+  {
+    title: "Home",
+    href: "/",
+    imgPath: "/icons/home",
+  },
+  {
+    title: "Shorts",
+    href: "/shorts",
+    imgPath: "/icons/shorts",
+  },
+  {
+    title: "Search",
+    href: "/search",
+    imgPath: "/icons/search",
+  },
+  {
+    title: "Subs",
+    href: "/subscriptions",
+    imgPath: "/icons/subs",
+  },
+  {
+    title: "Library",
+    href: "/library",
+    imgPath: "/icons/library",
+  },
+];
+
 export const SidebarNavigationItems1: SidebarNavigationItemType[] = [
   {
     title: "Home",

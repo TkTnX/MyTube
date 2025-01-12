@@ -11,8 +11,6 @@ import MoreVideos from "../components/VideoPlayer/MoreVideos";
 import { ChevronDown } from "lucide-react";
 
 
-
-
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
     const video = await axios.get(
