@@ -7,6 +7,11 @@ import VideoPlayer from "../components/VideoPlayer/VideoPlayer";
 import VideoControls from "../components/VideoPlayer/VideoControls";
 import VideoComments from "../components/VideoPlayer/VideoComments";
 import VideoNotFound from "../components/VideoPlayer/VideoNotFound";
+import MoreVideos from "../components/VideoPlayer/MoreVideos";
+import { ChevronDown } from "lucide-react";
+
+
+
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
@@ -33,17 +38,24 @@ const VideoPage = () => {
   if (isError) return <span>Error: {error.message}</span>;
   if (!data) return <VideoNotFound />;
   return (
-    <div className="w-full h-full mt-6">
+    <div className="w-full h-full mt-6 flex items-start flex-col xl:flex-row gap-4  2xl:gap-8">
       {/* PLAYER */}
-      <div className="w-3/4">
+      <div className="w-full xl:w-4/6 2xl:w-3/4">
         {/* VIDEO */}
         <VideoPlayer />
-        <h3 className="font-semibold text-xl mt-5">{data.title}</h3>
-        <div className="mt-5 flex items-center justify-between">
-          <div className="flex items-center gap-5">
+        <button className="flex items-center justify-between mt-5 w-full cursor-pointer vsm:cursor-auto">
+          <h3 className="font-semibold text-xl ">{data.title}</h3>
+          <ChevronDown className="block vsm:hidden" color="#fff" />
+        </button>
+        <p className="text-[#aaa] text-xs big-text mt-4 block vsm:hidden">
+          {data.description}
+        </p>
+
+        <div className="mt-5 flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-2">
+          <div className="flex items-center gap-2 md:gap-5 w-full justify-between vsm:w-auto vsm:justify-normal">
             <Link
               to={`/channel/${data.author.username}`}
-              className="flex items-center gap-4"
+              className="flex items-center gap-1 md:gap-4"
             >
               <img
                 src={data.author.img}
@@ -53,8 +65,10 @@ const VideoPage = () => {
                 className="rounded-full w-[46px] h-[46px]"
               />
               <div>
-                <h6 className="text-lg font-medium">{data.author.username}</h6>
-                <p className="text-sm text-[#aaa]">
+                <h6 className="text-lg vsm:text-sm md:text-lg font-medium">
+                  {data.author.username}
+                </h6>
+                <p className="text-sm vsm:text-xs md:text-sm text-nowrap text-[#aaa]">
                   {data.author.subscribers} subscribers
                 </p>
               </div>
@@ -66,14 +80,14 @@ const VideoPage = () => {
           <VideoControls data={data} />
         </div>
         {/* video description */}
-        <div className="mt-5 border border-[#343434] rounded-2xl py-5 px-6 w-full">
+        <div className="mt-5 border border-[#343434] rounded-2xl py-5 px-6 w-full hidden vsm:block">
           <p>{data.description}</p>
         </div>
         {/* comments */}
         <VideoComments />
       </div>
       {/* OTHER VIDEOS */}
-      <div className="w-1/4"></div>
+      <MoreVideos author={data.author} />
     </div>
   );
 };

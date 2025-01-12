@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import VideosListItem from "./VideosListItem";
 import axios from "axios";
 import { VideoType } from "../../types";
+import VideosListItem from "../ui/VideosListItem";
 
 const getVideos = async (): Promise<VideoType[]> => {
   try {

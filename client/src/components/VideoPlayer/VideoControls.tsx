@@ -1,21 +1,29 @@
 import { format } from "timeago.js";
 import { VideoType } from "../../types";
-import { Calendar, Eye, MoreHorizontal, ThumbsDown, ThumbsUp } from "lucide-react";
+import {
+  Calendar,
+  Eye,
+  MoreHorizontal,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
 
 const VideoControls = ({ data }: { data: VideoType }) => {
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex justify-end flex-col lg:flex-row w-full  lg:items-center gap-6 vsm:gap-2 2xl:gap-6">
       {/* video stats */}
-      <div className="flex items-center gap-1">
-        <Eye size={24} color="#585858" />
-        <span>{data.views}</span>
-      </div>
-      <div className="flex items-center gap-1">
-        <Calendar size={24} color="#585858" />
-        <span>{format(data.createdAt)}</span>
+      <div className="flex items-center gap-2 2xl:gap-6">
+        <div className="flex items-center gap-1">
+          <Eye size={24} color="#585858" />
+          <span className="text-[#b7b7b7]">{data.views}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Calendar size={24} color="#585858" />
+          <span className="text-[#b7b7b7]">{format(data.createdAt)}</span>
+        </div>
       </div>
       {/* video actions */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 justify-between vsm:justify-normal">
         <div className="rounded-full bg-[#1d1d1d] flex items-center ">
           <button className="flex items-center gap-2 py-2 px-4 hover:opacity-80 transition">
             <ThumbsUp size={24} color="#fff" />
@@ -35,4 +43,4 @@ const VideoControls = ({ data }: { data: VideoType }) => {
   );
 };
 
-export default VideoControls
+export default VideoControls;

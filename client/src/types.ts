@@ -16,6 +16,13 @@ export type UserType = {
   subscriptions: string[];
 };
 
+export type AuthorType = {
+  img: string;
+  username: string;
+  _id: string;
+  subscribers: number;
+};
+
 export type VideoType = {
   title: string;
   description: string;
