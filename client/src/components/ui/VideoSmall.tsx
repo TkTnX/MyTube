@@ -1,24 +1,32 @@
 import { Link } from "react-router-dom";
 import Image from "./Image";
+import { VideoType } from "../../types";
+import { format } from "timeago.js";
 
-const VideoSmall = () => {
+const VideoSmall = ({ video }: { video: VideoType }) => {
   return (
-    <Link to="/" className="flex items-start gap-2">
+    <Link to={`/watch/${video._id}`} className="flex items-start gap-2">
       <div>
         <Image
-          src="/video-previews/test.jpg"
-          alt="Video"
+          src={video.previewUrl}
+          alt={video.title}
           height="94"
           className="rounded-lg min-h-[94px] object-cover"
         />
       </div>
       <div>
         <h6 className="font-medium text-sm leading-5 big-text">
-          I Redesigned the ENTIRE Spotify UI from Scratch
+          {video.title}
         </h6>
-        <p className="text-[#aaa]">tktnx</p>
+        <p className="text-[#aaa]">{video.author.username}</p>
         <div className="text-[#aaa] flex flex-wrap items-center gap-1 text-xs">
-          <span>0 views</span> • <span>5 months ago</span>
+          <span>
+            {video.views > 1000
+              ? `${(video.views / 1000).toFixed(1)}k`
+              : video.views}{" "}
+            views
+          </span>{" "}
+          • <span>{format(video.createdAt)}</span>
         </div>
       </div>
     </Link>

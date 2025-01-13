@@ -1,46 +1,22 @@
 import { AuthorType } from "../../types";
-import VideoSmall from "../ui/VideoSmall";
+import MoreAuthorVideos from "./MoreAuthorVideos";
+import RelatedVideos from "./RelatedVideos";
 
-const MoreVideos = ({ author }: { author: AuthorType }) => {
+const MoreVideos = ({
+  author,
+  id,
+  category,
+}: {
+  author: AuthorType;
+  id: string;
+  category: string;
+}) => {
   return (
     <div className="w-full xl:w-1/4 h-full">
       {/* FROM AUTHOR */}
-      <h5 className="text-sm font-medium tracking-[0.01em] leading-5">
-        From {author.username}
-      </h5>
-      <div className="mt-3 flex flex-col gap-3">
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-      </div>
+      <MoreAuthorVideos videoId={id} author={author} />
       {/* Related Videos */}
-      <h5 className="text-sm font-medium tracking-[0.01em] leading-5 mt-6">
-        Related Videos
-      </h5>
-      <div className="mt-3 flex flex-col gap-3">
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-        <VideoSmall />
-      </div>
+      <RelatedVideos videoId={id} author={author} videoCategory={category} />
     </div>
   );
 };

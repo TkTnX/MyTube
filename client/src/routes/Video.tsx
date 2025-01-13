@@ -1,7 +1,7 @@
 import axios from "axios";
 import { VideoType } from "../types";
 import { Link, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import VideoPlayer from "../components/VideoPlayer/VideoPlayer";
 import VideoControls from "../components/VideoPlayer/VideoControls";
@@ -9,6 +9,7 @@ import VideoComments from "../components/VideoPlayer/VideoComments";
 import VideoNotFound from "../components/VideoPlayer/VideoNotFound";
 import MoreVideos from "../components/VideoPlayer/MoreVideos";
 import { ChevronDown } from "lucide-react";
+import { useEffect } from "react";
 
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
@@ -24,6 +25,20 @@ const getVideo = async (id: string): Promise<VideoType | null> => {
   }
 };
 
+const updateVideo = async (data: VideoType) => {
+  try {
+    return await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/videos/${data._id}`,
+      {
+        views: data.views + 1,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const VideoPage = () => {
   const { id } = useParams();
 
@@ -32,15 +47,24 @@ const VideoPage = () => {
     queryFn: () => getVideo(id!),
   });
 
+  const mutation = useMutation({
+    mutationFn: (data: VideoType) => updateVideo(data),
+  });
+
+  useEffect(() => {
+    if (data) mutation.mutate(data);
+  }, [data, id]);
+
   if (isPending) return <div>Loading...</div>;
   if (isError) return <span>Error: {error.message}</span>;
   if (!data) return <VideoNotFound />;
+
   return (
     <div className="w-full h-full mt-6 flex items-start flex-col xl:flex-row gap-4  2xl:gap-8">
       {/* PLAYER */}
       <div className="w-full xl:w-4/6 2xl:w-3/4">
         {/* VIDEO */}
-        <VideoPlayer />
+        <VideoPlayer url={data.videoUrl} />
         <button className="flex items-center justify-between mt-5 w-full cursor-pointer vsm:cursor-auto">
           <h3 className="font-semibold text-xl ">{data.title}</h3>
           <ChevronDown className="block vsm:hidden" color="#fff" />
@@ -49,7 +73,7 @@ const VideoPage = () => {
           {data.description}
         </p>
 
-        <div className="mt-5 flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between gap-4 lg:gap-2">
+        <div className="mt-5 flex  flex-wrap 2xl:flex-nowrap flex-col-reverse lg:flex-row items-start lg:items-center  gap-4 lg:gap-2">
           <div className="flex items-center gap-2 md:gap-5 w-full justify-between vsm:w-auto vsm:justify-normal">
             <Link
               to={`/channel/${data.author.username}`}
@@ -85,7 +109,7 @@ const VideoPage = () => {
         <VideoComments />
       </div>
       {/* OTHER VIDEOS */}
-      <MoreVideos author={data.author} />
+      <MoreVideos category={data.category} id={id!} author={data.author} />
     </div>
   );
 };

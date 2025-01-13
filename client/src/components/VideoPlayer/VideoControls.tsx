@@ -10,12 +10,12 @@ import {
 
 const VideoControls = ({ data }: { data: VideoType }) => {
   return (
-    <div className="flex justify-end flex-col lg:flex-row w-full  lg:items-center gap-6 vsm:gap-2 2xl:gap-6">
+    <div className="flex  justify-between 2xl:justify-end flex-col md:flex-row    w-full  lg:items-center gap-6 vsm:gap-2 2xl:gap-6">
       {/* video stats */}
       <div className="flex items-center gap-2 2xl:gap-6">
         <div className="flex items-center gap-1">
           <Eye size={24} color="#585858" />
-          <span className="text-[#b7b7b7]">{data.views}</span>
+          <span className="text-[#b7b7b7]">{data.views + 1}</span>
         </div>
         <div className="flex items-center gap-1">
           <Calendar size={24} color="#585858" />

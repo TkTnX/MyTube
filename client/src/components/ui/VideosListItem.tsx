@@ -36,8 +36,13 @@ const VideosListItem = ({ video }: { video: VideoType }) => {
           </h6>
           <p className="text-[#aaa]">{video.author.username}</p>
           <div className="text-[#aaa] flex flex-wrap items-center gap-1">
-            <span>{video.views} views</span> •{" "}
-            <span>{format(video.createdAt)}</span>
+            <span>
+              {video.views > 1000
+                ? `${(video.views / 1000).toFixed(1)}K`
+                : video.views + 1}{" "}
+              views
+            </span>{" "}
+            • <span>{format(video.createdAt)}</span>
           </div>
         </div>
         <button>
