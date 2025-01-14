@@ -7,6 +7,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 const app = express();
 
+app.use(express.json());
 app.use(cors());
 
 app.use(
@@ -24,9 +25,10 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.json());
-
 const PORT = 3000;
+
+app.use("/videos", videosRoute);
+app.use("/users", usersRoute);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
@@ -36,9 +38,6 @@ app.use((error, req, res, next) => {
     stack: error.stack,
   });
 });
-
-app.use("/videos", videosRoute);
-app.use("/users", usersRoute);
 
 app.listen(PORT, async () => {
   await connectDB();

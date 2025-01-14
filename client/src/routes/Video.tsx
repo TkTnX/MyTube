@@ -11,6 +11,8 @@ import MoreVideos from "../components/VideoPlayer/MoreVideos";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 
+// TODO: Создание видео
+// TODO: Лайки/Дизлайки
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {

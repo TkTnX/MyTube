@@ -14,14 +14,14 @@ const HeaderActions = () => {
       <button className="md:hidden hover:opacity-80 transition" type="button">
         <Search color="#fff" width={24} height={24} />
       </button>
-      <button className="hover:opacity-80 transition">
+      <Link to="/create" className="hover:opacity-80 transition">
         <Image
           width="24"
           height="24"
           src="/icons/addContent.svg"
           alt="Add Content"
         />
-      </button>
+      </Link>
       <button className="hover:opacity-80 transition">
         <Image
           width="24"
@@ -44,7 +44,10 @@ const HeaderActions = () => {
         </button>
       </SignedIn>
       <SignedOut>
-        <Link to="/sign-in" className="w-6 h-6 rounded-full hover:opacity-80 transition">
+        <Link
+          to="/sign-in"
+          className="w-6 h-6 rounded-full hover:opacity-80 transition"
+        >
           <User />
         </Link>
       </SignedOut>
