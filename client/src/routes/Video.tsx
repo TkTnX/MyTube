@@ -76,7 +76,7 @@ const VideoPage = () => {
         </p>
 
         <div className="mt-5 flex  flex-wrap 2xl:flex-nowrap flex-col-reverse lg:flex-row items-start lg:items-center  gap-4 lg:gap-2">
-          <div className="flex items-center gap-2 md:gap-5 w-full justify-between vsm:w-auto vsm:justify-normal">
+          <div className="flex  items-center gap-2 md:gap-5 w-full justify-between vsm:w-fit vsm:justify-normal">
             <Link
               to={`/channel/${data.author.username}`}
               className="flex items-center gap-1 md:gap-4"
@@ -86,7 +86,7 @@ const VideoPage = () => {
                 alt={data.author.username}
                 width={46}
                 height={46}
-                className="rounded-full w-[46px] h-[46px]"
+                className="rounded-full min-w-[46px] min-h-[46px] block bg-[#aaa]"
               />
               <div>
                 <h6 className="text-lg vsm:text-sm md:text-lg font-medium">
@@ -97,7 +97,7 @@ const VideoPage = () => {
                 </p>
               </div>
             </Link>
-            <button className="rounded-3xl py-2 px-6 font-medium bg-[#cc2849] hover:opacity-80 transition">
+            <button className="rounded-3xl py-2 px-6 font-medium bg-[#cc2849] hover:opacity-80 transition ">
               Subscribe
             </button>
           </div>
