@@ -31,7 +31,7 @@ const UploadMedia = ({
 }: {
   type: string;
   ref: React.RefObject<null | HTMLInputElement>;
-  onSuccess: (res: { url: string }) => void;
+  onSuccess: (res: { filePath?: string; url?: string }) => void;
   onUploadProgress: (progress: { loaded: number; total: number }) => void;
   onError: (err: string) => void;
 }) => {
@@ -42,12 +42,12 @@ const UploadMedia = ({
       authenticator={authenticator}
     >
       <IKUpload
+        fileName={`${type}-${Date.now()}`}
         folder={`/${type}`}
         accept={`${type === "video-previews" ? "image/*" : "video/*"}`}
         useUniqueFileName={true}
         onSuccess={onSuccess}
         onError={onError}
-        validateFile={(file: File) => file.size < 2000000}
         onUploadProgress={onUploadProgress}
         className="hidden"
         ref={ref}

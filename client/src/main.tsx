@@ -1,13 +1,19 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { CreatePage, Homepage, SignInPage, SignUpPage, VideoPage } from "./routes";
+import {
+  CreatePage,
+  Homepage,
+  SignInPage,
+  SignUpPage,
+  VideoPage,
+} from "./routes";
 import RootLayout from "./layouts/RootLayout";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { dark } from "@clerk/themes";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +60,7 @@ createRoot(document.getElementById("root")!).render(
         afterSignOutUrl="/"
       >
         <RouterProvider router={router} />
+        <ToastContainer theme="dark" position="bottom-right" />
       </ClerkProvider>
     </QueryClientProvider>
   </StrictMode>

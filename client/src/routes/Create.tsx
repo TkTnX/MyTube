@@ -1,14 +1,46 @@
 import { Image, Upload } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UploadMedia from "../components/ui/UploadMedia";
+import { useUserStore } from "../stores/useUserStore";
+import { useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { z } from "zod";
+import { toast } from "react-toastify";
+
+// TODO: Рефакторинг кода
+// TODO: ДОДЕЛАТЬ ВАЛИДАЦИЮ ДЛЯ ВИДЕО И ПРЕВЬЮ
+
+const validationSchema = z.object({
+  title: z.string().min(3).max(100),
+  description: z.string().max(1000).optional(),
+  category: z.string().min(2).max(100),
+  videoUrl: z.string(),
+  previewUrl: z.string(),
+});
 
 const CreatePage = () => {
+  const { getUser, user } = useUserStore();
+  const { user: clerkUser } = useUser();
   const ikUploadVideoRef = useRef<null | HTMLInputElement>(null);
   const ikUploadPreviewRef = useRef<null | HTMLInputElement>(null);
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState<z.typeToFlattenedError<
+    z.infer<typeof validationSchema>
+  > | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!clerkUser || !clerkUser.id) return navigate("/");
+      await getUser(clerkUser.id);
+    };
+    fetchUser();
+  }, [clerkUser, clerkUser?.id]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const data = {
@@ -18,31 +50,56 @@ const CreatePage = () => {
       videoUrl: videoUrl,
       category: formData.get("category"),
     };
-      console.log(data);
-    //   TODO: Создание видео
+    const result = validationSchema.safeParse(data);
+    if (!result.success) {
+      const errorData = result.error.flatten();
+      setErrors(errorData);
+      return toast.error("Please fill in all the fields");
+    }
+
+    if (!user) return toast.error("You must be logged in");
+    const newVideo = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/videos`,
+      {
+        ...data,
+        author: {
+          _id: user._id,
+          username: user.username,
+          img: user.img,
+          subscribers: user.subscribers,
+        },
+      }
+    );
+    toast.success("Video created!");
+    setErrors(null);
+    return navigate(`/watch/${newVideo.data._id}`);
   };
 
   const onError = (err: string) => {
     console.log("Error", err);
-    //   todo: add toaster
+    toast.error(`Something went wrong: ${err}`);
   };
 
-  const onSuccessVideo = (res: { filePath: string }) => {
+  const onSuccessVideo = (res: { url?: string }) => {
     console.log("SUccess!", res);
-    setVideoUrl(res.filePath);
+    setVideoUrl(res.url!);
     setLoading(false);
+    toast.success("Video file uploaded!");
   };
-  const onSuccessPreview = (res: { filePath: string }) => {
+  const onSuccessPreview = (res: { filePath?: string }) => {
     console.log("SUccess!", res);
-    setPreviewUrl(res.filePath);
+    setPreviewUrl(res.filePath!);
     setLoading(false);
+    toast.success("Preview file uploaded!");
   };
 
   const onUploadProgress = (progress: { loaded: number; total: number }) => {
     setLoading(true);
     console.log(progress);
+    toast.loading("Uploading...");
     if (progress.loaded === progress.total) {
       setLoading(false);
+      toast.dismiss();
     }
   };
 
@@ -96,11 +153,17 @@ const CreatePage = () => {
           required
           className="border-white border p-4 bg-inherit w-full rounded-xl mt-10 placeholder:text-[#b7b7b7]"
         />
+        {errors?.fieldErrors?.title && (
+          <p className="text-red-500">{errors?.fieldErrors?.title[0]}</p>
+        )}
         <textarea
           name="description"
           placeholder="Description"
           className="w-full border-white border p-4 bg-inherit rounded-xl placeholder:text-[#b7b7b7]"
         />
+        {errors?.fieldErrors?.description && (
+          <p className="text-red-500">{errors?.fieldErrors?.description[0]}</p>
+        )}
         <input
           name="category"
           type="text"
@@ -108,6 +171,9 @@ const CreatePage = () => {
           required
           className="border-white border p-4 bg-inherit w-full rounded-xl placeholder:text-[#b7b7b7]"
         />
+        {errors?.fieldErrors?.category && (
+          <p className="text-red-500">{errors?.fieldErrors?.category[0]}</p>
+        )}
 
         <button
           onClick={() => ikUploadPreviewRef.current!.click()}

@@ -5,6 +5,7 @@ export type SidebarNavigationItemType = {
 };
 
 export type UserType = {
+  _id: string;
   clerkId: string;
   username: string;
   email: string;
