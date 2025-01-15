@@ -9,14 +9,13 @@ import { z } from "zod";
 import { toast } from "react-toastify";
 
 // TODO: Рефакторинг кода
-// TODO: ДОДЕЛАТЬ ВАЛИДАЦИЮ ДЛЯ ВИДЕО И ПРЕВЬЮ
 
 const validationSchema = z.object({
   title: z.string().min(3).max(100),
   description: z.string().max(1000).optional(),
   category: z.string().min(2).max(100),
-  videoUrl: z.string(),
-  previewUrl: z.string(),
+  videoUrl: z.string().url(),
+  previewUrl: z.string().min(3),
 });
 
 const CreatePage = () => {
@@ -54,6 +53,7 @@ const CreatePage = () => {
     if (!result.success) {
       const errorData = result.error.flatten();
       setErrors(errorData);
+      console.log(errorData);
       return toast.error("Please fill in all the fields");
     }
 
@@ -131,6 +131,9 @@ const CreatePage = () => {
           >
             Select Files
           </button>
+          {errors?.fieldErrors?.videoUrl && (
+            <p className="text-red-500">{errors?.fieldErrors?.videoUrl[0]}</p>
+          )}
           <UploadMedia
             onSuccess={onSuccessVideo}
             onError={onError}
@@ -184,6 +187,9 @@ const CreatePage = () => {
           <Image />
           Upload Preview
         </button>
+        {errors?.fieldErrors?.previewUrl && (
+          <p className="text-red-500">{errors?.fieldErrors?.previewUrl[0]}</p>
+        )}
         <button
           type="submit"
           disabled={loading}
