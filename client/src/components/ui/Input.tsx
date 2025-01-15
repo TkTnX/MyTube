@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { validationSchema } from "../../schemas/videoValidationSchema";
 import { z } from "zod";
+import ErrorMessage from "./ErrorMessage";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -20,9 +21,13 @@ const Input = (props: InputProps) => {
           props.className
         )}
       />
-      {props.errors?.fieldErrors?.title && (
-        <p className="text-red-500">{props.errors?.fieldErrors?.title[0]}</p>
-      )}
+      <ErrorMessage
+        error={
+          props.errors?.fieldErrors?.[
+            props.name as keyof z.infer<typeof validationSchema>
+          ]?.[0]
+        }
+      />
     </>
   );
 };

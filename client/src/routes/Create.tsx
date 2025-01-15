@@ -11,6 +11,7 @@ import { validationSchema } from "../schemas/videoValidationSchema";
 import Input from "../components/ui/Input";
 import UploadVideofile from "../components/CreateVideo/UploadVideofile";
 import useUploadVideo from "../hooks/useUploadVideo";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const CreatePage = () => {
   const { getUser, user } = useUserStore();
@@ -43,6 +44,7 @@ const CreatePage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
+
     const data = {
       title: formData.get("title"),
       description: formData.get("description"),
@@ -50,6 +52,7 @@ const CreatePage = () => {
       videoUrl: videoUrl,
       category: formData.get("category"),
     };
+
     const result = validationSchema.safeParse(data);
     if (!result.success) return setErrors(result.error.flatten());
     if (!user) return toast.error("You must be logged in");
@@ -123,17 +126,14 @@ const CreatePage = () => {
               <Image />
               Upload Preview
             </button>
-            {errors?.fieldErrors?.previewUrl && (
-              <p className="text-red-500">
-                {errors?.fieldErrors?.previewUrl[0]}
-              </p>
-            )}
+            <ErrorMessage error={errors?.fieldErrors?.previewUrl?.[0]} />
+
             <button
               type="submit"
               disabled={loading}
-              className="text-lg text-black bg-white px-10 py-2 rounded-full font-medium hover:opacity-80 transition w-fit disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-lg text-black bg-white px-10 py-2 rounded-full font-medium hover:opacity-80 transition w-full sm:w-fit disabled:opacity-50 disabled:cursor-not-allowed "
             >
-              Upload{" "}
+              Upload
             </button>
           </>
         )}
