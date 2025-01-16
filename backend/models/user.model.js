@@ -22,6 +22,10 @@ const userModel = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
   },
+  dislikedVideos: {
+    type: [Schema.Types.ObjectId],
+    default: [],
+  },
   playlists: {
     type: [Schema.Types.ObjectId],
     default: [],

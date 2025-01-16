@@ -10,8 +10,8 @@ import VideoNotFound from "../components/VideoPlayer/VideoNotFound";
 import MoreVideos from "../components/VideoPlayer/MoreVideos";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
-
-// TODO: Лайки/Дизлайки
+import { useUserStore } from "../stores/useUserStore";
+import { useUser } from "@clerk/clerk-react";
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
@@ -42,6 +42,16 @@ const updateVideo = async (data: VideoType) => {
 
 const VideoPage = () => {
   const { id } = useParams();
+  const { getUser } = useUserStore();
+  const { user: clerkUser } = useUser();
+  
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!clerkUser || !clerkUser.id) return;
+      await getUser(clerkUser.id);
+    };
+    fetchUser();
+  }, [clerkUser, getUser]);
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["video"],

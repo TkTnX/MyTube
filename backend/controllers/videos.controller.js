@@ -1,4 +1,5 @@
 import Video from "../models/video.model.js";
+import User from "../models/user.model.js";
 import ImageKit from "imagekit";
 
 const imagekit = new ImageKit({
@@ -57,5 +58,42 @@ export const uploadAuth = async (req, res) => {
   } catch (error) {
     console.error("Imagekit Authentication Error", error);
     res.status(500).json({ error: "Imagekit Authentication Error" });
+  }
+};
+
+export const likeVideo = async (req, res) => {
+  try {
+    const videoId = req.params.id;
+    const userClerkId = req.body.userClerkId;
+    const user = await User.findOne({
+      clerkId: userClerkId,
+    });
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const video = await Video.findById(videoId);
+
+    // console.log(user.likedVideos);
+
+    if (user.likedVideos.includes(videoId)) {
+      await video.updateOne({
+        likes: video.likes - 1,
+      });
+      await user.updateOne({
+        $pull: { likedVideos: video.id },
+      });
+      return res.status(200).json({ likes: video.likes - 1 });
+    } else {
+      await video.updateOne({
+        likes: video.likes + 1,
+      });
+      await user.updateOne({
+        $push: { likedVideos: video.id },
+      });
+      return res.status(200).json({ likes: video.likes + 1 });
+    }
+  } catch (error) {
+    console.error("Error liking video:", error);
+    res.status(500).json({ error: "Error liking video" });
   }
 };

@@ -20,7 +20,6 @@ export const useUserStore = create<UserStore>((set) => ({
       const user = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/users/${clerkUserId}`
       );
-      console.log(user);
       set({ user: user.data, error: false, loading: false });
     } catch (error) {
       console.log(error);

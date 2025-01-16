@@ -7,6 +7,7 @@ import {
   getAuthorVideos,
   getRelatedVideos,
   uploadAuth,
+  likeVideo,
 } from "../controllers/videos.controller.js";
 const router = express.Router();
 
@@ -17,4 +18,5 @@ router.get("/author/:authorId", getAuthorVideos);
 router.get("/category/:category", getRelatedVideos);
 router.post("/", createVideo);
 router.post("/:id", updateVideo);
+router.post("/like/:id", likeVideo)
 export default router;
