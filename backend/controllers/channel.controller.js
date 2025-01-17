@@ -18,7 +18,7 @@ export const subscribe = async (req, res) => {
 
       return res
         .status(200)
-        .json({ message: "Unsubscribed from channel", channelId });
+        .json({ message: "Unsubscribed from channel", subscribed: false });
     } else {
       // Add subscription
       await user.updateOne({ $push: { subscriptions: channelId } });
@@ -26,7 +26,7 @@ export const subscribe = async (req, res) => {
 
       return res
         .status(200)
-        .json({ message: "Subscribed to channel", channelId });
+        .json({ message: "Subscribed to channel", subscribed: true });
     }
   } catch (error) {
     console.log(error);

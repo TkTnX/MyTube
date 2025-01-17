@@ -2,6 +2,26 @@ import axios from "axios";
 import { twMerge } from "tailwind-merge";
 import { UserType } from "../../types";
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
+const onSubscribe = async ({
+  channelId,
+  clerkUserId,
+}: {
+  channelId: string;
+  clerkUserId: string;
+}) => {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/channels/subscribe/${channelId}`,
+      { clerkUserId }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 type SubscribeButtonProps = {
   channelId: string;
@@ -22,32 +42,39 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
     setSubscribed(user?.subscriptions.includes(channelId));
   }, [user, channelId]);
 
-  const onSubscribe = async () => {
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/channels/subscribe/${channelId}`,
-        {
-          clerkUserId: user?.clerkId,
-        }
-      );
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (!user) return;
+      const res = await onSubscribe({ channelId, clerkUserId: user.clerkId });
+      console.log(res.subscribed);
+      setSubscribed(res.subscribed);
+    },
+  });
 
-      setSubscribed(user?.subscriptions.includes(res.data.channelId));
-    } catch (error) {
-      console.log(error);
+  const optimisticUpdate = () => {
+    if (mutation.isPending) {
+      return {
+        bg: subscribed ? "bg-[#cc2849]" : "bg-[#4f4b4a]",
+        text: subscribed ? "Subscribe" : "You Subscribed",
+      };
     }
+    return {
+      bg: subscribed ? "bg-[#4f4b4a]" : "bg-[#cc2849]",
+      text: subscribed ? "You Subscribed" : "Subscribe",
+    };
   };
 
   return (
     <button
-      onClick={onSubscribe}
+      onClick={() => mutation.mutate()}
       className={twMerge(
-        "rounded-3xl py-2 px-6 font-medium  hover:opacity-80 transition text-nowrap",
-        [subscribed ? "bg-[#4f4b4a]" : "bg-[#cc2849]"],
+        "rounded-3xl py-2 px-6 font-medium  hover:opacity-80 transition-opacity text-nowrap",
+        [optimisticUpdate().bg],
 
         className
       )}
     >
-      {subscribed ? "You subscribed" : "Subscribe"}
+      {optimisticUpdate().text}
     </button>
   );
 };
