@@ -1,6 +1,7 @@
 import express from "express";
 import videosRoute from "./routes/videos.route.js";
 import usersRoute from "./routes/user.route.js";
+import channelRoute from "./routes/channel.route.js";
 import webhooksRoute from "./routes/webhooks.route.js";
 import connectDB from "./lib/connectDB.js";
 import cors from "cors";
@@ -29,6 +30,7 @@ const PORT = 3000;
 
 app.use("/videos", videosRoute);
 app.use("/users", usersRoute);
+app.use("/channels", channelRoute);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);

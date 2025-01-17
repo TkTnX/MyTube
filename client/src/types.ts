@@ -14,7 +14,7 @@ export type UserType = {
   dislikedVideos: string[];
   playlists: string[];
   watchLater: string[];
-  subscribers: 0;
+  subscribers: string[];
   subscriptions: string[];
 };
 
@@ -22,7 +22,7 @@ export type AuthorType = {
   img: string;
   username: string;
   _id: string;
-  subscribers: number;
+  subscribers: string[];
 };
 
 export type VideoType = {
@@ -32,12 +32,7 @@ export type VideoType = {
   videoUrl: string;
   category: string;
   views: number;
-  author: {
-    img: string;
-    username: string;
-    _id: string;
-    subscribers: number;
-  };
+  author: AuthorType;
   likes: number;
   dislikes: number;
   _id: string;

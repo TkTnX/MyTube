@@ -35,8 +35,8 @@ const userModel = new Schema({
     default: [],
   },
   subscribers: {
-    type: Number,
-    default: 0,
+    type: [Schema.Types.ObjectId],
+    default: [],
   },
   subscriptions: {
     type: [Schema.Types.ObjectId],

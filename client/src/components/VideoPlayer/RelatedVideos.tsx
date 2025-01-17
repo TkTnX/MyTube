@@ -29,7 +29,6 @@ const RelatedVideos = ({
     queryKey: ["relatedVideos", videoCategory],
     queryFn: () => getRelatedVideos(videoCategory),
   });
-
   if (isError) return null;
 
   return (
@@ -40,12 +39,12 @@ const RelatedVideos = ({
       <div className="mt-3 flex flex-col gap-3">
         {isPending ? (
           <div>Loading...</div>
+        ) : data.filter((v: VideoType) => v._id !== videoId).length > 0 ? (
+          data.map((video: VideoType) => (
+            <VideoSmall video={{ ...video, author }} />
+          ))
         ) : (
-          data
-            .filter((v: VideoType) => v._id !== videoId)
-            .map((video: VideoType) => (
-              <VideoSmall video={{ ...video, author }} />
-            ))
+          <div className="text-[#b7b7b7] text-xs">No related videos</div>
         )}
       </div>
     </div>

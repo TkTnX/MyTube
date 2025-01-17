@@ -2,6 +2,7 @@ import Video from "../models/video.model.js";
 import User from "../models/user.model.js";
 import ImageKit from "imagekit";
 
+
 const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
   publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -18,10 +19,17 @@ export const getVideos = async (req, res) => {
 
 export const getVideo = async (req, res) => {
   const id = req.params.id;
+
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ error: "Invalid video ID format" });
+  }
+
   const video = await Video.findById(id).populate(
     "author",
     "username img subscribers"
   );
+
+  if (!video) return res.status(404).json({ error: "Video not found" });
   res.status(200).json(video);
 };
 

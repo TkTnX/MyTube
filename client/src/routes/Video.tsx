@@ -14,6 +14,7 @@ import {
   VideoNotFound,
   VideoPlayer,
 } from "../components/VideoPlayer";
+import SubscribeButton from "../components/ui/SubscribeButton";
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
@@ -44,7 +45,7 @@ const updateVideo = async (data: VideoType) => {
 
 const VideoPage = () => {
   const { id } = useParams();
-  const { getUser } = useUserStore();
+  const { getUser, user } = useUserStore();
   const { user: clerkUser } = useUser();
 
   useEffect(() => {
@@ -105,13 +106,11 @@ const VideoPage = () => {
                   {data.author.username}
                 </h6>
                 <p className="text-sm vsm:text-xs md:text-sm text-nowrap text-[#aaa]">
-                  {data.author.subscribers} subscribers
+                  {data.author.subscribers.length} subscribers
                 </p>
               </div>
             </Link>
-            <button className="rounded-3xl py-2 px-6 font-medium bg-[#cc2849] hover:opacity-80 transition ">
-              Subscribe
-            </button>
+            <SubscribeButton channelId={data.author._id} user={user} />
           </div>
           <VideoControls data={data} />
         </div>
