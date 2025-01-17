@@ -8,6 +8,7 @@ import {
   getRelatedVideos,
   uploadAuth,
   likeVideo,
+  dislikeVideo,
 } from "../controllers/videos.controller.js";
 const router = express.Router();
 
@@ -19,4 +20,5 @@ router.get("/category/:category", getRelatedVideos);
 router.post("/", createVideo);
 router.post("/:id", updateVideo);
 router.post("/like/:id", likeVideo)
+router.post("/dislike/:id", dislikeVideo)
 export default router;

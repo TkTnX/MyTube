@@ -3,8 +3,6 @@ import Image from "./Image";
 import { VideoType } from "../../types";
 import { format } from "timeago.js";
 
-// TODO: Пофиксить при переключении видео
-
 const VideoSmall = ({ video }: { video: VideoType }) => {
   return (
     <Link to={`/watch/${video._id}`} className="flex items-start gap-2">

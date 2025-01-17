@@ -11,6 +11,7 @@ export type UserType = {
   email: string;
   img: string;
   likedVideos: string[];
+  dislikedVideos: string[];
   playlists: string[];
   watchLater: string[];
   subscribers: 0;

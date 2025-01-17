@@ -3,15 +3,17 @@ import { VideoType } from "../types";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import VideoPlayer from "../components/VideoPlayer/VideoPlayer";
-import VideoControls from "../components/VideoPlayer/VideoControls";
-import VideoComments from "../components/VideoPlayer/VideoComments";
-import VideoNotFound from "../components/VideoPlayer/VideoNotFound";
-import MoreVideos from "../components/VideoPlayer/MoreVideos";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useUser } from "@clerk/clerk-react";
+import {
+  MoreVideos,
+  VideoComments,
+  VideoControls,
+  VideoNotFound,
+  VideoPlayer,
+} from "../components/VideoPlayer";
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
@@ -44,7 +46,7 @@ const VideoPage = () => {
   const { id } = useParams();
   const { getUser } = useUserStore();
   const { user: clerkUser } = useUser();
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       if (!clerkUser || !clerkUser.id) return;
@@ -54,8 +56,9 @@ const VideoPage = () => {
   }, [clerkUser, getUser]);
 
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["video"],
+    queryKey: ["video", id],
     queryFn: () => getVideo(id!),
+    staleTime: 0,
   });
 
   const mutation = useMutation({
