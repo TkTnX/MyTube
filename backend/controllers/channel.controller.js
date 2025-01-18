@@ -1,5 +1,23 @@
 import User from "../models/user.model.js";
 
+export const getChannel = async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    if (!username) return res.status(404).json({ error: "User not found" });
+
+    const channel = await User.findOne({ username }).select(
+      "-dislikedVideos -likedVideos -subscriptions -watchLater -playlists"
+    );
+    if (!channel) return res.status(404).json({ error: "User not found" });
+
+    res.status(200).json(channel);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
 export const subscribe = async (req, res) => {
   try {
     const channelId = req.params.channelId;

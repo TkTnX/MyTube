@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { ChevronDown } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useUser } from "@clerk/clerk-react";
 import {
@@ -47,6 +47,7 @@ const VideoPage = () => {
   const { id } = useParams();
   const { getUser, user } = useUserStore();
   const { user: clerkUser } = useUser();
+  const [subscribers, setSubscribers] = useState(0);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -67,13 +68,15 @@ const VideoPage = () => {
   });
 
   useEffect(() => {
-    if (data) mutation.mutate(data);
+    if (data) {
+      setSubscribers(data.author.subscribers.length);
+      mutation.mutate(data);
+    }
   }, [data, id]);
 
   if (isPending) return <div>Loading...</div>;
   if (isError) return <span>Error: {error.message}</span>;
   if (!data) return <VideoNotFound />;
-
   return (
     <div className="w-full h-full mt-6 flex items-start flex-col xl:flex-row gap-4  2xl:gap-8">
       {/* PLAYER */}
@@ -106,11 +109,17 @@ const VideoPage = () => {
                   {data.author.username}
                 </h6>
                 <p className="text-sm vsm:text-xs md:text-sm text-nowrap text-[#aaa]">
-                  {data.author.subscribers.length} subscribers
+                  {subscribers} subscribers
                 </p>
               </div>
             </Link>
-            <SubscribeButton channelId={data.author._id} user={user} />
+            {user?._id !== data.author._id && (
+              <SubscribeButton
+                setSubscribers={setSubscribers}
+                channelId={data.author._id}
+                user={user}
+              />
+            )}
           </div>
           <VideoControls data={data} />
         </div>

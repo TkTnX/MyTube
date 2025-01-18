@@ -2,11 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { VideoType } from "../../types";
 import VideosListItem from "../ui/VideosListItem";
+import { useSearchParams } from "react-router-dom";
 
-const getVideos = async (): Promise<VideoType[]> => {
+const getVideos = async (category: string): Promise<VideoType[]> => {
   try {
     const videos = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/videos`
+      `${import.meta.env.VITE_BACKEND_URL}/videos`,
+      { params: { category } }
     );
 
     return videos.data;
@@ -17,9 +19,10 @@ const getVideos = async (): Promise<VideoType[]> => {
 };
 
 const VideosList = () => {
+  const [searchParams] = useSearchParams();
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["videos"],
-    queryFn: getVideos,
+    queryKey: ["videos", searchParams.get("category")],
+    queryFn: () => getVideos(searchParams.get("category") || ""),
   });
   if (isPending) {
     return (

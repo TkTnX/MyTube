@@ -2,7 +2,6 @@ import Video from "../models/video.model.js";
 import User from "../models/user.model.js";
 import ImageKit from "imagekit";
 
-
 const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
   publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
@@ -10,7 +9,9 @@ const imagekit = new ImageKit({
 });
 
 export const getVideos = async (req, res) => {
-  const videos = await Video.find().populate(
+  const category = req.query.category;
+  const filter = category === "All" || !category ? {} : { category };
+  const videos = await Video.find(filter).populate(
     "author",
     "username img subscribers"
   );

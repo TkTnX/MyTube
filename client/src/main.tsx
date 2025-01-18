@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
+  ChannelPage,
   CreatePage,
   Homepage,
   SignInPage,
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/create",
         element: <CreatePage />,
+      },
+      {
+        path: "/channel/:username",
+        element: <ChannelPage />,
       },
     ],
   },

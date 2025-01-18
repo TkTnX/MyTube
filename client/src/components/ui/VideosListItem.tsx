@@ -12,9 +12,6 @@ const VideosListItem = ({ video }: { video: VideoType }) => {
       />
       <div className="rounded-2xl overflow-hidden relative">
         <Image src={video.previewUrl} alt="Video" width="476" height="266" />
-        <span className="absolute bottom-2 right-2 text-white text-sm tracking-wider bg-[#120608]/60 py-1 px-2 rounded-full font-medium">
-          12:07
-        </span>
       </div>
       {/* VIDEO DETAILS */}
       <div className="mt-4 flex items-start gap-4">
