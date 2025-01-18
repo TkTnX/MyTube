@@ -16,13 +16,17 @@ export type UserType = {
   watchLater: string[];
   subscribers: string[];
   subscriptions: string[];
+  coverImg?: string;
 };
 
 export type AuthorType = {
   img: string;
+  coverImg?: string;
   username: string;
   _id: string;
+  clerkId: string;
   subscribers: string[];
+  description?: string
 };
 
 export type VideoType = {

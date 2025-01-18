@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import ChannelTop from "../components/Channel/ChannelTop";
+import ChannelLinks from "../components/Channel/ChannelLinks";
+
+// TODO: Стор для подписки и на странице изменять кол-во подписчиков сразу
+// TODO: Для других страниц у канала сделать лэйаут
 
 const getChannel = async (username: string) => {
   try {
     const channel = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/channels/${username}`
     );
-
-    console.log(channel.data);
 
     return channel.data;
   } catch (error) {
@@ -22,15 +25,19 @@ const ChannelPage = () => {
     queryKey: ["channel", username],
     queryFn: async () => {
       if (!username) throw new Error("Username not found");
-      await getChannel(username);
+      return await getChannel(username);
     },
   });
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError || !data) return <div>Error: {error.message}</div>;
-  console.log(data);
+  if (isError || !data) return <div>Error: {error?.message}</div>;
 
-  return <div className="">{data.username}</div>;
+  return (
+    <div className="">
+      <ChannelTop channel={data} />
+      <ChannelLinks channelUsername={data.username} />
+    </div>
+  );
 };
 
 export default ChannelPage;

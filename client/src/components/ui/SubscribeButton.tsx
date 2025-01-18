@@ -27,7 +27,7 @@ type SubscribeButtonProps = {
   channelId: string;
   user: UserType | null;
   className?: string;
-  setSubscribers: React.Dispatch<React.SetStateAction<number>>;
+  setSubscribers?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const SubscribeButton: React.FC<SubscribeButtonProps> = ({
@@ -49,7 +49,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
       if (!user) return;
       const res = await onSubscribe({ channelId, clerkUserId: user.clerkId });
       setSubscribed(res.subscribed);
-      setSubscribers((prev) => prev + (res.subscribed ? 1 : -1));
+      setSubscribers?.((prev) => prev + (res.subscribed ? 1 : -1));
     },
   });
 

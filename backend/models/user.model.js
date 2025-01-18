@@ -18,6 +18,12 @@ const userModel = new Schema({
   img: {
     type: String,
   },
+  coverImg: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
   likedVideos: {
     type: [Schema.Types.ObjectId],
     default: [],

@@ -94,3 +94,22 @@ export const CategoriesList = [
   "React JS",
   "Next JS",
 ];
+
+export const ChannelLinksList = [
+  {
+    title: "Home",
+    href: "",
+  },
+  {
+    title: "Videos",
+    href: "/videos",
+  },
+  {
+    title: "Playlists",
+    href: "/playlists",
+  },
+  {
+    title: "About",
+    href: "/about",
+  },
+];
