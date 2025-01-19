@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-const PORT = 3001;
+const PORT = 3000;
 
 app.use("/videos", videosRoute);
 app.use("/users", usersRoute);

@@ -43,7 +43,7 @@ const MoreAuthorVideos = ({
         <div className="mt-3 flex flex-col gap-3">
           {data.filter((v: VideoType) => v._id !== videoId).length > 0 ? (
             data.map((video: VideoType) => (
-              <VideoSmall video={{ ...video, author }} />
+              <VideoSmall key={video._id} video={{ ...video, author }} />
             ))
           ) : (
             <p className="text-xs text-[#b7b7b7]">No videos from this author</p>

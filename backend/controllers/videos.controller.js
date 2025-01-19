@@ -173,3 +173,21 @@ export const dislikeVideo = async (req, res) => {
     res.status(500).json({ error: "Error liking video" });
   }
 };
+
+export const getPopularVideos = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const popularVideos = await Video.find({ author: id })
+      .sort({ views: -1 })
+      .limit(5);
+    console.log(popularVideos);
+
+    if (!popularVideos)
+      return res.status(404).json({ error: "Popular videos not found" });
+
+    res.status(200).json(popularVideos);
+  } catch (error) {
+    console.error("Error getting video:", error);
+    res.status(500).json({ error: "Error getting video" });
+  }
+};

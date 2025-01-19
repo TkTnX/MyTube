@@ -41,7 +41,7 @@ const RelatedVideos = ({
           <div>Loading...</div>
         ) : data.filter((v: VideoType) => v._id !== videoId).length > 0 ? (
           data.map((video: VideoType) => (
-            <VideoSmall video={{ ...video, author }} />
+            <VideoSmall key={video._id} video={{ ...video, author }} />
           ))
         ) : (
           <div className="text-[#b7b7b7] text-xs">No related videos</div>

@@ -113,3 +113,5 @@ export const ChannelLinksList = [
     href: "/about",
   },
 ];
+
+export const ChannelVideosCategories = ["Latest", "Popular", "Oldest"];

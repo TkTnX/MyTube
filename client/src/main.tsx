@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   ChannelPage,
+  ChannelVideos,
   CreatePage,
   Homepage,
   SignInPage,
@@ -16,6 +17,7 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import { VideoNotFound } from "./components/VideoPlayer";
+import ChannelLayout from "./layouts/ChannelLayout";
 
 const router = createBrowserRouter([
   {
@@ -43,8 +45,17 @@ const router = createBrowserRouter([
         element: <CreatePage />,
       },
       {
-        path: "/channel/:username",
-        element: <ChannelPage />,
+        element: <ChannelLayout />,
+        children: [
+          {
+            path: "/channel/:username",
+            element: <ChannelPage />,
+          },
+          {
+            path: "/channel/:username/videos",
+            element: <ChannelVideos />,
+          },
+        ],
       },
     ],
   },
