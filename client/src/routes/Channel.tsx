@@ -30,7 +30,7 @@ const ChannelPage = () => {
   if (isError) return <div>Error: {error?.message}</div>;
   if (isPending) return <div>Loading...</div>;
   return (
-    <div className="mt-12 ">
+    <div className="mt-7">
       <h2 className="font-medium text-2xl">Popular videos</h2>
 
       {/* // TODO: Сделать слайдер */}

@@ -22,7 +22,7 @@ const VideosListItem = ({
     >
       <Link
         to={`/watch/${video._id}`}
-        className="w-full h-full absolute inset-0  z-10"
+        className="w-full h-full absolute inset-0  z-[1]"
       />
       <div className="rounded-2xl overflow-hidden relative">
         <Image src={video.previewUrl} alt="Video" width="476" height="266" />
@@ -32,7 +32,7 @@ const VideosListItem = ({
         {!isChannelPage && (
           <Link
             to={`/channel/${video.author.username}`}
-            className="relative min-w-9 min-h-9"
+            className="relative min-w-9 min-h-9 z-[2]"
           >
             <Image
               src={video.author.img}

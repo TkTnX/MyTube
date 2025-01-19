@@ -4,8 +4,11 @@ import { AuthorType } from "../../types";
 import Image from "../ui/Image";
 import SubscribeButton from "../ui/SubscribeButton";
 import { useUser } from "@clerk/clerk-react";
+import { useChannelStore } from "../../stores/useChannelStore.ts";
+import { Link } from "react-router-dom";
 
 const ChannelTop = ({ channel }: { channel: AuthorType }) => {
+  const { subscribers, authorVideos } = useChannelStore();
   const { user: clerkUserId } = useUser();
   const { user, getUser } = useUserStore();
 
@@ -36,13 +39,26 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
             <h4 className="text-white text-2xl ">{channel.username}</h4>
             <div className="flex items-center gap-2">
               <p className="text-[#aaa]">
-                <span className="text-white">{channel.subscribers.length}</span>{" "}
-                subscribers
+                <span className="text-white">{subscribers}</span> subscribers
               </p>
               <span className="text-[#aaa]">•</span>
               <p className="text-[#aaa]">
-                <span className="text-white">{31}</span> videos
+                <span className="text-white">{authorVideos.length}</span> videos
               </p>
+              {channel.subscribers && (
+                <>
+                  <span className="text-[#aaa]">•</span>
+                  <p className="text-white max-w-40 big-text-one">
+                    {channel.description}
+                  </p>
+                  <Link
+                    to={`/channel/${channel.username}/about`}
+                    className="text-[#aaa] hover:underline"
+                  >
+                    more
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

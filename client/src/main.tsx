@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
+  ChannelAbout,
   ChannelPage,
   ChannelVideos,
   CreatePage,
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
           {
             path: "/channel/:username/videos",
             element: <ChannelVideos />,
+          },
+          {
+            path: "/channel/:username/about",
+            element: <ChannelAbout />,
           },
         ],
       },

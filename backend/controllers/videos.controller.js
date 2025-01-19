@@ -180,7 +180,6 @@ export const getPopularVideos = async (req, res) => {
     const popularVideos = await Video.find({ author: id })
       .sort({ views: -1 })
       .limit(5);
-    console.log(popularVideos);
 
     if (!popularVideos)
       return res.status(404).json({ error: "Popular videos not found" });

@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useUser } from "@clerk/clerk-react";
 import {
@@ -15,6 +15,7 @@ import {
   VideoPlayer,
 } from "../components/VideoPlayer";
 import SubscribeButton from "../components/ui/SubscribeButton";
+import { useChannelStore } from "../stores/useChannelStore";
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
@@ -47,8 +48,10 @@ const VideoPage = () => {
   const { id } = useParams();
   const { getUser, user } = useUserStore();
   const { user: clerkUser } = useUser();
-  const [subscribers, setSubscribers] = useState(0);
+  const { subscribers, setSubscribers } = useChannelStore();
 
+
+  
   useEffect(() => {
     const fetchUser = async () => {
       if (!clerkUser || !clerkUser.id) return;
@@ -114,11 +117,7 @@ const VideoPage = () => {
               </div>
             </Link>
             {user?._id !== data.author._id && (
-              <SubscribeButton
-                setSubscribers={setSubscribers}
-                channelId={data.author._id}
-                user={user}
-              />
+              <SubscribeButton channelId={data.author._id} user={user} />
             )}
           </div>
           <VideoControls data={data} />

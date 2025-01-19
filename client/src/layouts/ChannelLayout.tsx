@@ -3,6 +3,8 @@ import ChannelTop from "../components/Channel/ChannelTop";
 import ChannelLinks from "../components/Channel/ChannelLinks";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect } from "react";
+import { useChannelStore } from "../stores/useChannelStore";
 
 const getChannel = async (username: string) => {
   try {
@@ -18,6 +20,8 @@ const getChannel = async (username: string) => {
 
 const ChannelLayout = () => {
   const { username } = useParams();
+  const { setSubscribers } = useChannelStore();
+  const getAuthorVideos = useChannelStore((state) => state.getAuthorVideos);
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["channel", username],
     queryFn: async () => {
@@ -26,10 +30,23 @@ const ChannelLayout = () => {
     },
   });
 
+  useEffect(() => {
+    if (data) {
+      getAuthorVideos(data._id);
+    }
+  }, [data, getAuthorVideos]);
+
+  useEffect(() => {
+    if (data) {
+      setSubscribers(data.subscribers.length);
+    }
+  }, [data, setSubscribers]);
+
   if (isLoading) return <div>Loading...</div>;
   if (isError || !data) return <div>Error: {error?.message}</div>;
+
   return (
-    <div className="">
+    <div>
       <ChannelTop channel={data} />
       <ChannelLinks channelUsername={data.username} />
 

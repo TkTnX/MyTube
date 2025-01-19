@@ -26,7 +26,9 @@ export type AuthorType = {
   _id: string;
   clerkId: string;
   subscribers: string[];
-  description?: string
+  description?: string;
+  email: string;
+  createdAt: Date;
 };
 
 export type VideoType = {

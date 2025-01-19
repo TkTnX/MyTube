@@ -71,7 +71,7 @@ const CreatePage = () => {
   };
 
   return (
-    <div className="w-full mt-10">
+    <div className="w-full mt-10 h-full">
       <form onSubmit={handleSubmit} className="grid gap-3 ">
         <div className="flex flex-col items-center gap-4 ">
           <UploadVideofile

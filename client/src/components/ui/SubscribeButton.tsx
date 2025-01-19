@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { UserType } from "../../types";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useChannelStore } from "../../stores/useChannelStore";
 
 const onSubscribe = async ({
   channelId,
@@ -27,15 +28,14 @@ type SubscribeButtonProps = {
   channelId: string;
   user: UserType | null;
   className?: string;
-  setSubscribers?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   channelId,
   user,
   className,
-  setSubscribers,
 }) => {
+  const { subscribers, setSubscribers } = useChannelStore();
   const [subscribed, setSubscribed] = useState(
     user?.subscriptions.includes(channelId)
   );
@@ -49,7 +49,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
       if (!user) return;
       const res = await onSubscribe({ channelId, clerkUserId: user.clerkId });
       setSubscribed(res.subscribed);
-      setSubscribers?.((prev) => prev + (res.subscribed ? 1 : -1));
+      setSubscribers(subscribers + (res.subscribed ? 1 : -1));
     },
   });
 

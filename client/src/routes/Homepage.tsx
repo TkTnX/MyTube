@@ -3,7 +3,7 @@ import VideosList from "../components/Videos/VideosList";
 
 const Homepage = () => {
   return (
-    <div className="overflow-hidden flex flex-col gap-7">
+    <div className="overflow-hidden flex flex-col gap-7 w-full">
       <Categories />
       <VideosList />
     </div>

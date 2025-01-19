@@ -5,6 +5,7 @@ import VideoPage from "./Video";
 import CreatePage from "./Create";
 import ChannelPage from "./Channel";
 import ChannelVideos from "./ChannelVideos";
+import ChannelAbout from "./ChannelAbout";
 
 export {
   Homepage,
@@ -14,6 +15,7 @@ export {
   CreatePage,
   ChannelPage,
   ChannelVideos,
+  ChannelAbout,
 };
 
 

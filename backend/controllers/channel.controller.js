@@ -7,7 +7,7 @@ export const getChannel = async (req, res) => {
     if (!username) return res.status(404).json({ error: "User not found" });
 
     const channel = await User.findOne({ username }).select(
-      "-dislikedVideos -likedVideos -subscriptions -watchLater  -email"
+      "-dislikedVideos -likedVideos -subscriptions -watchLater "
     );
     if (!channel) return res.status(404).json({ error: "User not found" });
 
