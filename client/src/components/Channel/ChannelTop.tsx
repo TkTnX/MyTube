@@ -26,8 +26,8 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
         height="240"
         width="1920"
       />
-      <div className="flex items-start justify-between mt-4">
-        <div className="px-6 flex  gap-5 ">
+      <div className="flex items-center text-center sm:text-left sm:items-start justify-between mt-4 flex-col xl:flex-row gap-2">
+        <div className="lg:px-6 flex flex-col  xl:flex-row gap-5 ">
           <Image
             src={channel.img}
             alt={channel.username}
@@ -46,23 +46,27 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
                 <span className="text-white">{authorVideos.length}</span> videos
               </p>
               {channel.subscribers && (
-                <>
+                <div className="hidden sm:flex items-center gap-2">
                   <span className="text-[#aaa]">•</span>
                   <p className="text-white max-w-40 big-text-one">
                     {channel.description}
                   </p>
                   <Link
                     to={`/channel/${channel.username}/about`}
-                    className="text-[#aaa] hover:underline"
+                    className="text-[#aaa] hover:underline "
                   >
                     more
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </div>
         </div>
-        <SubscribeButton channelId={channel._id} user={user} />
+        <SubscribeButton
+          className="w-full sm:w-auto"
+          channelId={channel._id}
+          user={user}
+        />
       </div>
     </div>
   );

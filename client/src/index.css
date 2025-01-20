@@ -54,7 +54,7 @@ body {
 
 .big-text-one {
   -webkit-line-clamp: 1; /* Число отображаемых строк */
-  display: -webkit-box; /* Включаем флексбоксы */
+  display: -webkit-box ; /* Включаем флексбоксы */
   -webkit-box-orient: vertical; /* Вертикальная ориентация */
   overflow: hidden; /* Обрезаем всё за пределами блока */
 }

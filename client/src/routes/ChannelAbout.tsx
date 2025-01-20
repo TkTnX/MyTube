@@ -8,11 +8,13 @@ const ChannelAbout = () => {
   const authorVideos = useChannelStore((state) => state.authorVideos);
   const totalViews = authorVideos.reduce((a, b) => a + b.views, 0);
   return (
-    <div className="mt-7 flex items-start justify-between">
+    <div className="mt-7 flex items-start justify-between flex-col-reverse lg:flex-row gap-10 lg:gap-0">
       {channel.description !== "" && (
-        <div className="max-w-1/2">
+        <div className="lg:w-1/2">
           <h4 className="font-semibold text-lg">Description</h4>
-          <p className="leading-6">{channel.description}</p>
+          <p className="text-sm lg:text-base leading-6">
+            {channel.description}
+          </p>
         </div>
       )}
       <div className="grid gap-5">

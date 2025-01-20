@@ -6,7 +6,7 @@ const ChannelLinks = ({ channelUsername }: { channelUsername: string }) => {
   const location = useLocation();
 
   return (
-    <div className="px-6 mt-12">
+    <div className="sm:px-6 mt-12">
       <div className="flex gap-6 ">
         {ChannelLinksList.map((link) => (
           <Link
