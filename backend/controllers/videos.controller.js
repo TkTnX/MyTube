@@ -48,7 +48,15 @@ export const updateVideo = async (req, res) => {
 
 export const getAuthorVideos = async (req, res) => {
   const authorId = req.params.authorId;
-  const videos = await Video.find({ author: authorId }).limit(5);
+  const filterQuery = req.query.filter;
+
+  const filter = filterQuery
+    ? { createdAt: filterQuery === "latest" ? 1 : -1 }
+    : filterQuery === "popular"
+    ? { views: -1 }
+    : {};
+
+  const videos = await Video.find({ author: authorId }).sort(filter).limit(5);
 
   res.status(200).json(videos);
 };

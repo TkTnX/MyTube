@@ -32,7 +32,7 @@ const ChannelLayout = () => {
 
   useEffect(() => {
     if (data) {
-      getAuthorVideos(data._id);
+      getAuthorVideos(data._id, "latest");
     }
   }, [data, getAuthorVideos]);
 
@@ -46,7 +46,7 @@ const ChannelLayout = () => {
   if (isError || !data) return <div>Error: {error?.message}</div>;
 
   return (
-    <div>
+    <div className="w-full overflow-x-hidden">
       <ChannelTop channel={data} />
       <ChannelLinks channelUsername={data.username} />
 

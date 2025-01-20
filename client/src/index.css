@@ -58,3 +58,11 @@ body {
   -webkit-box-orient: vertical; /* Вертикальная ориентация */
   overflow: hidden; /* Обрезаем всё за пределами блока */
 }
+
+.react-multiple-carousel__arrow {
+  background-color: #3f3f3f;
+}
+
+.react-multi-carousel-track {
+  gap: 17px;
+}

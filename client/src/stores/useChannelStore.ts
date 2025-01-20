@@ -9,7 +9,7 @@ interface ChannelStore {
   loading: boolean;
 
   setSubscribers: (subscribers: number) => void;
-  getAuthorVideos: (authorId: string) => Promise<void>;
+  getAuthorVideos: (authorId: string, filter: string) => Promise<void>;
 }
 
 export const useChannelStore = create<ChannelStore>((set) => ({
@@ -19,12 +19,13 @@ export const useChannelStore = create<ChannelStore>((set) => ({
   error: false,
 
   setSubscribers: (subscribers) => set({ subscribers }),
-  getAuthorVideos: async (authorId) => {
+  getAuthorVideos: async (authorId, filter) => {
     try {
       set({ loading: true, error: false });
 
       const videos = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/videos/author/${authorId}`
+        `${import.meta.env.VITE_BACKEND_URL}/videos/author/${authorId}`,
+        { params: { filter } }
       );
 
       set({ authorVideos: videos.data, error: false });
