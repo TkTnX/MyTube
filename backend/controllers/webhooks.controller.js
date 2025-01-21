@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import User from "../models/user.model.js";
-import Video from "../models/video.model.js";
 
+// TODO: Комментарии
 export const clerkWebhook = async (req, res) => {
   const secret = process.env.CLERK_WEBHOOK_SECRET_KEY;
 
@@ -11,7 +11,7 @@ export const clerkWebhook = async (req, res) => {
   const wh = new Webhook(secret);
   let evt;
   try {
-    evt = wh.verify(payload, headers);
+    evt = await wh.verify(payload, headers);
   } catch (err) {
     console.error(err);
     res.status(400).json({});

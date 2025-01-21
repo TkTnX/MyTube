@@ -6,6 +6,7 @@ import SubscribeButton from "../ui/SubscribeButton";
 import { useUser } from "@clerk/clerk-react";
 import { useChannelStore } from "../../stores/useChannelStore.ts";
 import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 const ChannelTop = ({ channel }: { channel: AuthorType }) => {
   const { subscribers, authorVideos } = useChannelStore();
@@ -16,6 +17,7 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
     if (!clerkUserId) return;
     getUser(clerkUserId.id);
   }, [clerkUserId]);
+
 
   return (
     <div className="">
@@ -33,7 +35,9 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
             alt={channel.username}
             width="160"
             height="160"
-            className="rounded-full object-cover -mt-24"
+            className={twMerge("rounded-full object-cover bg-[#343434]", [
+              channel.coverImg && channel.coverImg !== "" && "-mt-24",
+            ])}
           />
           <div>
             <h4 className="text-white text-2xl ">{channel.username}</h4>
@@ -62,11 +66,13 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
             </div>
           </div>
         </div>
-        <SubscribeButton
-          className="w-full sm:w-auto"
-          channelId={channel._id}
-          user={user}
-        />
+        {channel.clerkId !== user?.clerkId && (
+          <SubscribeButton
+            className="w-full sm:w-auto"
+            channelId={channel._id}
+            user={user}
+          />
+        )}
       </div>
     </div>
   );

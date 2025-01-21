@@ -9,14 +9,14 @@ import cors from "cors";
 import bodyParser from "body-parser";
 const app = express();
 
-app.use(express.json());
-app.use(cors());
-
 app.use(
   "/webhooks",
   bodyParser.raw({ type: "application/json" }),
   webhooksRoute
 );
+
+app.use(express.json());
+app.use(cors());
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -27,12 +27,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-const PORT = 3001;
+const PORT = 3000;
 
 app.use("/videos", videosRoute);
 app.use("/users", usersRoute);
 app.use("/channels", channelRoute);
-app.use("/categories", categoriesRoute)
+app.use("/categories", categoriesRoute);
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
