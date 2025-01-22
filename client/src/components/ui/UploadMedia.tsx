@@ -25,12 +25,14 @@ const authenticator = async () => {
 const UploadMedia = ({
   type,
   ref,
+  folder,
   onSuccess,
   onUploadProgress,
   onError,
 }: {
   type: string;
   ref: React.RefObject<null | HTMLInputElement>;
+  folder?: string
   onSuccess: (res: { filePath?: string; url?: string }) => void;
   onUploadProgress: (progress: { loaded: number; total: number }) => void;
   onError: (err: string) => void;
@@ -43,7 +45,7 @@ const UploadMedia = ({
     >
       <IKUpload
         fileName={`${type}-${Date.now()}`}
-        folder={`/${type}`}
+        folder={`/${folder ? folder : type}`}
         accept={`${type === "video-previews" ? "image/*" : "video/*"}`}
         useUniqueFileName={true}
         onSuccess={onSuccess}

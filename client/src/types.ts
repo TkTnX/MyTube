@@ -17,6 +17,7 @@ export type UserType = {
   subscribers: string[];
   subscriptions: string[];
   coverImg?: string;
+  description?: string;
 };
 
 export type AuthorType = {

@@ -7,3 +7,4 @@ export const validationSchema = z.object({
   videoUrl: z.string().url(),
   previewUrl: z.string().min(3),
 });
+
