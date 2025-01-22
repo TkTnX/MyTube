@@ -1,6 +1,7 @@
 import { Webhook } from "svix";
 import User from "../models/user.model.js";
 
+// TODO: Изменение профиля
 // TODO: Комментарии
 export const clerkWebhook = async (req, res) => {
   const secret = process.env.CLERK_WEBHOOK_SECRET_KEY;
@@ -27,6 +28,20 @@ export const clerkWebhook = async (req, res) => {
     });
 
     await newUser.save();
+  }
+
+  if (evt.type === "user.updated") {
+    console.log(evt);
+    await User.updateOne(
+      {
+        clerkId: evt.data.id,
+      },
+      {
+        username: evt.data.username,
+        img: evt.data.image_url,
+        email: evt.data.email_addresses[0].email_address,
+      }
+    );
   }
 
   if (evt.type === "user.deleted") {

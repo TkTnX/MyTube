@@ -6,6 +6,7 @@ import CreatePage from "./Create";
 import ChannelPage from "./Channel";
 import ChannelVideos from "./ChannelVideos";
 import ChannelAbout from "./ChannelAbout";
+import UpdateChannelPage from "./UpdateChannel";
 
 export {
   Homepage,
@@ -16,7 +17,5 @@ export {
   ChannelPage,
   ChannelVideos,
   ChannelAbout,
+  UpdateChannelPage,
 };
-
-// TODO: Фильтрация видео на канале
-// TODO: Возможность изменять настройки канала

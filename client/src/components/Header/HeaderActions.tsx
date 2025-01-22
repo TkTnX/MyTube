@@ -30,14 +30,17 @@ const HeaderActions = () => {
           alt="Notifications"
         />
       </button>
-      <button className="hidden sm:block hover:opacity-80 transition">
+      <Link
+        to="/channel/update"
+        className="hidden sm:block hover:opacity-80 transition"
+      >
         <Image
           width="24"
           height="24"
           src="/icons/settings.svg"
           alt="Settings"
         />
-      </button>
+      </Link>
       <SignedIn>
         <button className="w-6 h-6 rounded-full hover:opacity-80 transition">
           <UserButton />
