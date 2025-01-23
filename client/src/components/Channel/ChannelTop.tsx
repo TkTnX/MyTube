@@ -18,7 +18,6 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
     getUser(clerkUserId.id);
   }, [clerkUserId]);
 
-  console.log(user?.coverImg, channel.coverImg);
   return (
     <div className="">
       <Image

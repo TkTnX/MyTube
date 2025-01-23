@@ -1,25 +1,20 @@
 import { useUser } from "@clerk/clerk-react";
 import { Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { updateUserSchema } from "../schemas/updateUserSchema";
-import { z } from "zod";
 import UploadMedia from "../components/ui/UploadMedia";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Image from "../components/ui/Image";
+import useUpdateProfile from "../hooks/useUpdateProfile";
 
 const UpdateChannelPage = () => {
   const [coverImg, setCoverImg] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const ikUploadCoverImgRef = useRef<null | HTMLInputElement>(null);
-
-  const [errors, setErrors] = useState<z.typeToFlattenedError<
-    z.infer<typeof updateUserSchema>
-  > | null>(null);
-
-  // TODO: Хук как в добавлении видео
-  // TODO: Улучшить код 
+  const { loading, onError, onSuccessCoverImg, onUploadProgress } =
+    useUpdateProfile({ setCoverImg });
 
   const { user: clerkUser } = useUser();
   const { user, getUser } = useUserStore();
@@ -27,18 +22,22 @@ const UpdateChannelPage = () => {
 
   useEffect(() => {
     async function fetchUser() {
-      if (!clerkUser || !clerkUser.id) {
-        navigate("/");
-        return;
-      }
+      setIsLoading(true);
+      if (!clerkUser?.id) return navigate("/");
+
       await getUser(clerkUser.id);
+      setIsLoading(false);
     }
     fetchUser();
   }, [clerkUser, getUser, navigate]);
 
-  if (!user) {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if ((!isLoading && !user) || !user?._id) {
     navigate("/");
-    return null;
+    return;
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,29 +46,19 @@ const UpdateChannelPage = () => {
       const formData = new FormData(e.target as HTMLFormElement);
 
       const data = {
-        description: formData.get("description") || null,
+        description: formData.get("description") || user.description,
         coverImg: coverImg || user.coverImg,
       };
       await axios.patch(
         `${import.meta.env.VITE_BACKEND_URL}/users/${user.clerkId}`,
         data
       );
-      setErrors(null);
       toast.success("Channel updated!");
+      return navigate(`/channel/${user.username}`);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      toast.error(
-        axiosError.response?.statusText || "An unexpected error occurred."
-      );
+      toast.error(error as string);
     }
   };
-
-  const onSuccessCoverImg = (res: { filePath?: string }) => {
-    setCoverImg(res.filePath!);
-    console.log(res.filePath);
-    toast.success("Cover file uploaded!");
-  };
-  console.log(user);
 
   return (
     <div className="w-full mt-10">
@@ -80,17 +69,17 @@ const UpdateChannelPage = () => {
         <div className="flex flex-col gap-2 flex-1 lg:flex-none w-full lg:w-1/2">
           <UploadMedia
             folder="images"
-            // TODO: video-previews заменить на images/videos, а в добавлении видео использовать folder
-            type="video-previews"
+            type="image"
             ref={ikUploadCoverImgRef}
             onSuccess={onSuccessCoverImg}
-            onUploadProgress={() => {}}
-            onError={() => {}}
+            onUploadProgress={onUploadProgress}
+            onError={onError}
           />
           <button
+            disabled={loading}
             type="button"
             onClick={() => ikUploadCoverImgRef.current?.click()}
-            className="rounded-md w-full h-40 bg-[#1d1d1d] flex items-center justify-center hover:opacity-80 transition gap-2 relative"
+            className="rounded-md w-full h-40 bg-[#1d1d1d] flex items-center justify-center hover:opacity-80 transition gap-2 relative disabled:opacity-50 disabled:pointer-events-none"
           >
             <Image
               src={user.coverImg ?? ""}
@@ -102,18 +91,19 @@ const UpdateChannelPage = () => {
               <span>Cover Image</span>
             </div>
           </button>
-          {errors?.fieldErrors?.coverImg && (
-            <p className="text-red-500">{errors?.fieldErrors?.coverImg}</p>
-          )}
+
           <textarea
+            disabled={loading}
             name="description"
-            className=" border-white border p-4 bg-inherit w-full rounded-xl  placeholder:text-[#b7b7b7]"
+            className=" border-white border p-4 bg-inherit w-full rounded-xl  placeholder:text-[#b7b7b7] disabled:opacity-50 disabled:pointer-events-none"
             placeholder="Description"
-          ></textarea>
-          {errors?.fieldErrors?.description && (
-            <p className="text-red-500">{errors?.fieldErrors?.description}</p>
-          )}
-          <button className="bg-[#fff] text-[#1d1d1d] py-2 rounded-full hover:opacity-80 transition">
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-[#fff] text-[#1d1d1d] py-2 rounded-full hover:opacity-80 transition disabled:opacity-50 disabled:pointer-events-none"
+          >
             Update profile
           </button>
           <p className="text-xs text-[#aaa]">
@@ -122,6 +112,12 @@ const UpdateChannelPage = () => {
           </p>
         </div>
       </form>
+      <Link
+        className="mt-4 w-fit mx-auto border p-2 rounded-full flex   hover:opacity-80 transition"
+        to={`/channel/${user.username}`}
+      >
+        Visit your channel
+      </Link>
     </div>
   );
 };

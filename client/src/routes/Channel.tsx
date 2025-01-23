@@ -6,7 +6,8 @@ import VideosListItem from "../components/ui/VideosListItem";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import VideosSkeleton from "../components/ui/VideosSkeleton";
-
+import { Film } from "lucide-react";
+import { useUser } from "@clerk/clerk-react";
 
 const responsive = {
   desktop: {
@@ -40,6 +41,7 @@ const getPopularVideos = async (id: string) => {
 
 const ChannelPage = () => {
   const channel: AuthorType = useOutletContext();
+  const { user: clerkUser } = useUser();
 
   const { data, isError, error, isPending } = useQuery({
     queryKey: ["popularVideos"],
@@ -49,8 +51,25 @@ const ChannelPage = () => {
       return await getPopularVideos(channel._id);
     },
   });
-
   if (isError) return <div>Error: {error?.message}</div>;
+  if (!isPending && !data.length && clerkUser?.id === channel.clerkId)
+    return (
+      <div className="text-center mt-10 flex items-center flex-col">
+        <Film size={96} />
+        <b>Here will be your content</b>
+        <p className="text-xs text-[#aaa]">
+          Create and download content from home or anywhere in the world. <br />{" "}
+          All your public videos will be shown here.
+        </p>
+      </div>
+    );
+
+  if (!isPending && !data.length)
+    return (
+      <p className="text-center mt-10 text-xs text-[#aaa]">
+        Here is no content yet
+      </p>
+    );
   return (
     <div className="my-7 overflow-hidden w-full">
       <h2 className="font-medium text-2xl">Popular videos</h2>

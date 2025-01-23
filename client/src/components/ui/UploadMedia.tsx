@@ -30,9 +30,9 @@ const UploadMedia = ({
   onUploadProgress,
   onError,
 }: {
-  type: string;
+  type: "video" | "image";
   ref: React.RefObject<null | HTMLInputElement>;
-  folder?: string
+  folder: string;
   onSuccess: (res: { filePath?: string; url?: string }) => void;
   onUploadProgress: (progress: { loaded: number; total: number }) => void;
   onError: (err: string) => void;
@@ -45,8 +45,8 @@ const UploadMedia = ({
     >
       <IKUpload
         fileName={`${type}-${Date.now()}`}
-        folder={`/${folder ? folder : type}`}
-        accept={`${type === "video-previews" ? "image/*" : "video/*"}`}
+        folder={`/${folder}`}
+        accept={`${type}/*`}
         useUniqueFileName={true}
         onSuccess={onSuccess}
         onError={onError}

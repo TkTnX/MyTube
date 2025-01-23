@@ -83,14 +83,16 @@ const CreatePage = () => {
             onSuccess={onSuccessVideo}
             onError={onError}
             onUploadProgress={onUploadProgress}
-            type="videos"
+            type="video"
             ref={ikUploadVideoRef}
+            folder="videos"
           />
           <UploadMedia
             onSuccess={onSuccessPreview}
             onError={onError}
             onUploadProgress={onUploadProgress}
-            type="video-previews"
+            type="image"
+            folder="video-previews"
             ref={ikUploadPreviewRef}
           />
         </div>

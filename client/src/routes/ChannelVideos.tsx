@@ -20,6 +20,11 @@ const ChannelVideos = () => {
   }, [currentCategory, channel._id, getAuthorVideos]);
 
   if (error) return <div>Error</div>;
+  if (!loading && !authorVideos.length)
+    return (
+      <p className="text-center mt-10 text-xs text-[#aaa]">No videos yet</p>
+    );
+
   return (
     <div className="mt-7">
       <div className="flex items-center gap-2">
