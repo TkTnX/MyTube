@@ -7,7 +7,6 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import VideosSkeleton from "../components/ui/VideosSkeleton";
 
-// TODO: Адаптив для страницы канала
 
 const responsive = {
   desktop: {

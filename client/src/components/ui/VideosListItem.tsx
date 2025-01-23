@@ -34,7 +34,7 @@ const VideosListItem = ({
             to={`/channel/${video.author.username}`}
             className="relative min-w-9 min-h-9 z-[2]"
           >
-            <Image
+            <img
               src={video.author.img}
               width="36"
               height="36"

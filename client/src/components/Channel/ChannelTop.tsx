@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useUserStore } from "../../stores/useUserStore";
 import { AuthorType } from "../../types";
-import Image from "../ui/Image";
 import SubscribeButton from "../ui/SubscribeButton";
 import { useUser } from "@clerk/clerk-react";
 import { useChannelStore } from "../../stores/useChannelStore.ts";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import Image from "../ui/Image.tsx";
 
 const ChannelTop = ({ channel }: { channel: AuthorType }) => {
   const { subscribers, authorVideos } = useChannelStore();
@@ -18,7 +18,7 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
     getUser(clerkUserId.id);
   }, [clerkUserId]);
 
-
+  console.log(user?.coverImg, channel.coverImg);
   return (
     <div className="">
       <Image
@@ -30,14 +30,15 @@ const ChannelTop = ({ channel }: { channel: AuthorType }) => {
       />
       <div className="flex items-center text-center sm:text-left sm:items-start justify-between mt-4 flex-col xl:flex-row gap-2">
         <div className="lg:px-6 flex flex-col  xl:flex-row gap-5 ">
-          <Image
+          <img
             src={channel.img}
             alt={channel.username}
             width="160"
             height="160"
-            className={twMerge("rounded-full object-cover bg-[#343434]", [
-              channel.coverImg && channel.coverImg !== "" && "-mt-24",
-            ])}
+            className={twMerge(
+              "rounded-full object-cover bg-[#343434] max-w-[160px] max-h-[160px]",
+              [channel.coverImg && channel.coverImg !== "" && "-mt-24"]
+            )}
           />
           <div>
             <h4 className="text-white text-2xl ">{channel.username}</h4>

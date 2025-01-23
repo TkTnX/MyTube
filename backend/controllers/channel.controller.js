@@ -10,7 +10,6 @@ export const getChannel = async (req, res) => {
       "-dislikedVideos -likedVideos -subscriptions -watchLater "
     );
     if (!channel) return res.status(404).json({ error: "User not found" });
-
     res.status(200).json(channel);
   } catch (error) {
     console.log(error);
