@@ -15,10 +15,10 @@ const VideoSmall = ({ video }: { video: VideoType }) => {
         />
       </div>
       <div>
-        <h6 className="font-medium text-sm leading-5 big-text">
+        <h6 className="font-medium  leading-5 big-text text-sm">
           {video.title}
         </h6>
-        <p className="text-[#aaa]">{video.author.username}</p>
+        <p className="text-[#aaa] text-xs">{video.author.username}</p>
         <div className="text-[#aaa] flex flex-wrap items-center gap-1 text-xs">
           <span>
             {video.views > 1000

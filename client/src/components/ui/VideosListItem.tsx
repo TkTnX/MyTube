@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { VideoType } from "../../types";
 import { format } from "timeago.js";
 import { twMerge } from "tailwind-merge";
+import AvatarLink from "./AvatarLink";
 const VideosListItem = ({
   video,
   className,
@@ -30,18 +31,13 @@ const VideosListItem = ({
       {/* VIDEO DETAILS */}
       <div className="mt-4 flex items-start gap-4">
         {!isChannelPage && (
-          <Link
-            to={`/channel/${video.author.username}`}
-            className="relative min-w-9 min-h-9 z-[2]"
-          >
-            <img
-              src={video.author.img}
-              width="36"
-              height="36"
-              alt={video.author.username}
-              className="rounded-full object-cover absolute z-20 w-full h-full "
-            />
-          </Link>
+          <AvatarLink
+            username={video.author.username}
+            img={video.author.img}
+            width="36"
+            height="36"
+            className="rounded-full object-cover max-w-[36px] max-h-[36px] "
+          />
         )}
 
         <div className="flex flex-col gap-2 flex-1">

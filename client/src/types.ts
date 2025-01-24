@@ -45,3 +45,15 @@ export type VideoType = {
   _id: string;
   createdAt: string;
 };
+
+export type CommentType = {
+  author: AuthorType;
+  video: VideoType;
+  text: string;
+  replyTo: CommentType | null;
+  _id: string;
+  likes: string[];
+  dislikes: string[];
+  createdAt: string;
+  updatedAt: string;
+};

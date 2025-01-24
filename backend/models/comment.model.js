@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const commentSchema = new Schema(
   {
@@ -15,6 +15,21 @@ const commentSchema = new Schema(
     text: {
       type: String,
       required: true,
+    },
+    replyTo: {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+      default: null,
+    },
+    likes: {
+      type: [Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
+    },
+    dislikes: {
+      type: [Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
     },
   },
   { timestamps: true }

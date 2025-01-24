@@ -24,7 +24,7 @@ const MoreAuthorVideos = ({
   videoId: string;
 }) => {
   const { isPending, data, isError } = useQuery({
-    queryKey: ["authorVideos", author._id],
+    queryKey: ["authorVideos", videoId],
     queryFn: () => getAuthorVideos(author._id),
   });
 

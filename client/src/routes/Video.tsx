@@ -9,13 +9,13 @@ import { useUserStore } from "../stores/useUserStore";
 import { useUser } from "@clerk/clerk-react";
 import {
   MoreVideos,
-  VideoComments,
   VideoControls,
   VideoNotFound,
   VideoPlayer,
 } from "../components/VideoPlayer";
 import SubscribeButton from "../components/ui/SubscribeButton";
 import { useChannelStore } from "../stores/useChannelStore";
+import Comments from "../components/Comments/Comments";
 
 const getVideo = async (id: string): Promise<VideoType | null> => {
   try {
@@ -50,8 +50,6 @@ const VideoPage = () => {
   const { user: clerkUser } = useUser();
   const { subscribers, setSubscribers } = useChannelStore();
 
-
-  
   useEffect(() => {
     const fetchUser = async () => {
       if (!clerkUser || !clerkUser.id) return;
@@ -123,11 +121,11 @@ const VideoPage = () => {
           <VideoControls data={data} />
         </div>
         {/* video description */}
-        <div className="mt-5 border border-[#343434] rounded-2xl py-5 px-6 w-full hidden vsm:block">
+        <div className="mt-5 border border-[#343434] rounded-2xl py-5 px-6 w-full hidden vsm:block w">
           <p>{data.description}</p>
         </div>
         {/* comments */}
-        <VideoComments />
+        <Comments videoId={data._id} />
       </div>
       {/* OTHER VIDEOS */}
       <MoreVideos category={data.category} id={id!} author={data.author} />
