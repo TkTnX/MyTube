@@ -3,12 +3,11 @@ import { Send } from "lucide-react";
 import { FormEvent, useState } from "react";
 import AvatarLink from "../ui/AvatarLink";
 import { toast } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { CommentType } from "../../types";
 
-// TODO: Оптимистик апдейт при добавлении комментария
-// TODO: Удаление комментариев
+// TODO: Изначально получать 5 комментов, потом получать больше
+// TODO: Лайк/дизлайк комментария
 
 const addComment = async (videoId: string, text: string, authorId: string) => {
   try {
@@ -31,15 +30,18 @@ const addComment = async (videoId: string, text: string, authorId: string) => {
 };
 
 const AddComment = ({ videoId }: { videoId: string }) => {
-  const [newComment, setNewComment] = useState<null | CommentType>(null);
   const [value, setValue] = useState("");
   const { user } = useUserStore();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async () => {
       if (!user) return toast.error("You must be logged in");
-      const comment = await addComment(videoId, value, user._id);
-      setNewComment(comment);
+      await addComment(videoId, value, user._id);
+      setValue("");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments", videoId] });
     },
   });
 
@@ -55,8 +57,6 @@ const AddComment = ({ videoId }: { videoId: string }) => {
       console.log(error);
     }
   };
-
-  console.log(newComment);
 
   return (
     <div className="flex items-center gap-5 w-full mt-8">
@@ -78,7 +78,7 @@ const AddComment = ({ videoId }: { videoId: string }) => {
           className="flex-1 bg-inherit p-4  placeholder:text-[#888888] outline-none"
         />
         {value.length > 0 && (
-          <button>
+          <button className="hover:opacity-80 transition">
             <Send />
           </button>
         )}

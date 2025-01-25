@@ -3,11 +3,18 @@ import CommentItem from "./CommentItem";
 import { useQuery } from "@tanstack/react-query";
 import { CommentType } from "../../types";
 import AddComment from "./AddComment";
-
-const getComments = async (videoId: string) => {
+import { ArrowDownNarrowWide, Loader2 } from "lucide-react";
+import { useState } from "react";
+import FilterDropdown from "../ui/FilterDropdown";
+const getComments = async (videoId: string, filter: "newest" | "popular") => {
   try {
     const comments = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/comments/${videoId}`
+      `${import.meta.env.VITE_BACKEND_URL}/comments/${videoId}`,
+      {
+        params: {
+          filter,
+        },
+      }
     );
     if (!comments.data) return null;
     return comments.data;
@@ -17,19 +24,38 @@ const getComments = async (videoId: string) => {
 };
 
 const Comments = ({ videoId }: { videoId: string }) => {
+  const [filter, setFilter] = useState<"newest" | "popular">("newest");
   const { data, isError, isPending, error } = useQuery({
-    queryKey: ["comments", videoId],
-    queryFn: () => getComments(videoId),
+    queryKey: ["comments", videoId, filter],
+    queryFn: () => getComments(videoId, filter),
   });
   if (!videoId) return null;
 
   if (isError) return <div>Error: {error.message}</div>;
-  if (isPending) return <div>Loading...</div>;
+  if (isPending)
+    return (
+      <div className="flex items-center justify-center mt-10">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+
+  const onFilter = (value: "newest" | "popular") => {
+    setFilter(value);
+  };
+
   return (
     <div className="mt-8 w-full">
-      <h4 className="font-medium text-lg">
-        Comments <span>{data.length}</span>
-      </h4>
+      <div className="flex items-center gap-5">
+        <h4 className="font-medium text-lg">
+          Comments <span>{data.length}</span>
+        </h4>
+        <FilterDropdown onFilter={onFilter}>
+          <button className=" flex items-center gap-2">
+            <ArrowDownNarrowWide />
+            <span>Filter</span>
+          </button>
+        </FilterDropdown>
+      </div>
       <AddComment videoId={videoId} />
       <div className="mt-10 flex flex-col gap-8">
         {data.length > 0 ? (

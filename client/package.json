@@ -12,6 +12,10 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.21.0",
     "@clerk/themes": "^2.2.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/base": "^5.0.0-beta.69",
+    "@mui/material": "^6.4.1",
     "@tanstack/react-query": "^5.62.11",
     "axios": "^1.7.9",
     "imagekitio-react": "^4.2.0",

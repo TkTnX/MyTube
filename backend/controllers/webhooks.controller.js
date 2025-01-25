@@ -1,7 +1,6 @@
 import { Webhook } from "svix";
 import User from "../models/user.model.js";
 
-// TODO: Комментарии
 export const clerkWebhook = async (req, res) => {
   const secret = process.env.CLERK_WEBHOOK_SECRET_KEY;
 
