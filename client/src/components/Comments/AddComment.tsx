@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-// TODO: Изначально получать 5 комментов, потом получать больше
-// TODO: Лайк/дизлайк комментария
+// TODO: Изначально получать 5 комментов, потом получать больше, добавив кнопку ЗАГРУЗИТЬ ЕЩЁ
 
 const addComment = async (videoId: string, text: string, authorId: string) => {
   try {

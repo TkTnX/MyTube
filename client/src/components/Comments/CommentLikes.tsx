@@ -2,36 +2,12 @@ import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { CommentType } from "../../types";
 import { useMutation } from "@tanstack/react-query";
 import { useUserStore } from "../../stores/useUserStore";
-import axios from "axios";
 import { useState } from "react";
-
-const handleLikeComment = async (commentId: string, userId: string) => {
-  try {
-    const comment = await axios.patch(
-      `${import.meta.env.VITE_BACKEND_URL}/comments/like/${commentId}`,
-      { userId }
-    );
-    return comment.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const handleDislikeComment = async (commentId: string, userId: string) => {
-  try {
-    const comment = await axios.patch(
-      `${import.meta.env.VITE_BACKEND_URL}/comments/dislike/${commentId}`,
-      { userId }
-    );
-
-    return comment.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { useCommentControls } from "../../hooks/useCommentControls";
 
 const CommentLikes = ({ comment }: { comment: CommentType }) => {
   const { user } = useUserStore();
+  const { handleDislikeComment, handleLikeComment } = useCommentControls();
   const [likeValues, setLikeValues] = useState({
     likes: comment.likes.length,
     dislikes: comment.dislikes.length,
