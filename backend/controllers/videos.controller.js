@@ -27,7 +27,7 @@ export const getVideo = async (req, res) => {
 
   const video = await Video.findById(id).populate(
     "author",
-    "username img subscribers"
+    "username img subscribers clerkId"
   );
 
   if (!video) return res.status(404).json({ error: "Video not found" });

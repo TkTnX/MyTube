@@ -2,6 +2,7 @@ import { format } from "timeago.js";
 import { VideoType } from "../../types";
 import { Calendar, Eye, MoreHorizontal } from "lucide-react";
 import LikeButtons from "./LikeButtons";
+import VideoDropdown from "../ui/VideoDropdown";
 
 const VideoControls = ({ data }: { data: VideoType }) => {
   return (
@@ -24,9 +25,11 @@ const VideoControls = ({ data }: { data: VideoType }) => {
           likes={data.likes}
           dislikes={data.dislikes}
         />
-        <button className="rounded-full p-2 w-10 h-10 bg-[#1d1d1d]">
-          <MoreHorizontal size={24} color="#fff" />
-        </button>
+        <VideoDropdown video={data}>
+          <button className="rounded-full p-2 w-10 h-10 bg-[#1d1d1d]">
+            <MoreHorizontal size={24} color="#fff" />
+          </button>
+        </VideoDropdown>
       </div>
     </div>
   );

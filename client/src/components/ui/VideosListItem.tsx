@@ -6,7 +6,6 @@ import { format } from "timeago.js";
 import { twMerge } from "tailwind-merge";
 import AvatarLink from "./AvatarLink";
 import VideoDropdown from "./VideoDropdown";
-import { useUser } from "@clerk/clerk-react";
 const VideosListItem = ({
   video,
   className,
@@ -16,8 +15,6 @@ const VideosListItem = ({
   className?: string;
   isChannelPage?: boolean;
 }) => {
-  const { user } = useUser();
-  console.log(video.author);
   return (
     <div
       className={twMerge(
@@ -59,13 +56,11 @@ const VideosListItem = ({
             • <span>{format(video.createdAt)}</span>
           </div>
         </div>
-        {user?.id === video.author.clerkId && (
-          <VideoDropdown>
-            <button>
-              <MoreVertical size={24} />
-            </button>
-          </VideoDropdown>
-        )}
+        <VideoDropdown video={video}>
+          <button>
+            <MoreVertical size={24} />
+          </button>
+        </VideoDropdown>
       </div>
     </div>
   );
