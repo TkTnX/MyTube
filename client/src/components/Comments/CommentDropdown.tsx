@@ -4,19 +4,7 @@ import { Menu } from "@mui/base/Menu";
 import { MenuItem } from "@mui/base/MenuItem";
 import { Trash } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-
-const deleteComment = async (commentId: string) => {
-  try {
-    const res = await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/comments/${commentId}`
-    );
-    if (!res) return null;
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { useCommentControls } from "../../hooks/useCommentControls";
 
 const CommentDropdown = ({
   children,
@@ -25,6 +13,7 @@ const CommentDropdown = ({
   children: React.ReactNode;
   commentId: string;
 }) => {
+  const { deleteComment } = useCommentControls();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

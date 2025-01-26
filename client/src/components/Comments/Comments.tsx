@@ -59,9 +59,11 @@ const Comments = ({ videoId }: { videoId: string }) => {
       <AddComment videoId={videoId} />
       <div className="mt-10 flex flex-col gap-8">
         {data.length > 0 ? (
-          data.map((comment: CommentType) => (
-            <CommentItem key={comment._id} comment={comment} />
-          ))
+          data
+            .filter((comment: CommentType) => comment.replyTo === null)
+            .map((comment: CommentType) => (
+              <CommentItem key={comment._id} comment={comment} />
+            ))
         ) : (
           <p className="text-xs text-[#aaa] text-center mt-3">No comments</p>
         )}

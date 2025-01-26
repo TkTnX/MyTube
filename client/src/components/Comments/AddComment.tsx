@@ -4,33 +4,14 @@ import { FormEvent, useState } from "react";
 import AvatarLink from "../ui/AvatarLink";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useCommentControls } from "../../hooks/useCommentControls";
 
 // TODO: Изначально получать 5 комментов, потом получать больше, добавив кнопку ЗАГРУЗИТЬ ЕЩЁ
-
-const addComment = async (videoId: string, text: string, authorId: string) => {
-  try {
-    const comment = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/comments/${videoId}`,
-      {
-        text,
-        author: authorId,
-      }
-    );
-
-    if (!comment) return toast.error("Comment not created");
-
-    toast.success("Comment created!");
-    return comment.data;
-  } catch (error) {
-    console.log(error);
-    toast.error("Something went wrong");
-  }
-};
 
 const AddComment = ({ videoId }: { videoId: string }) => {
   const [value, setValue] = useState("");
   const { user } = useUserStore();
+  const { addComment } = useCommentControls();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

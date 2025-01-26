@@ -1,5 +1,4 @@
 import Comments from "../models/comment.model.js";
-import User from "../models/user.model.js";
 
 export const getComments = async (req, res) => {
   try {
@@ -8,7 +7,11 @@ export const getComments = async (req, res) => {
     const filter = filterQuery === "newest" ? { createdAt: -1 } : { likes: -1 };
     const comments = await Comments.find({ video: videoId })
       .sort(filter)
-      .populate("author");
+      .populate("author")
+      .populate({
+        path: "replies",
+        populate: "author",
+      });
 
     if (!comments) return res.status(404).json({ error: "Comments not found" });
 
@@ -45,6 +48,9 @@ export const deleteComment = async (req, res) => {
     const commentId = req.params.commentId;
 
     const comment = await Comments.findByIdAndDelete(commentId);
+    await Comments.deleteMany({
+      replyTo: commentId,
+    });
     if (!comment) return res.status(404).json({ error: "Comment not found" });
 
     return res.status(200).send("Comment deleted");
@@ -126,6 +132,34 @@ export const dislikeComment = async (req, res) => {
         likes: comment.likes.length,
       });
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+export const answerComment = async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+
+    const data = req.body;
+    if (!data) return res.status(400).json({ error: "No data provided" });
+
+    const comment = await Comments.findById(commentId);
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+    const answer = await Comments.create({
+      video: comment.video._id,
+      author: data.author,
+      text: data.text,
+      replyTo: comment._id,
+    });
+
+    if (!answer) return res.status(500).json({ error: "Answer not created" });
+
+    await comment.updateOne({ $push: { replies: answer._id } });
+
+    return res.status(200).send(answer);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

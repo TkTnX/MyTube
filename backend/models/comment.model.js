@@ -31,6 +31,11 @@ const commentSchema = new Schema(
       ref: "User",
       default: [],
     },
+    replies: {
+      type: [Schema.Types.ObjectId],
+      ref: "Comment",
+      default: [],
+    },
   },
   { timestamps: true }
 );

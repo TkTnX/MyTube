@@ -7,14 +7,22 @@ import AvatarLink from "../ui/AvatarLink";
 import CommentDropdown from "./CommentDropdown";
 import CommentLikes from "./CommentLikes";
 import CommentReply from "./CommentReply";
+import { useState } from "react";
+import CommentReplyForm from "./CommentReplyForm";
 
-const CommentItem = ({ comment }: { comment: CommentType }) => {
+const CommentItem = ({
+  comment,
+  className,
+}: {
+  comment: CommentType;
+  className?: string;
+}) => {
+  const [openReplyForm, setOpenReplyForm] = useState(false);
+  const [openReplies, setOpenReplies] = useState(false)
   const { user } = useUserStore();
-
   if (!comment) return null;
-
   return (
-    <div className="flex items-start gap-3 w-full">
+    <div className={`flex items-start gap-3 w-full ${className}`}>
       <div className="flex flex-col sm:flex-row w-full gap-3">
         <AvatarLink
           username={comment.author.username}
@@ -41,8 +49,27 @@ const CommentItem = ({ comment }: { comment: CommentType }) => {
             {/* like / dislike */}
             <CommentLikes comment={comment} />
             {/* reply */}
-            <CommentReply />
+            {!comment.replyTo && (
+              <CommentReply
+                commentReplies={comment.replies.length}
+                setOpenReplies={setOpenReplies}
+                setOpenReplyForm={setOpenReplyForm}
+              />
+            )}
           </div>
+          {openReplyForm && (
+            <CommentReplyForm
+              replyToCommentId={comment._id}
+              setOpenReplyForm={setOpenReplyForm}
+            />
+          )}
+          {openReplies && comment.replies.length > 0 && (
+            <div className="mt-4">
+              {comment.replies.map((reply) => (
+                <CommentItem key={reply._id} comment={reply} className="mt-5" />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       {user?._id === comment.author._id && (

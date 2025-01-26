@@ -30,6 +30,7 @@ export type AuthorType = {
   description?: string;
   email: string;
   createdAt: Date;
+  updatedAt: Date;
 };
 
 export type VideoType = {
@@ -54,6 +55,7 @@ export type CommentType = {
   _id: string;
   likes: string[];
   dislikes: string[];
+  replies: CommentType[];
   createdAt: string;
   updatedAt: string;
 };

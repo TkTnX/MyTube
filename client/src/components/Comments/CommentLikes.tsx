@@ -5,6 +5,8 @@ import { useUserStore } from "../../stores/useUserStore";
 import { useState } from "react";
 import { useCommentControls } from "../../hooks/useCommentControls";
 
+// TODO: При лайке/дизлайки сразу изменять бг кнопки
+
 const CommentLikes = ({ comment }: { comment: CommentType }) => {
   const { user } = useUserStore();
   const { handleDislikeComment, handleLikeComment } = useCommentControls();
@@ -42,7 +44,11 @@ const CommentLikes = ({ comment }: { comment: CommentType }) => {
       >
         <ThumbsUp
           fill={
-            likeMutation.isPending ? "#fff" : likeValues.likes ? "#fff" : "none"
+            likeMutation.isPending
+              ? "#fff"
+              : comment.likes.includes(user?._id as string)
+              ? "#fff"
+              : "none"
           }
           size={24}
         />
@@ -57,7 +63,7 @@ const CommentLikes = ({ comment }: { comment: CommentType }) => {
           fill={
             dislikeMutation.isPending
               ? "#fff"
-              : likeValues.dislikes
+              : comment.dislikes.includes(user?._id as string)
               ? "#fff"
               : "none"
           }
