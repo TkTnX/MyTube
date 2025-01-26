@@ -68,10 +68,35 @@ export const useCommentControls = () => {
     }
   };
 
+  // ФУНКЦИЯ ОТВЕТА НА КОММЕНТАРИЙ
+
+  const answerComment = async (
+    commentId: string,
+    text: string,
+    userId: string
+  ) => {
+    try {
+      const comment = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/comments/answer/${commentId}`,
+        {
+          text,
+          author: userId,
+        }
+      );
+
+      return comment.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     handleLikeComment,
     handleDislikeComment,
     deleteComment,
     addComment,
+    answerComment,
   };
 };
+
+

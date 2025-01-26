@@ -1,9 +1,7 @@
-import axios from "axios";
 import { VideoType } from "../types";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
 import { useUserStore } from "../stores/useUserStore";
 import { useUser } from "@clerk/clerk-react";
@@ -16,39 +14,15 @@ import {
 import SubscribeButton from "../components/ui/SubscribeButton";
 import { useChannelStore } from "../stores/useChannelStore";
 import Comments from "../components/Comments/Comments";
-
-const getVideo = async (id: string): Promise<VideoType | null> => {
-  try {
-    const video = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/videos/${id}`
-    );
-
-    return video.data;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
-
-const updateVideo = async (data: VideoType) => {
-  try {
-    return await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/videos/${data._id}`,
-      {
-        views: data.views + 1,
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
+import { useVideoControls } from "../hooks/useVideoControls";
+import VideoDescription from "./VideoDescription";
 
 const VideoPage = () => {
   const { id } = useParams();
   const { getUser, user } = useUserStore();
   const { user: clerkUser } = useUser();
   const { subscribers, setSubscribers } = useChannelStore();
+  const { getVideo, updateVideo } = useVideoControls({ videoId: id! });
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -84,13 +58,13 @@ const VideoPage = () => {
       <div className="w-full xl:w-4/6 2xl:w-3/4">
         {/* VIDEO */}
         <VideoPlayer url={data.videoUrl} />
-        <button className="flex items-center justify-between mt-5 w-full cursor-pointer vsm:cursor-auto">
-          <h3 className="font-semibold text-xl ">{data.title}</h3>
-          <ChevronDown className="block vsm:hidden" color="#fff" />
-        </button>
-        <p className="text-[#aaa] text-xs big-text mt-4 block vsm:hidden">
-          {data.description}
-        </p>
+
+        {/* small video description */}
+        <VideoDescription
+          isSmallScreen={true}
+          description={data.description}
+          videoTitle={data.title}
+        />
 
         <div className="mt-5 flex  flex-wrap 2xl:flex-nowrap flex-col-reverse lg:flex-row items-start lg:items-center  gap-4 lg:gap-2">
           <div className="flex  items-center gap-2 md:gap-5 w-full justify-between vsm:w-fit vsm:justify-normal">
@@ -121,9 +95,10 @@ const VideoPage = () => {
           <VideoControls data={data} />
         </div>
         {/* video description */}
-        <div className="mt-5 border border-[#343434] rounded-2xl py-5 px-6 w-full hidden vsm:block w">
-          <p>{data.description}</p>
-        </div>
+        <VideoDescription
+          description={data.description}
+          isSmallScreen={false}
+        />
         {/* comments */}
         <Comments videoId={data._id} />
       </div>

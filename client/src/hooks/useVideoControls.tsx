@@ -1,6 +1,40 @@
 import axios from "axios";
+import { VideoType } from "../types";
 
 export const useVideoControls = ({ videoId }: { videoId: string }) => {
+
+  // ФУНКЦИЯ ПОЛУЧЕНИЯ ВИДЕО
+
+  const getVideo = async (id: string): Promise<VideoType | null> => {
+    try {
+      const video = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${id}`
+      );
+
+      return video.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  // ФУНКЦИЯ ОБНОВЛЕНИЯ ВИДЕО
+
+  const updateVideo = async (data: VideoType) => {
+    try {
+      return await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${data._id}`,
+        {
+          views: data.views + 1,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+
   // ФУНКЦИЯ ЛАЙКА
   const handleLike = async ({
     userId,
@@ -55,10 +89,5 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
     return userVideos?.includes(videoId) ? count - 1 : count + 1;
   };
 
-  return {
-    handleLike,
-    handleDislike,
-    getIconColor,
-    getNewCount,
-  };
+  return { getVideo, updateVideo, handleLike, handleDislike, getIconColor, getNewCount };
 };

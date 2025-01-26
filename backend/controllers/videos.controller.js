@@ -13,7 +13,7 @@ export const getVideos = async (req, res) => {
   const filter = category === "All" || !category ? {} : { category };
   const videos = await Video.find(filter).populate(
     "author",
-    "username img subscribers"
+    "username img subscribers clerkId"
   );
   res.status(200).json(videos);
 };

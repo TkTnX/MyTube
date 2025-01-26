@@ -22,6 +22,8 @@ export const getComments = async (req, res) => {
   }
 };
 
+
+
 export const addComment = async (req, res) => {
   try {
     const videoId = req.params.videoId;

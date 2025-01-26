@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCommentControls } from "../../hooks/useCommentControls";
 
-// TODO: Изначально получать 5 комментов, потом получать больше, добавив кнопку ЗАГРУЗИТЬ ЕЩЁ
 
 const AddComment = ({ videoId }: { videoId: string }) => {
   const [value, setValue] = useState("");

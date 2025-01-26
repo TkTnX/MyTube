@@ -1,15 +1,15 @@
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { CommentType } from "../../types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "../../stores/useUserStore";
 import { useState } from "react";
 import { useCommentControls } from "../../hooks/useCommentControls";
 
-// TODO: При лайке/дизлайки сразу изменять бг кнопки
 
 const CommentLikes = ({ comment }: { comment: CommentType }) => {
   const { user } = useUserStore();
   const { handleDislikeComment, handleLikeComment } = useCommentControls();
+  const queryClient = useQueryClient();
   const [likeValues, setLikeValues] = useState({
     likes: comment.likes.length,
     dislikes: comment.dislikes.length,
@@ -23,6 +23,9 @@ const CommentLikes = ({ comment }: { comment: CommentType }) => {
         dislikes: res.dislikes,
       });
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
   });
 
   const dislikeMutation = useMutation({
@@ -34,6 +37,9 @@ const CommentLikes = ({ comment }: { comment: CommentType }) => {
         dislikes: res.dislikes,
       });
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
   });
 
   return (
@@ -43,13 +49,7 @@ const CommentLikes = ({ comment }: { comment: CommentType }) => {
         className="flex items-center gap-2 px-2 sm:py-2 sm:px-4 sm:hover:bg-[#2a2a2a] rounded-l-full"
       >
         <ThumbsUp
-          fill={
-            likeMutation.isPending
-              ? "#fff"
-              : comment.likes.includes(user?._id as string)
-              ? "#fff"
-              : "none"
-          }
+          fill={comment.likes.includes(user?._id as string) ? "#fff" : "none"}
           size={24}
         />
         <span>{likeValues.likes}</span>
@@ -61,11 +61,7 @@ const CommentLikes = ({ comment }: { comment: CommentType }) => {
       >
         <ThumbsDown
           fill={
-            dislikeMutation.isPending
-              ? "#fff"
-              : comment.dislikes.includes(user?._id as string)
-              ? "#fff"
-              : "none"
+            comment.dislikes.includes(user?._id as string) ? "#fff" : "none"
           }
           size={24}
         />

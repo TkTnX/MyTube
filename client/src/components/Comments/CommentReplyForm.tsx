@@ -3,27 +3,7 @@ import { Send } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useUserStore } from "../../stores/useUserStore";
 import { toast } from "react-toastify";
-import axios from "axios";
-
-const answerComment = async (
-  commentId: string,
-  text: string,
-  userId: string
-) => {
-  try {
-    const comment = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/comments/answer/${commentId}`,
-      {
-        text,
-        author: userId,
-      }
-    );
-
-    return comment.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { useCommentControls } from "../../hooks/useCommentControls";
 
 const CommentReplyForm = ({
   setOpenReplyForm,
@@ -34,6 +14,7 @@ const CommentReplyForm = ({
 }) => {
   const { user } = useUserStore();
   const [value, setValue] = useState("");
+  const { answerComment } = useCommentControls();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
