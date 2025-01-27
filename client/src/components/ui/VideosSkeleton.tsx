@@ -1,6 +1,12 @@
 import { twMerge } from "tailwind-merge";
 
-const VideosSkeleton = ({ className }: { className?: string }) => {
+const VideosSkeleton = ({
+  className,
+  count,
+}: {
+  className?: string;
+  count?: number;
+}) => {
   return (
     <div
       className={twMerge(
@@ -8,7 +14,7 @@ const VideosSkeleton = ({ className }: { className?: string }) => {
         className
       )}
     >
-      {[...new Array(5)].map((_, i) => (
+      {[...new Array(count ?? 5)].map((_, i) => (
         <div
           key={i}
           className="max-w-[476px] w-full h-[240px] bg-[#343434] rounded-lg animate-pulse"
