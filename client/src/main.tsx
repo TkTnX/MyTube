@@ -6,6 +6,7 @@ import {
   ChannelPage,
   ChannelVideos,
   CreatePage,
+  ExplorePage,
   Homepage,
   SignInPage,
   SignUpPage,
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/channel/update",
         element: <UpdateChannelPage />,
+      },
+      {
+        path: "/explore",
+        element: <ExplorePage />,
       },
     ],
   },

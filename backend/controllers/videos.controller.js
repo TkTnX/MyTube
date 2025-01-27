@@ -9,13 +9,35 @@ const imagekit = new ImageKit({
 });
 
 export const getVideos = async (req, res) => {
-  const category = req.query.category;
-  const filter = category === "All" || !category ? {} : { category };
-  const videos = await Video.find(filter).populate(
-    "author",
-    "username img subscribers clerkId"
-  );
-  res.status(200).json(videos);
+  try {
+    const category = req.query.category;
+    const sortQuery = req.query.sortQuery;
+    const limit = req.query.limit;
+
+    const filter = !category || category === "All" ? {} : { category };
+    const sort = () => {
+      switch (sortQuery) {
+        case "Most Popular":
+          return { views: -1 };
+        case "Newest":
+          return { createdAt: -1 };
+        case "Likes":
+          return { likes: -1 };
+        default:
+          return {};
+      }
+    };
+
+    const videos = await Video.find(filter)
+      .populate("author", "username img subscribers clerkId")
+      .sort(sort())
+      .limit(limit || 0);
+
+    res.status(200).json(videos);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 export const getVideo = async (req, res) => {

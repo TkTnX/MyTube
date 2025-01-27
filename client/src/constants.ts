@@ -73,8 +73,6 @@ export const SidebarNavigationItems2: SidebarNavigationItemType[] = [
   },
 ];
 
-
-
 export const ChannelLinksList = [
   {
     title: "Home",
@@ -95,3 +93,5 @@ export const ChannelLinksList = [
 ];
 
 export const ChannelVideosCategories = ["Latest", "Popular", "Oldest"];
+
+export const ExploreFilters = ["Most Popular", "Newest", "Likes"];

@@ -5,6 +5,7 @@ import VideoPlayer from "./VideoPlayer";
 import MoreVideos from "./MoreVideos";
 import MoreAuthorVideos from "./MoreAuthorVideos";
 import RelatedVideos from "./RelatedVideos";
+import VideoDescription from "./VideoDescription";
 
 export {
   LikeButtons,
@@ -14,4 +15,5 @@ export {
   MoreVideos,
   MoreAuthorVideos,
   RelatedVideos,
+  VideoDescription,
 };

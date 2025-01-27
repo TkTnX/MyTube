@@ -8,6 +8,7 @@ import { useUser } from "@clerk/clerk-react";
 import {
   MoreVideos,
   VideoControls,
+  VideoDescription,
   VideoNotFound,
   VideoPlayer,
 } from "../components/VideoPlayer";
@@ -15,7 +16,6 @@ import SubscribeButton from "../components/ui/SubscribeButton";
 import { useChannelStore } from "../stores/useChannelStore";
 import Comments from "../components/Comments/Comments";
 import { useVideoControls } from "../hooks/useVideoControls";
-import VideoDescription from "./VideoDescription";
 
 const VideoPage = () => {
   const { id } = useParams();

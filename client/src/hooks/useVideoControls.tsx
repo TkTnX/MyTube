@@ -2,6 +2,25 @@ import axios from "axios";
 import { VideoType } from "../types";
 
 export const useVideoControls = ({ videoId }: { videoId: string }) => {
+  // ФУНКЦИЯ ПОЛУЧЕНИЯ СПИСКА ВИДЕО
+
+  const getVideos = async (
+    category?: string,
+    limit?: number,
+    sortQuery?: string
+  ): Promise<VideoType[]> => {
+    try {
+      const videos = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/videos`,
+        { params: { category, limit, sortQuery } }
+      );
+
+      return videos.data;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  };
 
   // ФУНКЦИЯ ПОЛУЧЕНИЯ ВИДЕО
 
@@ -33,7 +52,6 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
       return null;
     }
   };
-
 
   // ФУНКЦИЯ ЛАЙКА
   const handleLike = async ({
@@ -102,5 +120,14 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
     }
   };
 
-  return { getVideo, updateVideo, handleLike, handleDislike, getIconColor, getNewCount, deleteVideo };
+  return {
+    getVideos,
+    getVideo,
+    updateVideo,
+    handleLike,
+    handleDislike,
+    getIconColor,
+    getNewCount,
+    deleteVideo,
+  };
 };
