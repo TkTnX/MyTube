@@ -13,11 +13,11 @@ const useUpdateProfile = ({ setCoverImg }: UpdateVideoProps) => {
     toast.error(`Something went wrong: ${err}`);
   };
 
- const onSuccessCoverImg = (res: { filePath?: string }) => {
-   setCoverImg(res.filePath!);
-   console.log(res.filePath);
-   toast.success("Cover file uploaded!");
- };
+  const onSuccessCoverImg = (res: { filePath?: string }) => {
+    setCoverImg(res.filePath!);
+    console.log(res.filePath);
+    toast.success("Cover file uploaded!");
+  };
 
   const onUploadProgress = (progress: { loaded: number; total: number }) => {
     setLoading(true);

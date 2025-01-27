@@ -90,12 +90,29 @@ export const useCommentControls = () => {
     }
   };
 
+  // ФУНКЦИЯ РЕДАКТИРОВАНИЯ КОММЕНТАРИЯ
+
+  const editComment = async (commentId: string, value: string) => {
+    try {
+      const comment = await axios.patch(
+        `${import.meta.env.VITE_BACKEND_URL}/comments/edit/${commentId}`,
+        { text: value }
+      );
+
+      return comment.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return {
     handleLikeComment,
     handleDislikeComment,
     deleteComment,
     addComment,
     answerComment,
+    editComment,
   };
 };
 

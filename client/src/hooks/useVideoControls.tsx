@@ -89,5 +89,18 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
     return userVideos?.includes(videoId) ? count - 1 : count + 1;
   };
 
-  return { getVideo, updateVideo, handleLike, handleDislike, getIconColor, getNewCount };
+  // ФУНКЦИЯ УДАЛЕНИЯ ВИДЕО
+
+  const deleteVideo = async (videoId: string) => {
+    try {
+      const video = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${videoId}`
+      );
+      return video.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { getVideo, updateVideo, handleLike, handleDislike, getIconColor, getNewCount, deleteVideo };
 };

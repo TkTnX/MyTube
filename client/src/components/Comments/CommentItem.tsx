@@ -8,7 +8,7 @@ import CommentDropdown from "./CommentDropdown";
 import CommentLikes from "./CommentLikes";
 import CommentReply from "./CommentReply";
 import { useState } from "react";
-import CommentReplyForm from "./CommentReplyForm";
+import CommentForm from "./CommentForm";
 
 const CommentItem = ({
   comment,
@@ -18,7 +18,8 @@ const CommentItem = ({
   className?: string;
 }) => {
   const [openReplyForm, setOpenReplyForm] = useState(false);
-  const [openReplies, setOpenReplies] = useState(false)
+  const [openReplies, setOpenReplies] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const { user } = useUserStore();
   if (!comment) return null;
   return (
@@ -44,7 +45,16 @@ const CommentItem = ({
               {format(comment.createdAt)}
             </span>
           </div>
-          <p className="mt-2">{comment.text}</p>
+          {openEdit ? (
+            <CommentForm
+              commentId={comment._id}
+              action="edit"
+              setOpen={setOpenEdit}
+            />
+          ) : (
+            <p className="mt-2">{comment.text}</p>
+          )}
+
           <div className="flex items-center gap-5 mt-4">
             {/* like / dislike */}
             <CommentLikes comment={comment} />
@@ -58,9 +68,10 @@ const CommentItem = ({
             )}
           </div>
           {openReplyForm && (
-            <CommentReplyForm
-              replyToCommentId={comment._id}
-              setOpenReplyForm={setOpenReplyForm}
+            <CommentForm
+              commentId={comment._id}
+              action="reply"
+              setOpen={setOpenReplyForm}
             />
           )}
           {openReplies && comment.replies.length > 0 && (
@@ -73,7 +84,7 @@ const CommentItem = ({
         </div>
       </div>
       {user?._id === comment.author._id && (
-        <CommentDropdown commentId={comment._id}>
+        <CommentDropdown setOpenEdit={setOpenEdit} commentId={comment._id}>
           <button>
             <MoreVertical />
           </button>

@@ -198,3 +198,16 @@ export const getPopularVideos = async (req, res) => {
     res.status(500).json({ error: "Error getting video" });
   }
 };
+
+export const deleteVideo = async (req, res) => {
+  try {
+    const videoId = req.params.id;
+    const video = await Video.findByIdAndDelete(videoId);
+    if (!video) return res.status(404).json({ error: "Video not found" });
+
+    res.status(200).json({ message: "Video deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error deleting video" });
+  }
+};

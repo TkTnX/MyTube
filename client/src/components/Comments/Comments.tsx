@@ -7,7 +7,7 @@ import { ArrowDownNarrowWide, Loader2 } from "lucide-react";
 import { useState } from "react";
 import FilterDropdown from "../ui/FilterDropdown";
 
-// TODO: Удаление видео
+// * TODO: Удаление видео
 // TODO: Редактирование комментария
 
 const getComments = async (videoId: string, filter: "newest" | "popular") => {

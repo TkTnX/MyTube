@@ -49,7 +49,7 @@ const UploadMedia = ({
         accept={`${type}/*`}
         useUniqueFileName={true}
         onSuccess={onSuccess}
-        onError={onError}
+        onError={(err) => onError(err.message)}
         onUploadProgress={onUploadProgress}
         className="hidden"
         ref={ref}

@@ -1,33 +1,37 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Send } from "lucide-react";
 import { FormEvent, useState } from "react";
-import { useUserStore } from "../../stores/useUserStore";
 import { toast } from "react-toastify";
 import { useCommentControls } from "../../hooks/useCommentControls";
+import { useUserStore } from "../../stores/useUserStore";
+import { Send } from "lucide-react";
 
-const CommentReplyForm = ({
-  setOpenReplyForm,
-  replyToCommentId,
+const CommentForm = ({
+  commentId,
+  action,
+  setOpen,
 }: {
-  setOpenReplyForm: React.Dispatch<React.SetStateAction<boolean>>;
-  replyToCommentId: string;
+  commentId: string;
+  action: "reply" | "edit";
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { user } = useUserStore();
   const [value, setValue] = useState("");
-  const { answerComment } = useCommentControls();
+  const { answerComment, editComment } = useCommentControls();
+  const { user } = useUserStore();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (action: "reply" | "edit") => {
       if (!user) return toast.error("You must be logged in");
 
-      await answerComment(replyToCommentId, value, user._id);
+      if (action === "reply") {
+        await answerComment(commentId, value, user._id);
+      } else if (action === "edit") {
+        await editComment(commentId, value);
+      }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["comments"],
-      });
-      setOpenReplyForm(false);
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+      setOpen(false);
       setValue("");
     },
   });
@@ -35,9 +39,8 @@ const CommentReplyForm = ({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      if (!user) return toast.error("You must be logged in");
       if (value.length === 0) return toast.error("You must write a comment");
-      mutation.mutate();
+      mutation.mutate(action);
     } catch (error) {
       console.log(error);
     }
@@ -52,14 +55,14 @@ const CommentReplyForm = ({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         type="text"
-        placeholder="Type answer..."
+        placeholder={`Type ${action === "reply" ? "answer" : "new comment"}`}
         className="flex-1 bg-inherit p-4  placeholder:text-[#888888] outline-none"
       />
       <div className="flex items-center gap-2">
         <button
           type="button"
           className="hover:opacity-80 transition"
-          onClick={() => setOpenReplyForm(false)}
+          onClick={() => setOpen(false)}
         >
           Cancel
         </button>
@@ -73,4 +76,4 @@ const CommentReplyForm = ({
   );
 };
 
-export default CommentReplyForm;
+export default CommentForm;

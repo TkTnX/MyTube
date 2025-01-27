@@ -22,8 +22,6 @@ export const getComments = async (req, res) => {
   }
 };
 
-
-
 export const addComment = async (req, res) => {
   try {
     const videoId = req.params.videoId;
@@ -162,6 +160,23 @@ export const answerComment = async (req, res) => {
     await comment.updateOne({ $push: { replies: answer._id } });
 
     return res.status(200).send(answer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+export const editComment = async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    const data = req.body;
+
+    const comment = await Comments.findById(commentId);
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+    await comment.updateOne({ text: data.text });
+
+    return res.status(200).send(comment);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

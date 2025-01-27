@@ -6,6 +6,7 @@ import {
   likeComment,
   dislikeComment,
   answerComment,
+  editComment,
 } from "../controllers/comments.controller.js";
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.delete("/:commentId", deleteComment);
 router.patch("/like/:commentId", likeComment);
 router.patch("/dislike/:commentId", dislikeComment);
 router.post("/answer/:commentId", answerComment);
+router.patch("/edit/:commentId", editComment);
 
 export default router;

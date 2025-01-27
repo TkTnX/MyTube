@@ -70,6 +70,12 @@ const CreatePage = () => {
     return navigate(`/watch/${newVideo.data._id}`);
   };
 
+  if (loading) {
+    toast.loading("Uploading...");
+  } else {
+    toast.dismiss();
+  }
+
   return (
     <div className="w-full mt-10 h-full">
       <form onSubmit={handleSubmit} className="grid gap-3 ">

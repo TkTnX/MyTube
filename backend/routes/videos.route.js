@@ -10,6 +10,7 @@ import {
   likeVideo,
   dislikeVideo,
   getPopularVideos,
+  deleteVideo,
 } from "../controllers/videos.controller.js";
 const router = express.Router();
 
@@ -23,4 +24,5 @@ router.post("/:id", updateVideo);
 router.post("/like/:id", likeVideo)
 router.post("/dislike/:id", dislikeVideo)
 router.get("/popular/:id", getPopularVideos);
+router.delete("/:id", deleteVideo);
 export default router;
