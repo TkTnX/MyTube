@@ -26,7 +26,7 @@ const VideosListItem = ({
         to={`/watch/${video._id}`}
         className="w-full h-full absolute inset-0  z-[1]"
       />
-      <div className="rounded-2xl overflow-hidden relative">
+      <div className="rounded-2xl overflow-hidden relative bg-[#aaa]">
         <Image src={video.previewUrl} alt="Video" width="476" height="266" />
       </div>
       {/* VIDEO DETAILS */}

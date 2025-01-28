@@ -6,9 +6,11 @@ import ExploreBlockVideos from "./ExploreBlockVideos";
 const ExploreBlock = ({
   imgPath,
   title,
+  action,
 }: {
   imgPath: string;
   title: string;
+  action: string;
 }) => {
   return (
     <div className="w-full border border-[#333333] rounded-3xl p-6">
@@ -28,7 +30,7 @@ const ExploreBlock = ({
         <ExploreBlockFilters />
       </div>
       {/* Videos */}
-      <ExploreBlockVideos />
+      <ExploreBlockVideos category={action} />
     </div>
   );
 };

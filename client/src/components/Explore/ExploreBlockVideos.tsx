@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import VideosListItem from "../ui/VideosListItem";
 import VideosSkeleton from "../ui/VideosSkeleton";
 
-const ExploreBlockVideos = () => {
+const ExploreBlockVideos = ({ category }: { category: string }) => {
   const { getVideos } = useVideoControls({ videoId: "" });
   const [searchParams] = useSearchParams();
   const { data, isError, isPending, error } = useQuery({
@@ -17,6 +17,7 @@ const ExploreBlockVideos = () => {
       ),
   });
 
+  console.log(category);
   if (isError) return <span>Error: {error.message}</span>;
 
   if (isPending) return <VideosSkeleton className="mt-7" count={4} />;

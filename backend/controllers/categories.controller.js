@@ -1,9 +1,8 @@
-import Video from "../models/video.model.js";
+import Category from "../models/category.model.js";
 
 export const getCategories = async (req, res) => {
   try {
-    const categories = await Video.find().distinct("category");
-
+    const categories = await Category.find();
     if (!categories)
       return res.status(404).json({ error: "Categories not found" });
 

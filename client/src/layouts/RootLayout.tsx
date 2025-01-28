@@ -11,7 +11,7 @@ const RootLayout = () => {
       <Header />
       <main
         className={twMerge(
-          "flex flex-col-reverse vsm:flex-row vsm:items-start gap-2 sm:gap-7 md:gap-14 mx-4 sm:mx-8 xl:mx-16 mb-28 vsm:mb-0 vsm:h-[calc(100vh-80px)]",
+          "flex flex-col-reverse vsm:flex-row vsm:items-start gap-2 sm:gap-7 md:gap-14 mx-4 sm:mx-8 xl:mx-16 mb-2 h-full vsm:mb-0 vsm:h-[calc(100vh-80px)]",
           !isOpen && "!gap-2 !ml-2"
         )}
       >
