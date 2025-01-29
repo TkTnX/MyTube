@@ -1,22 +1,15 @@
-import { useState } from "react";
 import { ExploreFilters } from "../../constants";
 import { twMerge } from "tailwind-merge";
-import { useSearchParams } from "react-router-dom";
 
-const ExploreBlockFilters = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [currentFilter, setCurrentFilter] = useState(
-    searchParams.get("sortQuery")
-      ? ExploreFilters.indexOf(searchParams.get("sortQuery") || "")
-      : 0
-  );
-
+const ExploreBlockFilters = ({
+  setCurrentFilter,
+  currentFilter,
+}: {
+  setCurrentFilter: (index: number) => void;
+  currentFilter: number;
+}) => {
   const onChange = (index: number) => {
     setCurrentFilter(index);
-    setSearchParams({
-      ...Object.fromEntries(searchParams),
-      sortQuery: ExploreFilters[index],
-    });
   };
 
   return (

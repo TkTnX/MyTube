@@ -48,7 +48,6 @@ const VideoPage = () => {
       mutation.mutate(data);
     }
   }, [data, id]);
-
   if (isPending) return <div>Loading...</div>;
   if (isError) return <span>Error: {error.message}</span>;
   if (!data) return <VideoNotFound />;
@@ -58,7 +57,7 @@ const VideoPage = () => {
       <div className="w-full xl:w-4/6 2xl:w-3/4">
         {/* VIDEO */}
         <VideoPlayer url={data.videoUrl} />
-
+        <p className="mt-5 font-semibold text-xl">{data.title}</p>
         {/* small video description */}
         <VideoDescription
           isSmallScreen={true}
@@ -77,10 +76,10 @@ const VideoPage = () => {
                 alt={data.author.username}
                 width={46}
                 height={46}
-                className="rounded-full min-w-[46px] min-h-[46px] block bg-[#aaa]"
+                className="rounded-full min-w-[46px] min-h-[46px] block bg-[#aaa] max-h-[46px] max-w-[46px] object-cover"
               />
               <div>
-                <h6 className="text-lg vsm:text-sm md:text-lg font-medium">
+                <h6 className="text-lg vsm:text-sm md:text-lg font-medium big-text-one">
                   {data.author.username}
                 </h6>
                 <p className="text-sm vsm:text-xs md:text-sm text-nowrap text-[#aaa]">

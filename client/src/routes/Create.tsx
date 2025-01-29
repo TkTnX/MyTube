@@ -12,8 +12,12 @@ import Input from "../components/ui/Input";
 import UploadVideofile from "../components/CreateVideo/UploadVideofile";
 import useUploadVideo from "../hooks/useUploadVideo";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import { CategoryType } from "../types";
 
 const CreatePage = () => {
+  const [categories, setCategories] = useState<
+    CategoryType[]
+  >([]);
   const { getUser, user } = useUserStore();
   const { user: clerkUser } = useUser();
   const ikUploadVideoRef = useRef<null | HTMLInputElement>(null);
@@ -24,6 +28,20 @@ const CreatePage = () => {
   const [errors, setErrors] = useState<z.typeToFlattenedError<
     z.infer<typeof validationSchema>
   > | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categories = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/categories`
+        );
+        setCategories([{ _id: "", title: "None" }, ...categories.data]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -118,12 +136,21 @@ const CreatePage = () => {
               placeholder="Description"
               className="pb-40"
             />
-            <Input
-              errors={errors}
+
+            <select
               name="category"
-              placeholder="Category"
-              required
-            />
+              className="bg-inherit border-white border p-4  w-full rounded-xl "
+            >
+              {categories.map((category: CategoryType) => (
+                <option
+                  className="bg-[#111111]"
+                  key={category._id}
+                  value={category.title.toLowerCase()}
+                >
+                  {category.title}
+                </option>
+              ))}
+            </select>
 
             <button
               onClick={() => ikUploadPreviewRef.current!.click()}

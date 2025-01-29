@@ -14,14 +14,22 @@ export const getVideos = async (req, res) => {
     const sortQuery = req.query.sortQuery;
     const limit = req.query.limit;
 
-    const filter = !category || category === "All" ? {} : { category };
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const filter =
+      !category || category === "All"
+        ? {}
+        : category === "trending"
+        ? { createdAt: { $gte: sevenDaysAgo } }
+        : { category: category.toLowerCase() };
     const sort = () => {
       switch (sortQuery) {
-        case "Most Popular":
+        case "0":
           return { views: -1 };
-        case "Newest":
+        case "1":
           return { createdAt: -1 };
-        case "Likes":
+        case "2":
           return { likes: -1 };
         default:
           return {};

@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
+import { CategoryType } from "../../types";
 
 const getCategories = async () => {
   const { data } = await axios.get(
@@ -31,11 +32,10 @@ const Categories = () => {
     });
   };
 
-  console.log(currentCategory);
 
   return (
     <div className="flex items-center gap-3 overflow-x-auto w-full whitespace-nowrap pb-3 mt-6">
-      {data.map((category: { title: string; _id: string }) => (
+      {data.map((category: CategoryType) => (
         <button
           className={twMerge(
             "text-white px-4 py-2 rounded-lg bg-[#333333] text-sm font-medium",

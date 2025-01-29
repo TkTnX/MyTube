@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Image from "../ui/Image";
 import ExploreBlockFilters from "./ExploreBlockFilters";
 import ExploreBlockVideos from "./ExploreBlockVideos";
+import { useState } from "react";
 
 const ExploreBlock = ({
   imgPath,
@@ -11,7 +12,8 @@ const ExploreBlock = ({
   imgPath: string;
   title: string;
   action: string;
-}) => {
+  }) => {
+  const [currentFilter, setCurrentFilter] = useState(0);
   return (
     <div className="w-full border border-[#333333] rounded-3xl p-6">
       <div className="border-b border-[#333333] ">
@@ -27,10 +29,13 @@ const ExploreBlock = ({
             View all
           </Link>
         </div>
-        <ExploreBlockFilters />
+        <ExploreBlockFilters
+          setCurrentFilter={setCurrentFilter}
+          currentFilter={currentFilter}
+        />
       </div>
       {/* Videos */}
-      <ExploreBlockVideos category={action} />
+      <ExploreBlockVideos currentFilter={currentFilter} category={action} />
     </div>
   );
 };

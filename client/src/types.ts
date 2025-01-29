@@ -59,3 +59,9 @@ export type CommentType = {
   createdAt: string;
   updatedAt: string;
 };
+
+
+export type CategoryType = {
+  title: string;
+  _id: string;
+}
