@@ -10,6 +10,10 @@ const categortModel = new Schema({
     ref: "Video",
     default: [],
   },
+  img: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.model("Category", categortModel);

@@ -28,7 +28,7 @@ const Categories = () => {
     setCurrentCategory(id);
     setSearchParams({
       ...Object.fromEntries(searchParams),
-      category: data.find((item: { _id: string }) => item._id === id)?.title,
+      category: data.find((item: CategoryType) => item._id === id)?.title,
     });
   };
 

@@ -18,9 +18,11 @@ const VideosList = () => {
   }
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-x-4 gap-y-10">
-      {data.map((video) => (
-        <VideosListItem key={video._id} video={video} />
-      ))}
+      {data.length > 0 ? (
+        data.map((video) => <VideosListItem key={video._id} video={video} />)
+      ) : (
+        <p className=" text-sm text-[#aaa]">No videos yet</p>
+      )}
     </div>
   );
 };

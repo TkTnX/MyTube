@@ -1,23 +1,42 @@
+import { useQuery } from "@tanstack/react-query";
 import ExploreBlock from "../components/Explore/ExploreBlock";
+import axios from "axios";
+import { CategoryType } from "../types";
 
-// TODO: Пофиксить вёрстку сайдбара
-// TODO: При создании видео выбор ТОЛЬКО определённых категорий
+const getCategories = async () => {
+  try {
+    const categories = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/categories`
+    );
+    return categories.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const ExplorePage = () => {
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories(),
+  });
+
+  if (isError) return <span>Error: {error.message}</span>;
+  if (isPending) return <span>Loading...</span>;
   return (
-    <div className="w-full vsm:h-[calc(100vh-80px)] mt-7 flex flex-col gap-7">
+    <div className="w-full vsm:h-[calc(100%-80px)] mt-7 flex flex-col gap-7">
       <ExploreBlock
         action="trending"
         imgPath="/icons/trending.svg"
         title="Trending"
       />
-      <ExploreBlock action="music" imgPath="/icons/music.svg" title="Music" />
-      <ExploreBlock
-        action="gaming"
-        imgPath="/icons/gaming.svg"
-        title="Gaming"
-      />
-      {/* TODO: Сделать для других категорий также (Movies, Books, News, Sport, Education, Fashion) */}
+      {data.map((category: CategoryType) => (
+        <ExploreBlock
+          action={category.title.toLowerCase()}
+          imgPath={category.img}
+          title={category.title}
+          videosLength={category?.videos?.length || 0}
+        />
+      ))}
     </div>
   );
 };

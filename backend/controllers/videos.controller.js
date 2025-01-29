@@ -1,6 +1,7 @@
 import Video from "../models/video.model.js";
 import User from "../models/user.model.js";
 import ImageKit from "imagekit";
+import Category from "../models/category.model.js";
 
 const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
@@ -67,6 +68,14 @@ export const getVideo = async (req, res) => {
 export const createVideo = async (req, res) => {
   const newVideo = await Video.create(req.body);
   const video = await newVideo.save();
+  await Category.findOneAndUpdate(
+    {
+      title: video.category.charAt(0).toUpperCase() + video.category.slice(1),
+    },
+    {
+      $push: { videos: video._id },
+    }
+  );
   res.status(200).json(video);
 };
 
@@ -234,6 +243,13 @@ export const deleteVideo = async (req, res) => {
     const videoId = req.params.id;
     const video = await Video.findByIdAndDelete(videoId);
     if (!video) return res.status(404).json({ error: "Video not found" });
+
+    await Category.findOneAndUpdate(
+      {
+        title: video.category.charAt(0).toUpperCase() + video.category.slice(1),
+      },
+      { $pull: { videos: video._id } }
+    );
 
     res.status(200).json({ message: "Video deleted successfully" });
   } catch (error) {

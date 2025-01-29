@@ -16,6 +16,7 @@ import SubscribeButton from "../components/ui/SubscribeButton";
 import { useChannelStore } from "../stores/useChannelStore";
 import Comments from "../components/Comments/Comments";
 import { useVideoControls } from "../hooks/useVideoControls";
+import { twMerge } from "tailwind-merge";
 
 const VideoPage = () => {
   const { id } = useParams();
@@ -48,6 +49,7 @@ const VideoPage = () => {
       mutation.mutate(data);
     }
   }, [data, id]);
+
   if (isPending) return <div>Loading...</div>;
   if (isError) return <span>Error: {error.message}</span>;
   if (!data) return <VideoNotFound />;
@@ -57,13 +59,22 @@ const VideoPage = () => {
       <div className="w-full xl:w-4/6 2xl:w-3/4">
         {/* VIDEO */}
         <VideoPlayer url={data.videoUrl} />
-        <p className="mt-5 font-semibold text-xl">{data.title}</p>
+        <p
+          className={twMerge(
+            "mt-5 font-semibold text-xl ",
+            data.description.length > 0 && "hidden vsm:block"
+          )}
+        >
+          {data.title}
+        </p>
         {/* small video description */}
-        <VideoDescription
-          isSmallScreen={true}
-          description={data.description}
-          videoTitle={data.title}
-        />
+        {data.description.length > 0 && (
+          <VideoDescription
+            isSmallScreen={true}
+            description={data.description}
+            videoTitle={data.title}
+          />
+        )}
 
         <div className="mt-5 flex  flex-wrap 2xl:flex-nowrap flex-col-reverse lg:flex-row items-start lg:items-center  gap-4 lg:gap-2">
           <div className="flex  items-center gap-2 md:gap-5 w-full justify-between vsm:w-fit vsm:justify-normal">
@@ -94,10 +105,13 @@ const VideoPage = () => {
           <VideoControls data={data} />
         </div>
         {/* video description */}
-        <VideoDescription
-          description={data.description}
-          isSmallScreen={false}
-        />
+        {data.description.length > 0 && (
+          <VideoDescription
+            description={data.description}
+            isSmallScreen={false}
+          />
+        )}
+
         {/* comments */}
         <Comments videoId={data._id} />
       </div>

@@ -64,4 +64,6 @@ export type CommentType = {
 export type CategoryType = {
   title: string;
   _id: string;
+  img: string;
+  videos: string[];
 }

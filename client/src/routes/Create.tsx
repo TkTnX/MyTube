@@ -65,7 +65,7 @@ const CreatePage = () => {
 
     const data = {
       title: formData.get("title"),
-      description: formData.get("description"),
+      description: formData.get("description") || "",
       previewUrl: previewUrl,
       videoUrl: videoUrl,
       category: formData.get("category"),

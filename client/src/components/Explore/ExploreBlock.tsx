@@ -8,18 +8,27 @@ const ExploreBlock = ({
   imgPath,
   title,
   action,
+  videosLength,
 }: {
   imgPath: string;
   title: string;
   action: string;
-  }) => {
+  videosLength?: number;
+}) => {
   const [currentFilter, setCurrentFilter] = useState(0);
+  if (videosLength === 0) return null;
   return (
     <div className="w-full border border-[#333333] rounded-3xl p-6">
       <div className="border-b border-[#333333] ">
         <div className="flex items-center justify-between  pb-7 flex-wrap gap-3">
           <div className="flex items-center gap-6">
-            <Image src={imgPath} alt={title} width="44" height="44" />
+            <Image
+              src={imgPath}
+              alt={title}
+              className="bg-white rounded-full object-cover"
+              width="44"
+              height="44"
+            />
             <h6 className="font-medium text-2xl tracking-[-0.01em]">{title}</h6>
           </div>
           <Link

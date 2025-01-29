@@ -13,7 +13,7 @@ const videoSchema = new Schema(
     },
     description: {
       type: String,
-      required: true,
+      default: "",
     },
     previewUrl: {
       type: String,
