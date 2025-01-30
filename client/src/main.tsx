@@ -9,6 +9,7 @@ import {
   ExploreCategoryPage,
   ExplorePage,
   Homepage,
+  PlaylistsPage,
   SignInPage,
   SignUpPage,
   UpdateChannelPage,
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/explore/:category",
         element: <ExploreCategoryPage />,
+      },
+      {
+        path: "/playlists",
+        element: <PlaylistsPage />,
       },
     ],
   },

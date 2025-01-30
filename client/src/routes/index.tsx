@@ -9,6 +9,7 @@ import ChannelAbout from "./ChannelAbout";
 import UpdateChannelPage from "./UpdateChannel";
 import ExplorePage from "./Explore";
 import ExploreCategoryPage from "./ExploreCategory";
+import PlaylistsPage from "./Playlists";
 
 export {
   Homepage,
@@ -22,4 +23,5 @@ export {
   UpdateChannelPage,
   ExplorePage,
   ExploreCategoryPage,
+  PlaylistsPage,
 };
