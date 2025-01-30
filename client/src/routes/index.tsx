@@ -8,6 +8,7 @@ import ChannelVideos from "./ChannelVideos";
 import ChannelAbout from "./ChannelAbout";
 import UpdateChannelPage from "./UpdateChannel";
 import ExplorePage from "./Explore";
+import ExploreCategoryPage from "./ExploreCategory";
 
 export {
   Homepage,
@@ -20,4 +21,5 @@ export {
   ChannelAbout,
   UpdateChannelPage,
   ExplorePage,
+  ExploreCategoryPage,
 };

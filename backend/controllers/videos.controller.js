@@ -15,6 +15,7 @@ export const getVideos = async (req, res) => {
     const sortQuery = req.query.sortQuery;
     const limit = req.query.limit;
 
+
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 

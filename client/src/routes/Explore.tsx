@@ -3,6 +3,8 @@ import ExploreBlock from "../components/Explore/ExploreBlock";
 import axios from "axios";
 import { CategoryType } from "../types";
 
+// TODO: Страница /explore/${category} которая просто будет выводить все видео категории
+
 const getCategories = async () => {
   try {
     const categories = await axios.get(

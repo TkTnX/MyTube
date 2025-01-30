@@ -1,29 +1,22 @@
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { CategoryType } from "../../types";
-
-const getCategories = async () => {
-  const { data } = await axios.get(
-    `${import.meta.env.VITE_BACKEND_URL}/categories`
-  );
-  data.unshift({ title: "All", _id: "All" });
-  return data;
-};
+import { useCategoriesControls } from "../../hooks/useCategoriesControls";
 
 const Categories = () => {
   const [currentCategory, setCurrentCategory] = useState("All");
   const [searchParams, setSearchParams] = useSearchParams();
+  const { getCategories } = useCategoriesControls();
 
   const { isPending, data, isError } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories(),
+    queryFn: () => getCategories({}),
   });
 
   if (isPending || isError) return null;
-
+  
   const handleChangeCategory = (id: string) => {
     setCurrentCategory(id);
     setSearchParams({
@@ -31,7 +24,6 @@ const Categories = () => {
       category: data.find((item: CategoryType) => item._id === id)?.title,
     });
   };
-
 
   return (
     <div className="flex items-center gap-3 overflow-x-auto w-full whitespace-nowrap pb-3 mt-6">

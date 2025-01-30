@@ -31,12 +31,14 @@ const ExploreBlock = ({
             />
             <h6 className="font-medium text-2xl tracking-[-0.01em]">{title}</h6>
           </div>
-          <Link
-            className="bg-[#1d1d1d] rounded-3xl py-2 px-6 hover:opacity-80 transition"
-            to={`/explore/${title.toLowerCase()}`}
-          >
-            View all
-          </Link>
+          {action !== "trending" && videosLength && (
+            <Link
+              className="bg-[#1d1d1d] rounded-3xl py-2 px-6 hover:opacity-80 transition"
+              to={`/explore/${title.toLowerCase()}`}
+            >
+              View all
+            </Link>
+          )}
         </div>
         <ExploreBlockFilters
           setCurrentFilter={setCurrentFilter}
