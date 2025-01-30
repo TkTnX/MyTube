@@ -7,18 +7,20 @@ interface UserStore {
   error: boolean;
   loading: boolean;
 
-  getUser: (clerkUserId: string) => Promise<void>;
+  getUser: (clerkUserId: string, populate?: string | null) => Promise<void>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
   user: null,
   error: false,
   loading: false,
-  getUser: async (clerkUserId) => {
+  getUser: async (clerkUserId, populate = null) => {
     try {
       set({ loading: true });
       const user = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${clerkUserId}`
+        `${import.meta.env.VITE_BACKEND_URL}/users/${clerkUserId}?${
+          populate ? "populate=" + populate : ""
+        }`
       );
       set({ user: user.data, error: false, loading: false });
     } catch (error) {

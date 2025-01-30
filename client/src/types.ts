@@ -12,7 +12,7 @@ export type UserType = {
   img: string;
   likedVideos: string[];
   dislikedVideos: string[];
-  playlists: string[];
+  playlists: PlaylistType[];
   watchLater: string[];
   subscribers: string[];
   subscriptions: string[];
@@ -60,10 +60,18 @@ export type CommentType = {
   updatedAt: string;
 };
 
-
 export type CategoryType = {
   title: string;
   _id: string;
   img: string;
   videos: string[];
-}
+};
+
+export type PlaylistType = {
+  title: string;
+  author: UserType;
+  videos: VideoType[];
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

@@ -1,8 +1,11 @@
 import User from "../models/user.model.js";
 export const getUser = async (req, res) => {
+  const populate = req.query.populate;
   const user = await User.findOne({
     clerkId: req.params.id,
-  });
+  }).populate(
+    populate !== undefined ? { path: populate, populate: "videos" } : ""
+  );
   res.status(200).json(user);
 };
 

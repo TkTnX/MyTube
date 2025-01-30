@@ -35,6 +35,7 @@ const userModel = new Schema(
     },
     playlists: {
       type: [Schema.Types.ObjectId],
+      ref: "Playlist",
       default: [],
     },
     watchLater: {

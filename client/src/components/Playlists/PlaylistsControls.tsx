@@ -2,8 +2,8 @@ import { Search } from "lucide-react";
 
 const PlaylistsControls = () => {
   return (
-    <div className="flex items-center justify-between ">
-      <select className="bg-[#333333] p-1 rounded-lg ">
+    <div className="flex items-center justify-between flex-col vsm:flex-row gap-2 vsm:gap-0">
+      <select className="bg-[#333333] p-1 rounded-lg w-full vsm:w-auto">
         <option value="" disabled selected hidden className="bg-[#111111]">
           Sort by
         </option>
@@ -15,7 +15,7 @@ const PlaylistsControls = () => {
         </option>
       </select>
 
-      <div>
+      <div className="w-full vsm:w-auto">
         <form className="flex items-center gap-2 py-1 pl-4 bg-[#1d1d1d] rounded-full">
           <Search color="#aaa" />
           <input
