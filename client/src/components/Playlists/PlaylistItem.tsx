@@ -5,15 +5,22 @@ import PlaylistControls from "./PlaylistControls";
 import PlaylistInformation from "./PlaylistInformation";
 import { PlaylistType } from "../../types";
 
-// * TODO: Разнести по компонентам
-// * TODO: Адаптив
-// * TODO: Создать модель плейлиста на беке
+// TODO: Создание плейлистов
+// TODO: Удаление плейлистов
+// TODO: Сортировка плейлистов
+// TODO: Поиск плейлистов
+// TODO: Страница плейлиста по адресу /playlists/:username/:playlistId
 
-const PlaylistItem = ({ playlist }: { playlist: PlaylistType }) => {
-  console.log(playlist);
+const PlaylistItem = ({
+  playlist,
+  isMyPlaylist = false,
+}: {
+  playlist: PlaylistType;
+  isMyPlaylist?: boolean;
+}) => {
   return (
     <div className="flex lg:items-start gap-4 relative flex-col lg:flex-row items-center border-b border-b-[#333] pb-10">
-      <Link to={`/playlists/${playlist._id}`}>
+      <Link to={`/playlists/${playlist.author.username}/${playlist._id}`}>
         <Image
           src={playlist.videos[0].previewUrl}
           width="332"
@@ -23,7 +30,12 @@ const PlaylistItem = ({ playlist }: { playlist: PlaylistType }) => {
         />
       </Link>
       <div>
-        <h5 className="font-medium text-lg leading-6">{playlist.title}</h5>
+        <Link
+          to={`/playlists/${playlist._id}`}
+          className="font-medium text-lg leading-6 w-full block"
+        >
+          {playlist.title}
+        </Link>
         {/* PLAYLIST AUTHOR */}
         <Link
           className="flex items-center gap-4 mt-4"
@@ -42,12 +54,21 @@ const PlaylistItem = ({ playlist }: { playlist: PlaylistType }) => {
           </p>
         </Link>
         {/* PLAYLIST INFORMATION */}
-        <PlaylistInformation />
+        <PlaylistInformation
+          totalViews={playlist.videos.reduce((a, b) => a + b.views, 0)}
+          totalVideos={playlist.videos.length}
+        />
         {/* PLAYLIST CONTROLS */}
-        <PlaylistControls />
-        <button className="absolute right-0 top-0 hover:opacity-80 transition">
-          <MoreVertical color="#fff" />
-        </button>
+        <PlaylistControls
+          isMyPlaylist={isMyPlaylist}
+          authorUsername={playlist.author.username}
+          playlistId={playlist._id}
+        />
+        {isMyPlaylist && (
+          <button className="absolute right-0 top-0 hover:opacity-80 transition">
+            <MoreVertical color="#fff" />
+          </button>
+        )}
       </div>
     </div>
   );

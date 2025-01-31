@@ -10,6 +10,7 @@ import UpdateChannelPage from "./UpdateChannel";
 import ExplorePage from "./Explore";
 import ExploreCategoryPage from "./ExploreCategory";
 import PlaylistsPage from "./Playlists";
+import UserPlaylistsPage from "./UserPlaylists";
 
 export {
   Homepage,
@@ -24,4 +25,5 @@ export {
   ExplorePage,
   ExploreCategoryPage,
   PlaylistsPage,
+  UserPlaylistsPage,
 };

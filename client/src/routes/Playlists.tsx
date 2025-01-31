@@ -17,17 +17,18 @@ const PlaylistsPage = () => {
     };
 
     fetchUser();
-  }, []);
-
-  console.log(user);
-
+  }, [clerkUser, getUser, navigate]);
   return (
     <div className="mt-7 w-full h-full">
       <PlaylistsControls />
 
       <div className="flex flex-col gap-10 lg:gap-4 mt-11">
         {user?.playlists.map((playlist: PlaylistType) => (
-          <PlaylistItem key={playlist._id} playlist={{ ...playlist , author: user}} />
+          <PlaylistItem
+            isMyPlaylist={clerkUser?.id === playlist?.author?.clerkId}
+            key={playlist._id}
+            playlist={{ ...playlist, author: user }}
+          />
         ))}
       </div>
     </div>

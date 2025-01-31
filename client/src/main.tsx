@@ -13,6 +13,7 @@ import {
   SignInPage,
   SignUpPage,
   UpdateChannelPage,
+  UserPlaylistsPage,
   VideoPage,
 } from "./routes";
 import RootLayout from "./layouts/RootLayout";
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
           {
             path: "/channel/:username/about",
             element: <ChannelAbout />,
+          },
+          {
+            path: "/channel/:username/playlists",
+            element: <UserPlaylistsPage />,
           },
         ],
       },

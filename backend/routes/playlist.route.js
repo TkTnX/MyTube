@@ -1,7 +1,10 @@
 import express from "express";
-import { getPlaylist } from "../controllers/playlist.controlls.js";
+import {
+  getPlaylistById,
+  getUserPlaylists,
+} from "../controllers/playlist.controlls.js";
 const router = express.Router();
 
-router.get("/:id", getPlaylist);
-
+router.get("/:username", getUserPlaylists);
+router.get("/:username/:id", getPlaylistById);
 export default router;
