@@ -21,13 +21,17 @@ const PlaylistItem = ({
   return (
     <div className="flex lg:items-start gap-4 relative flex-col lg:flex-row items-center border-b border-b-[#333] pb-10">
       <Link to={`/playlists/${playlist.author.username}/${playlist._id}`}>
-        <Image
-          src={playlist.videos[0].previewUrl}
-          width="332"
-          height="186"
-          alt={playlist.title}
-          className="rounded-2xl"
-        />
+        {playlist?.videos[0]?.previewUrl ? (
+          <Image
+            src={playlist.videos[0].previewUrl}
+            width="332"
+            height="186"
+            alt={playlist.title}
+            className="rounded-2xl"
+          />
+        ) : (
+          <div className="w-[332px] h-[186px] bg-[#555555] rounded-2xl" />
+        )}
       </Link>
       <div>
         <Link

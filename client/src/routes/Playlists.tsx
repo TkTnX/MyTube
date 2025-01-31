@@ -18,18 +18,27 @@ const PlaylistsPage = () => {
 
     fetchUser();
   }, [clerkUser, getUser, navigate]);
+
+  if (!user) return null;
+
   return (
     <div className="mt-7 w-full h-full">
       <PlaylistsControls />
 
       <div className="flex flex-col gap-10 lg:gap-4 mt-11">
-        {user?.playlists.map((playlist: PlaylistType) => (
-          <PlaylistItem
-            isMyPlaylist={clerkUser?.id === playlist?.author?.clerkId}
-            key={playlist._id}
-            playlist={{ ...playlist, author: user }}
-          />
-        ))}
+        {user.playlists.length > 0 ? (
+          user.playlists.map((playlist: PlaylistType) => (
+            <PlaylistItem
+              isMyPlaylist={clerkUser?.id === playlist?.author?.clerkId}
+              key={playlist._id}
+              playlist={{ ...playlist, author: user }}
+            />
+          ))
+        ) : (
+          <p className="mt-7 w-full h-full text-center  text-[#aaa]">
+            No playlists
+          </p>
+        )}
       </div>
     </div>
   );

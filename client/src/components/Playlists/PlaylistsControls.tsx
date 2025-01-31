@@ -1,4 +1,5 @@
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import PlaylistAddForm from "./PlaylistAddForm";
 
 const PlaylistsControls = () => {
   return (
@@ -15,7 +16,7 @@ const PlaylistsControls = () => {
         </option>
       </select>
 
-      <div className="w-full vsm:w-auto">
+      <div className="w-full vsm:w-auto flex items-center gap-2">
         <form className="flex items-center gap-2 py-1 pl-4 bg-[#1d1d1d] rounded-full">
           <Search color="#aaa" />
           <input
@@ -24,6 +25,13 @@ const PlaylistsControls = () => {
             className="placeholder:text-[#aaa] bg-inherit outline-none flex-1 pr-4 rounded-full"
           />
         </form>
+        {
+          <PlaylistAddForm>
+            <button className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition">
+              <Plus /> <span>Create</span>
+            </button>
+          </PlaylistAddForm>
+        }
       </div>
     </div>
   );
