@@ -4,24 +4,24 @@ import { MoreVertical } from "lucide-react";
 import PlaylistControls from "./PlaylistControls";
 import PlaylistInformation from "./PlaylistInformation";
 import { PlaylistType } from "../../types";
+import PlaylistDropdown from "./PlaylistDropdown";
 
-// TODO: Создание плейлистов
-// TODO: Удаление плейлистов
-// TODO: Сортировка плейлистов
-// TODO: Поиск плейлистов
-// TODO: Страница плейлиста по адресу /playlists/:username/:playlistId
+// * TODO: После создания плейлиста перерисовку делать
+// * TODO: Удаление плейлистов
+// * TODO: Сортировка плейлистов
+// * TODO: Поиск плейлистов
+// * TODO: Страница плейлиста по адресу /playlists/:username/:playlistId
 
-const PlaylistItem = ({
-  playlist,
-  isMyPlaylist = false,
-}: {
+type Props = {
   playlist: PlaylistType;
   isMyPlaylist?: boolean;
-}) => {
+};
+
+const PlaylistItem: React.FC<Props> = ({ playlist, isMyPlaylist = false }) => {
   return (
     <div className="flex lg:items-start gap-4 relative flex-col lg:flex-row items-center border-b border-b-[#333] pb-10">
       <Link to={`/playlists/${playlist.author.username}/${playlist._id}`}>
-        {playlist?.videos[0]?.previewUrl ? (
+        {playlist?.videos?.length > 0 ? (
           <Image
             src={playlist.videos[0].previewUrl}
             width="332"
@@ -59,8 +59,8 @@ const PlaylistItem = ({
         </Link>
         {/* PLAYLIST INFORMATION */}
         <PlaylistInformation
-          totalViews={playlist.videos.reduce((a, b) => a + b.views, 0)}
-          totalVideos={playlist.videos.length}
+          totalViews={playlist?.videos?.reduce((a, b) => a + b.views, 0)}
+          totalVideos={playlist?.videos?.length}
         />
         {/* PLAYLIST CONTROLS */}
         <PlaylistControls
@@ -69,9 +69,13 @@ const PlaylistItem = ({
           playlistId={playlist._id}
         />
         {isMyPlaylist && (
-          <button className="absolute right-0 top-0 hover:opacity-80 transition">
-            <MoreVertical color="#fff" />
-          </button>
+          <div className="absolute right-0 top-0 hover:opacity-80 transition">
+            <PlaylistDropdown playlistId={playlist._id}>
+              <button className="">
+                <MoreVertical color="#fff" />
+              </button>
+            </PlaylistDropdown>
+          </div>
         )}
       </div>
     </div>

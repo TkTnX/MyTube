@@ -1,24 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import PlaylistItem from "../components/Playlists/PlaylistItem";
 import { PlaylistType } from "../types";
 import { useUser } from "@clerk/clerk-react";
-
-const getUserPlaylists = async (username: string) => {
-  try {
-    const playlists = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/playlist/${username}`
-    );
-    return playlists.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { usePlaylistsControls } from "../hooks/usePlaylistsControls";
 
 const UserPlaylistsPage = () => {
   const { username } = useParams();
   const { user } = useUser();
+  const { getUserPlaylists } = usePlaylistsControls();
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["userPlaylists", username],
     queryFn: () => {

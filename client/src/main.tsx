@@ -9,6 +9,7 @@ import {
   ExploreCategoryPage,
   ExplorePage,
   Homepage,
+  PlaylistPage,
   PlaylistsPage,
   SignInPage,
   SignUpPage,
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "/playlists",
         element: <PlaylistsPage />,
+      },
+      {
+        path: "/playlists/:username/:playlistId",
+        element: <PlaylistPage />,
       },
     ],
   },

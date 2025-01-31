@@ -11,7 +11,7 @@ import ExplorePage from "./Explore";
 import ExploreCategoryPage from "./ExploreCategory";
 import PlaylistsPage from "./Playlists";
 import UserPlaylistsPage from "./UserPlaylists";
-
+import PlaylistPage from "./Playlist";
 export {
   Homepage,
   SignInPage,
@@ -26,4 +26,5 @@ export {
   ExploreCategoryPage,
   PlaylistsPage,
   UserPlaylistsPage,
+  PlaylistPage,
 };
