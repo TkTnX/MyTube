@@ -4,18 +4,7 @@ import { useUserStore } from "../../stores/useUserStore";
 import Image from "./Image";
 import { Plus } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-
-const addVideoToPlaylist = async (playlistId: string, videoId: string) => {
-  try {
-    const playlist = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/playlist/${playlistId}/${videoId}`
-    );
-    return playlist.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 
 const VideoAddToPlaylist = ({
   children,
@@ -26,6 +15,7 @@ const VideoAddToPlaylist = ({
 }) => {
   const [open, setOpen] = useState(false);
   const { user, loading } = useUserStore();
+  const { addVideoToPlaylist } = usePlaylistsControls();
 
   const mutation = useMutation({
     mutationFn: (playlistId: string) => addVideoToPlaylist(playlistId, videoId),

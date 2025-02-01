@@ -65,10 +65,23 @@ export const usePlaylistsControls = () => {
     }
   };
 
+  // ДОБАВЛЕНИЕ ВИДЕО В ПЛЕЙЛИСТ
+  const addVideoToPlaylist = async (playlistId: string, videoId: string) => {
+    try {
+      const playlist = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/playlist/${playlistId}/${videoId}`
+      );
+      return playlist.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getUserPlaylists,
     createPlaylist,
     deletePlaylist,
     editPlaylist,
+    addVideoToPlaylist,
   };
 };
