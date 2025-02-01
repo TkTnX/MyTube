@@ -9,19 +9,31 @@ import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 type Props = {
   children: React.ReactNode;
   userId: string;
+  type: "edit" | "add";
+  playlistId?: string;
 };
 
-const PlaylistAddForm: React.FC<Props> = ({ children, userId }) => {
+const PlaylistAddForm: React.FC<Props> = ({
+  children,
+  userId,
+  type,
+  playlistId,
+}) => {
   const [open, setOpen] = useState(false);
-  const { createPlaylist } = usePlaylistsControls();
+  const { createPlaylist, editPlaylist } = usePlaylistsControls();
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<z.typeToFlattenedError<
     z.infer<typeof playlistValidationSchema>
   > | null>(null);
 
   const mutation = useMutation({
-    mutationFn: (data: { title: string; authorClerkId: string }) =>
-      createPlaylist(data),
+    mutationFn: (data: { title: string; authorClerkId: string }) => {
+      if (type === "add") {
+        return createPlaylist(data);
+      } else {
+        return editPlaylist(data, playlistId!);
+      }
+    },
     onSuccess: async () => {
       setOpen(false);
       setErrors(null);
@@ -48,7 +60,9 @@ const PlaylistAddForm: React.FC<Props> = ({ children, userId }) => {
 
   return (
     <div>
-      <button onClick={() => setOpen(true)}>{children}</button>
+      <button className="w-full" onClick={() => setOpen(true)}>
+        {children}
+      </button>
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -58,15 +72,20 @@ const PlaylistAddForm: React.FC<Props> = ({ children, userId }) => {
       >
         <Box className=" bg-[#1d1d1d] rounded-3xl p-2 sm:p-6 w-full  sm:w-[400px]">
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Create playlist
+            {type === "add" ? "Create" : "Edit"} playlist
           </Typography>
           <form onSubmit={onSubmit} className="mt-4">
-            <Input name="title" placeholder="Title" required errors={errors} />
+            <Input
+              name="title"
+              placeholder={type === "add" ? "Title" : "New title"}
+              required
+              errors={errors}
+            />
             <button
               className="mt-3 text-center w-full bg-white text-black py-2 rounded-full font-medium hover:opacity-80 transition"
               type="submit"
             >
-              Create
+              {type === "add" ? "Create" : "Save"}
             </button>
           </form>
         </Box>

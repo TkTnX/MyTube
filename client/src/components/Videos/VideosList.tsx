@@ -3,14 +3,24 @@ import VideosListItem from "../ui/VideosListItem";
 import { useSearchParams } from "react-router-dom";
 import VideosSkeleton from "../ui/VideosSkeleton";
 import { useVideoControls } from "../../hooks/useVideoControls";
+import { useUserStore } from "../../stores/useUserStore";
+import { useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
 
 const VideosList = () => {
   const [searchParams] = useSearchParams();
+  const { user: clerkUser } = useUser();
+  const { getUser } = useUserStore();
   const { getVideos } = useVideoControls({ videoId: "" });
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["videos", searchParams.get("category")],
     queryFn: () => getVideos(searchParams.get("category") || ""),
   });
+
+  useEffect(() => {
+    if (clerkUser) getUser(clerkUser.id, "playlists");
+  }, [clerkUser]);
+
   if (isPending) return <VideosSkeleton />;
 
   if (isError || !data) {

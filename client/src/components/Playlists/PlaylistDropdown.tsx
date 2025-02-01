@@ -3,8 +3,10 @@ import { Menu } from "@mui/base/Menu";
 import { MenuButton } from "@mui/base/MenuButton";
 import { MenuItem } from "@mui/base/MenuItem";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
+import PlaylistAddForm from "./PlaylistAddForm";
+import { useUser } from "@clerk/clerk-react";
 
 type Props = {
   children: React.ReactNode;
@@ -12,6 +14,7 @@ type Props = {
 };
 
 const PlaylistDropdown: React.FC<Props> = ({ children, playlistId }) => {
+  const { user } = useUser();
   const { deletePlaylist } = usePlaylistsControls();
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -30,6 +33,19 @@ const PlaylistDropdown: React.FC<Props> = ({ children, playlistId }) => {
           >
             <Trash /> <span>Delete</span>
           </button>
+        </MenuItem>
+        <MenuItem className="!mt-5 !w-full">
+          <PlaylistAddForm
+            userId={user?.id as string}
+            type="edit"
+            playlistId={playlistId}
+          >
+            <button
+              className="flex items-center gap-3 hover:opacity-80  rounded-2xl w-full"
+            >
+              <Edit /> <span>Edit</span>
+            </button>
+          </PlaylistAddForm>
         </MenuItem>
       </Menu>
     </Dropdown>

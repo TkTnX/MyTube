@@ -47,9 +47,28 @@ export const usePlaylistsControls = () => {
     }
   };
 
+  // РЕДАКТИРОВАНИЕ ПЛЕЙЛИСТА
+
+  const editPlaylist = async (
+    data: { title: string; authorClerkId: string },
+    playlistId: string
+  ) => {
+    try {
+      const playlist = await axios.patch(
+        `${import.meta.env.VITE_BACKEND_URL}/playlist/${playlistId}`,
+        data
+      );
+
+      return playlist.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getUserPlaylists,
     createPlaylist,
     deletePlaylist,
+    editPlaylist,
   };
 };

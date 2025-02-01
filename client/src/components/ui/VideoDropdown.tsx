@@ -7,6 +7,7 @@ import { VideoType } from "../../types";
 import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useVideoControls } from "../../hooks/useVideoControls";
+import VideoAddToPlaylist from "./VideoAddToPlaylist";
 
 const VideoDropdown = ({
   video,
@@ -41,9 +42,11 @@ const VideoDropdown = ({
           </MenuItem>
         )}
         <MenuItem className="!mb-5">
-          <button className="flex items-center gap-3 hover:opacity-80  rounded-2xl w-full">
-            <ListVideo /> <span>Add to playlist</span>
-          </button>
+          <VideoAddToPlaylist videoId={video._id}>
+            <button className="flex items-center gap-3 hover:opacity-80  rounded-2xl w-full">
+              <ListVideo /> <span>Add to playlist</span>
+            </button>
+          </VideoAddToPlaylist>
         </MenuItem>
         <MenuItem className="!mb-5">
           <button className="flex items-center gap-3 hover:opacity-80  rounded-2xl w-full">

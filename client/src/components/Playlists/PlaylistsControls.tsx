@@ -38,7 +38,7 @@ const PlaylistsControls: React.FC<Props> = ({ userId, setSearchValue }) => {
             className="placeholder:text-[#aaa] bg-inherit outline-none flex-1 pr-4 rounded-full"
           />
         </form>
-        <PlaylistAddForm userId={userId}>
+        <PlaylistAddForm type="add" userId={userId}>
           <button className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition">
             <Plus /> <span>Create</span>
           </button>
