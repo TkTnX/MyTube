@@ -40,7 +40,7 @@ export type VideoType = {
   videoUrl: string;
   category: string;
   views: number;
-  author: AuthorType;
+  author: UserType;
   likes: number;
   dislikes: number;
   _id: string;

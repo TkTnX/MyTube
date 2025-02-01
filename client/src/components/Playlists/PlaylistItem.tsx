@@ -5,19 +5,25 @@ import PlaylistControls from "./PlaylistControls";
 import PlaylistInformation from "./PlaylistInformation";
 import { PlaylistType } from "../../types";
 import PlaylistDropdown from "./PlaylistDropdown";
+import PlaylistAuthor from "./PlaylistAuthor";
 
 // TODO: Возможность удалять видео из плейлистов
-// TODO: сделать так, чтобы при повторном добавлении видео из плейлиста удаляется и будет выглядить, как checkbox
-// TODO: Страница плейлиста, на котором будут выводиться видео этого плейлиста. Справа будет отображаться название плейлиста и его видео
 
 type Props = {
   playlist: PlaylistType;
   isMyPlaylist?: boolean;
+  className?: string;
 };
 
-const PlaylistItem: React.FC<Props> = ({ playlist, isMyPlaylist = false }) => {
+const PlaylistItem: React.FC<Props> = ({
+  playlist,
+  isMyPlaylist = false,
+  className,
+}) => {
   return (
-    <div className="flex lg:items-start gap-4 relative flex-col lg:flex-row items-center border-b border-b-[#333] pb-10">
+    <div
+      className={`flex lg:items-start gap-4 relative flex-col lg:flex-row items-center border-b border-b-[#333] pb-10 ${className}`}
+    >
       <Link to={`/playlists/${playlist.author.username}/${playlist._id}`}>
         {playlist?.videos?.length > 0 ? (
           <Image
@@ -33,30 +39,16 @@ const PlaylistItem: React.FC<Props> = ({ playlist, isMyPlaylist = false }) => {
       </Link>
       <div>
         <Link
-          to={`/playlists/${playlist._id}`}
+          to={`/playlists/${playlist.author.username}/${playlist._id}`}
           className="font-medium text-lg leading-6 w-full block"
         >
           {playlist.title}
         </Link>
         {/* PLAYLIST AUTHOR */}
-        <Link
-          className="flex items-center gap-4 mt-4"
-          to={`/channel/${playlist.author.username}`}
-        >
-          <img
-            className="rounded-full object-cover"
-            src={playlist.author.img}
-            alt={playlist.author.username}
-            width="28"
-            height="28"
-          />
-          <h6>{playlist.author.username}</h6>
-          <p className="text-sm text-[#aaa]">
-            {playlist.author.subscribers.length} subscribers
-          </p>
-        </Link>
+        <PlaylistAuthor author={playlist.author} className="mt-6" />
         {/* PLAYLIST INFORMATION */}
         <PlaylistInformation
+          className="mt-6"
           totalViews={playlist?.videos?.reduce((a, b) => a + b.views, 0)}
           totalVideos={playlist?.videos?.length}
         />

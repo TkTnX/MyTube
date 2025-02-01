@@ -1,9 +1,9 @@
-import { Box, Modal } from "@mui/material";
+import { Box, Checkbox, Modal } from "@mui/material";
 import { useState } from "react";
 import { useUserStore } from "../../stores/useUserStore";
 import Image from "./Image";
-import { Plus } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { Minus, Plus } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 
 const VideoAddToPlaylist = ({
@@ -14,15 +14,26 @@ const VideoAddToPlaylist = ({
   videoId: string;
 }) => {
   const [open, setOpen] = useState(false);
-  const { user, loading } = useUserStore();
+  const { user, loading, getUser } = useUserStore();
+  const queryClient = useQueryClient();
   const { addVideoToPlaylist } = usePlaylistsControls();
 
   const mutation = useMutation({
     mutationFn: (playlistId: string) => addVideoToPlaylist(playlistId, videoId),
-    onSuccess: () => setOpen(false),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      setOpen(false);
+      getUser(user?.clerkId as string, "playlists");
+    },
   });
 
   if (!user || !user.playlists) return null;
+
+  const isAddedToPlaylist = (playlistId: string) => {
+    const playlist = user.playlists.find((p) => p._id === playlistId);
+    if (!playlist || !playlist.videos) return false;
+    return !!playlist.videos.find((v) => v._id === videoId);
+  };
 
   return (
     <div>
@@ -45,6 +56,7 @@ const VideoAddToPlaylist = ({
                 key={playlist._id}
               >
                 <div className="flex items-start gap-3">
+                  <Checkbox checked={isAddedToPlaylist(playlist._id)} />
                   {playlist?.videos?.length > 0 ? (
                     <Image
                       src={playlist?.videos[0]?.previewUrl as string}
@@ -58,7 +70,7 @@ const VideoAddToPlaylist = ({
                   )}
                   <p>{playlist.title}</p>
                 </div>
-                <Plus />
+                {isAddedToPlaylist(playlist._id) ? <Minus /> : <Plus />}
               </button>
             ))
           ) : (

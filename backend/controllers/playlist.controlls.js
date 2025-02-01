@@ -6,7 +6,10 @@ import Video from "../models/video.model.js";
 export const getPlaylistById = async (req, res) => {
   try {
     const id = req.params.id;
-    const playlist = await Playlist.findById(id);
+    const playlist = await Playlist.findById(id).populate("author").populate({
+      path: "videos",
+      populate: "author",
+    });
 
     res.status(200).send(playlist);
   } catch (error) {
@@ -117,18 +120,22 @@ export const addVideoToPlaylist = async (req, res) => {
     if (!playlist || !playlist._id)
       return res.status(404).json({ error: "Playlist not found" });
 
-    // TODO: В будущем сделать так, чтобы при повторном добавлении он удалялся и было, как checkbox
-    if (playlist.videos.includes(videoObjectId))
-      return res.status(400).json({ error: "Video already in playlist" });
-
     const video = await Video.findOne(videoObjectId);
     if (!video) return res.status(404).json({ error: "Video not found" });
+
+    if (playlist.videos.includes(video._id)) {
+      await Playlist.findOneAndUpdate(playlist._id, {
+        $pull: { videos: video._id },
+      });
+
+      return res.status(200).send(playlist);
+    }
 
     await Playlist.findOneAndUpdate(playlist._id, {
       $push: { videos: video._id },
     });
 
-    res.status(200).send(playlist);
+    return res.status(200).send(playlist);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);

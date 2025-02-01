@@ -6,9 +6,14 @@ import React from "react";
 type Props = {
   userId: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  isPlaylistPage?: boolean;
 };
 
-const PlaylistsControls: React.FC<Props> = ({ userId, setSearchValue }) => {
+const PlaylistsControls: React.FC<Props> = ({
+  userId,
+  setSearchValue,
+  isPlaylistPage = false,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
   console.log(searchParams);
   return (
@@ -38,11 +43,13 @@ const PlaylistsControls: React.FC<Props> = ({ userId, setSearchValue }) => {
             className="placeholder:text-[#aaa] bg-inherit outline-none flex-1 pr-4 rounded-full"
           />
         </form>
-        <PlaylistAddForm type="add" userId={userId}>
-          <button className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition">
-            <Plus /> <span>Create</span>
-          </button>
-        </PlaylistAddForm>
+        {!isPlaylistPage && (
+          <PlaylistAddForm type="add" userId={userId}>
+            <button className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition">
+              <Plus /> <span>Create</span>
+            </button>
+          </PlaylistAddForm>
+        )}
       </div>
     </div>
   );

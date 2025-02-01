@@ -8,12 +8,12 @@ import AvatarLink from "./AvatarLink";
 import VideoDropdown from "./VideoDropdown";
 const VideosListItem = ({
   video,
-  className,
   isChannelPage = false,
+  className,
 }: {
   video: VideoType;
-  className?: string;
   isChannelPage?: boolean;
+  className?: string;
 }) => {
   return (
     <div

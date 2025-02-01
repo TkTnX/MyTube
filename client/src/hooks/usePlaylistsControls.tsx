@@ -16,6 +16,20 @@ export const usePlaylistsControls = () => {
     }
   };
 
+  // ПОЛУЧЕНИЕ 1 ПЛЕЙЛИСТА
+
+  const getPlaylist = async (playlistId: string, username: string) => {
+    try {
+      const playlist = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/playlist/${username}/${playlistId}`
+      );
+
+      return playlist.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // СОЗДАНИЕ ПЛЕЙЛИСТА
 
   const createPlaylist = async (data: {
@@ -83,5 +97,6 @@ export const usePlaylistsControls = () => {
     deletePlaylist,
     editPlaylist,
     addVideoToPlaylist,
+    getPlaylist,
   };
 };
