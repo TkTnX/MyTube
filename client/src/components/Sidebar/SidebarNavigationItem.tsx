@@ -50,6 +50,7 @@ const SidebarNavigationItem = ({
       >
         {item.title}
       </span>
+
     </Link>
   );
 };

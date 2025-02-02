@@ -2,14 +2,16 @@ import { Forward, Play, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import PlaylistItemShare from "./PlaylistItemShare";
 
-const PlaylistControls = ({
-  playlistId,
-  authorUsername,
-  isMyPlaylist,
-}: {
+type Props = {
   playlistId: string;
   authorUsername: string;
   isMyPlaylist: boolean;
+};
+
+const PlaylistControls: React.FC<Props> = ({
+  playlistId,
+  authorUsername,
+  isMyPlaylist,
 }) => {
   return (
     <div className="flex items-center gap-4 mt-5 flex-wrap">
@@ -27,10 +29,13 @@ const PlaylistControls = ({
         </button>
       </PlaylistItemShare>
       {isMyPlaylist && (
-        <button className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition">
+        <Link
+          to="/explore"
+          className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition"
+        >
           <Plus />
           <span className=" font-medium">Add video</span>
-        </button>
+        </Link>
       )}
     </div>
   );

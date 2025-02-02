@@ -28,7 +28,10 @@ const Sidebar = () => {
         {/* Sidebar Website Navigation */}
         <SidebarNavigationList items={SidebarNavigationItems1} />
         {/* Sidebar User Navigation */}
-        <SidebarNavigationList items={SidebarNavigationItems2} />
+        <SidebarNavigationList
+          isUserNav={true}
+          items={SidebarNavigationItems2}
+        />
       </div>
     </div>
   );

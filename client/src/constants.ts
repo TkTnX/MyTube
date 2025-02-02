@@ -66,11 +66,6 @@ export const SidebarNavigationItems2: SidebarNavigationItemType[] = [
     href: "/liked",
     imgPath: "/icons/liked",
   },
-  {
-    title: "Playlists",
-    href: "/playlists",
-    imgPath: "/icons/playlists",
-  },
 ];
 
 export const ChannelLinksList = [
