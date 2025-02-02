@@ -12,7 +12,7 @@ const Sidebar = () => {
   return (
     <div
       className={twMerge(
-        "text-center sm:text-left vsm:h-full md:min-w-60 md:h-[calc(100vh-80px)] flex items-center  vsm:block fixed -mx-4 vsm:-mx-0 mt-2 vsm:mt-0  bottom-0  right-0 top-auto left-0 vsm:top-20 vsm:sticky bg-[#1a1a1a] vsm:bg-inherit z-[9]",
+        "text-center sm:text-left vsm:h-full md:min-w-60 md:h-[calc(100vh-80px)] flex items-center  vsm:block fixed -mx-4 vsm:-mx-0 mt-2 vsm:mt-0  bottom-0  right-0 top-auto left-0 vsm:top-20 vsm:sticky bg-[#1a1a1a] vsm:bg-inherit z-[9] overflow-y-auto",
         !isOpen && "md:min-w-0 !text-center "
       )}
     >
