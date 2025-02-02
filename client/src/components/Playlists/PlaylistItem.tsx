@@ -7,7 +7,12 @@ import { PlaylistType } from "../../types";
 import PlaylistDropdown from "./PlaylistDropdown";
 import PlaylistAuthor from "./PlaylistAuthor";
 
-// TODO: Возможность удалять видео из плейлистов
+// * TODO: Возможность удалять видео из плейлистов
+// * TODO: Если в плейлисте нет видео, то показать что-то
+// * TODO: Фикс бага, если нажать на add to playlist на странице плейлиста, там должно отображаться. Возможно заменить эту кнопку на "удалить из плейлиста"
+// * TODO: Сортировка в странице плейлиста
+// * TODO: Адаптив
+// TODO: В сайдбаре сделать выпадающее меню, в котором отображаются плейлисты пользователя (см. макет)
 
 type Props = {
   playlist: PlaylistType;

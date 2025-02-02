@@ -7,14 +7,28 @@ import PlaylistInformation from "../Playlists/PlaylistInformation";
 import { LikeButtons } from "../VideoPlayer";
 import PlaylistAuthor from "../Playlists/PlaylistAuthor";
 
-const VideoPlaylistItem = ({ video }: { video: VideoType }) => {
+type Props = {
+  video: VideoType;
+  isPlaylistPage: boolean;
+  playlistId?: string;
+};
+
+const VideoPlaylistItem: React.FC<Props> = ({
+  video,
+  isPlaylistPage,
+  playlistId,
+}) => {
   return (
-    <div className={"justify-self-center  relative flex w-full gap-4"}>
+    <div
+      className={
+        "justify-self-center  relative flex w-full flex-col sm:flex-row gap-2  sm:gap-4"
+      }
+    >
       <Link
         to={`/watch/${video._id}`}
         className="w-full h-full absolute inset-0  z-[1] "
       />
-      <div className="rounded-2xl overflow-hidden relative bg-[#aaa]">
+      <div className="rounded-2xl overflow-hidden relative bg-[#aaa] md:min-w-[159px] xl:min-w-[259px] md:min-h-[130px] xl:min-h-[146px]">
         <Image
           src={video.previewUrl}
           alt="Video"
@@ -29,10 +43,11 @@ const VideoPlaylistItem = ({ video }: { video: VideoType }) => {
           <h6 className="font-medium text-lg text-white leading-6 big-text">
             {video.title}
           </h6>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-row sm:flex-col  md:flex-row items-start lg:items-center gap-4">
             <PlaylistInformation
               totalViews={video.views}
               createdAt={video.createdAt}
+              className="gap-1 lg:gap-6 items-start flex-col lg:flex-row"
             />
             <LikeButtons
               videoId={video._id}
@@ -42,7 +57,11 @@ const VideoPlaylistItem = ({ video }: { video: VideoType }) => {
           </div>
           <PlaylistAuthor author={video.author} />
         </div>
-        <VideoDropdown video={video}>
+        <VideoDropdown
+          playlistId={playlistId}
+          isPlaylistPage={isPlaylistPage}
+          video={video}
+        >
           <button>
             <MoreVertical size={24} />
           </button>

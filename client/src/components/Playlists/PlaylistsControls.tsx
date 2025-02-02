@@ -15,22 +15,37 @@ const PlaylistsControls: React.FC<Props> = ({
   isPlaylistPage = false,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams);
+
   return (
     <div className="flex items-center justify-between flex-col vsm:flex-row gap-2 vsm:gap-0">
       <select
+        value={searchParams.get("sort") || ""}
         onChange={(e) => setSearchParams({ sort: e.target.value })}
         className="bg-[#333333] p-1 rounded-lg w-full vsm:w-auto"
       >
         <option value="" disabled selected hidden className="bg-[#111111]">
           Sort by
         </option>
-        <option value="createdAt" className="bg-[#111111]">
-          Created date
-        </option>
-        <option value="videos" className="bg-[#111111]">
-          Videos count
-        </option>
+
+        {isPlaylistPage ? (
+          <>
+            <option value="addedAt" className="bg-[#111111]">
+              Added date
+            </option>
+            <option value="views" className="bg-[#111111]">
+              Views
+            </option>
+          </>
+        ) : (
+          <>
+            <option value="createdAt" className="bg-[#111111]">
+              Created date
+            </option>
+            <option value="videos" className="bg-[#111111]">
+              Videos count
+            </option>
+          </>
+        )}
       </select>
 
       <div className="w-full vsm:w-auto flex items-center gap-2">

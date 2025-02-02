@@ -1,4 +1,5 @@
 import { Calendar, Eye, Play } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   totalViews: number;
@@ -14,7 +15,7 @@ const PlaylistInformation: React.FC<Props> = ({
   className,
 }) => {
   return (
-    <div className={`flex items-center gap-6 ${className}`}>
+    <div className={twMerge("flex items-center gap-6 ", className)}>
       <div className="flex items-center gap-1">
         <Eye size={24} color="#585858" />
         <p>

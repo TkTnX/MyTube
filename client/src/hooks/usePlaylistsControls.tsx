@@ -18,10 +18,18 @@ export const usePlaylistsControls = () => {
 
   // ПОЛУЧЕНИЕ 1 ПЛЕЙЛИСТА
 
-  const getPlaylist = async (playlistId: string, username: string) => {
+  const getPlaylist = async (
+    playlistId: string,
+    username: string,
+    sort?: string
+  ) => {
     try {
       const playlist = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/playlist/${username}/${playlistId}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/playlist/${username}/${playlistId}${
+          sort !== "" ? `?sort=${sort}` : ""
+        }`
       );
 
       return playlist.data;
@@ -91,6 +99,21 @@ export const usePlaylistsControls = () => {
     }
   };
 
+  // УДАЛЕНИЕ ВИДЕО ИЗ ПЛЕЙЛИСТА
+
+  const removeFromPlaylist = async (videoId: string, playlistId: string) => {
+    try {
+      const playlist = await axios.patch(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/playlist/remove/${playlistId}/${videoId}`
+      );
+      return playlist.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getUserPlaylists,
     createPlaylist,
@@ -98,5 +121,6 @@ export const usePlaylistsControls = () => {
     editPlaylist,
     addVideoToPlaylist,
     getPlaylist,
+    removeFromPlaylist,
   };
 };

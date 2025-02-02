@@ -1,27 +1,33 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import PlaylistItem from "../components/Playlists/PlaylistItem";
 import { useQuery } from "@tanstack/react-query";
 import { usePlaylistsControls } from "../hooks/usePlaylistsControls";
 import PlaylistsControls from "../components/Playlists/PlaylistsControls";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-react";
 import { VideoType } from "../types";
 import VideoPlaylistItem from "../components/ui/VideoPlaylistItem";
-
-// TODO: ДОДЕЛАТЬ ЭТУ СТРАНИЦУ
-// TODO: фиксы багов
+import { useUserStore } from "../stores/useUserStore";
 
 const PlaylistPage = () => {
   const { playlistId, username } = useParams();
   const [searchValue, setSearchValue] = useState("");
+  const [searchParams] = useSearchParams();
   const { user: clerkUser } = useUser();
+  const { getUser, user } = useUserStore();
   const { getPlaylist } = usePlaylistsControls();
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["playlist", playlistId],
-    queryFn: () => getPlaylist(playlistId!, username!),
+    queryKey: ["playlist", playlistId, searchParams.get("sort")],
+    queryFn: () =>
+      getPlaylist(playlistId!, username!, searchParams.get("sort") || ""),
   });
 
-  console.log(data);
+  useEffect(() => {
+    if (!user) {
+      getUser(clerkUser?.id as string, "playlists");
+    }
+  }, [clerkUser]);
+
   const filter = (v: VideoType) =>
     v.title.toLowerCase().includes(searchValue.toLowerCase());
 
@@ -48,10 +54,23 @@ const PlaylistPage = () => {
             data.videos
               .filter(filter)
               .map((video: VideoType) => (
-                <VideoPlaylistItem key={video._id} video={video} />
+                <VideoPlaylistItem
+                  playlistId={playlistId}
+                  isPlaylistPage={true}
+                  key={video._id}
+                  video={video}
+                />
               ))
           ) : (
-            <p>No videos</p>
+            <div className="text-center">
+              <p className="text-sm text-[#aaa]">No videos yet</p>
+              <Link
+                to="/explore"
+                className="text-sm bg-[#fa0044] py-2 px-4 rounded-lg mt-4 block w-fit mx-auto hover:opacity-80 transition  "
+              >
+                Add more videos
+              </Link>
+            </div>
           )}
         </div>
       </div>

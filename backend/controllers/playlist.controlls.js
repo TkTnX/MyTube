@@ -6,10 +6,19 @@ import Video from "../models/video.model.js";
 export const getPlaylistById = async (req, res) => {
   try {
     const id = req.params.id;
+    const sort = req.query.sort;
     const playlist = await Playlist.findById(id).populate("author").populate({
       path: "videos",
       populate: "author",
     });
+
+    if (!playlist) return res.status(404).json({ error: "Playlist not found" });
+
+    if (sort === "views") {
+      playlist.videos.sort((a, b) => b.views - a.views);
+    } else {
+      playlist.videos.sort((a, b) => a - b);
+    }
 
     res.status(200).send(playlist);
   } catch (error) {
@@ -133,6 +142,32 @@ export const addVideoToPlaylist = async (req, res) => {
 
     await Playlist.findOneAndUpdate(playlist._id, {
       $push: { videos: video._id },
+    });
+
+    return res.status(200).send(playlist);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
+export const removeVideoFromPlaylist = async (req, res) => {
+  try {
+    const playlistId = req.params.playlistId;
+    const videoId = req.params.videoId;
+
+    const playlistObjectId = new mongoose.Types.ObjectId(playlistId);
+    const videoObjectId = new mongoose.Types.ObjectId(videoId);
+
+    const playlist = await Playlist.findOne(playlistObjectId);
+    if (!playlist || !playlist._id)
+      return res.status(404).json({ error: "Playlist not found" });
+
+    const video = await Video.findOne(videoObjectId);
+    if (!video) return res.status(404).json({ error: "Video not found" });
+
+    await Playlist.findOneAndUpdate(playlist._id, {
+      $pull: { videos: video._id },
     });
 
     return res.status(200).send(playlist);
