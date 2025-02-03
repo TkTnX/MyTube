@@ -4,7 +4,11 @@ export const getUser = async (req, res) => {
   const user = await User.findOne({
     clerkId: req.params.id,
   }).populate(
-    populate !== undefined ? { path: populate, populate: "videos" } : ""
+    populate !== undefined
+      ? populate === "playlists"
+        ? { path: populate, populate: "videos" }
+        : { path: populate, populate: "author" }
+      : ""
   );
   res.status(200).json(user);
 };

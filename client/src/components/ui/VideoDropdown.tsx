@@ -43,7 +43,6 @@ const VideoDropdown: React.FC<Props> = ({
     },
   });
 
-
   return (
     <Dropdown>
       <MenuButton className="relative z-[1]">{children}</MenuButton>
@@ -59,7 +58,8 @@ const VideoDropdown: React.FC<Props> = ({
             </button>
           </MenuItem>
         )}
-        {isPlaylistPage && user?.playlists.find((p) => p._id === playlistId!) ? (
+        {isPlaylistPage &&
+        user?.playlists.find((p) => p._id === playlistId!) ? (
           <MenuItem className="!mb-5">
             <button
               onClick={() => removeFromPlaylistMutation.mutate()}
@@ -70,10 +70,11 @@ const VideoDropdown: React.FC<Props> = ({
           </MenuItem>
         ) : (
           <MenuItem className="!mb-5">
-            <VideoAddToPlaylist videoId={video._id}>
-              <button className="flex items-center gap-3 hover:opacity-80  rounded-2xl w-full">
-                <ListVideo /> <span>Add to playlist</span>
-              </button>
+            <VideoAddToPlaylist
+              className="flex items-center gap-3 hover:opacity-80  rounded-2xl w-full"
+              videoId={video._id}
+            >
+              <ListVideo /> <span>Add to playlist</span>
             </VideoAddToPlaylist>
           </MenuItem>
         )}

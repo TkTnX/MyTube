@@ -5,14 +5,25 @@ import { useSidebarStore } from "../../stores/useSidebarStore";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { useUserStore } from "../../stores/useUserStore";
+import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
+import { useQuery } from "@tanstack/react-query";
+import { PlaylistType } from "../../types";
 
 const SidebarNavigationPlaylistItem = () => {
   const isOpen = useSidebarStore((state) => state.isOpen);
   const [openDropdown, setOpenDropdown] = useState(false);
   const { user: clerkUser } = useUser();
-  const { user } = useUserStore();
+  const { getUserPlaylists } = usePlaylistsControls();
   const { playlistId } = useParams();
+
+  const { data } = useQuery({
+    queryKey: ["playlist", playlistId],
+    queryFn: () => {
+      if (clerkUser) return getUserPlaylists(clerkUser.username as string);
+    },
+    enabled: !!clerkUser,
+  });
+
   if (!clerkUser) return null;
   return (
     <div className="w-full">
@@ -59,21 +70,25 @@ const SidebarNavigationPlaylistItem = () => {
       </button>
       {openDropdown && (
         <div className="flex flex-col gap-2 p-2">
-          {user?.playlists.map((playlist) => (
-            <Link
-              to={`/playlists/${user.username}/${playlist._id}`}
-              key={playlist._id}
-              className={twMerge(
-                "block w-full p-3 rounded-lg hover:bg-[#333] transition",
-                [
-                  playlistId === playlist._id && "bg-[#332729] text-white",
-                  !isOpen && "p-1 text-xs",
-                ]
-              )}
-            >
-              {playlist.title}
-            </Link>
-          ))}
+          {data && data.length > 0 ? (
+            data.map((playlist: PlaylistType) => (
+              <Link
+                to={`/playlists/${playlist.author.username}/${playlist._id}`}
+                key={playlist._id}
+                className={twMerge(
+                  "block w-full p-3 rounded-lg hover:bg-[#333] transition",
+                  [
+                    playlistId === playlist._id && "bg-[#332729] text-white",
+                    !isOpen && "p-1 text-xs",
+                  ]
+                )}
+              >
+                {playlist.title}
+              </Link>
+            ))
+          ) : (
+            <p className="text-xs text-[#aaa]">No playlists</p>
+          )}
         </div>
       )}
     </div>

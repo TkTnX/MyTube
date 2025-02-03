@@ -6,12 +6,16 @@ import { Minus, Plus } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 
-const VideoAddToPlaylist = ({
-  children,
-  videoId,
-}: {
+type Props = {
   children: React.ReactNode;
   videoId: string;
+  className?: string;
+};
+
+const VideoAddToPlaylist: React.FC<Props> = ({
+  children,
+  videoId,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const { user, loading, getUser } = useUserStore();
@@ -37,7 +41,9 @@ const VideoAddToPlaylist = ({
 
   return (
     <div>
-      <button onClick={() => setOpen(true)}>{children}</button>
+      <button onClick={() => setOpen(true)} className={className}>
+        {children}
+      </button>
       <Modal
         open={open}
         onClose={() => setOpen(false)}

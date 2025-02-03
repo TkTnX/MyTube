@@ -10,7 +10,7 @@ export type UserType = {
   username: string;
   email: string;
   img: string;
-  likedVideos: string[];
+  likedVideos: string[] | VideoType[];
   dislikedVideos: string[];
   playlists: PlaylistType[];
   watchLater: string[];

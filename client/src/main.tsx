@@ -25,7 +25,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import { VideoNotFound } from "./components/VideoPlayer";
 import ChannelLayout from "./layouts/ChannelLayout";
-
+import LikedVideosPage from "./routes/LikedVideos";
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
@@ -91,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "/playlists/:username/:playlistId",
         element: <PlaylistPage />,
+      },
+      {
+        path: "/liked",
+        element: <LikedVideosPage />,
       },
     ],
   },
