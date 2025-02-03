@@ -2,6 +2,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useUserStore } from "../stores/useUserStore";
 import { useEffect } from "react";
 import VideoSmall from "../components/ui/VideoSmall";
+import { SmallVideosSkeleton } from "../components/Skeletons";
 
 const LikedVideosPage = () => {
   const { user: clerkUser } = useUser();
@@ -21,7 +22,7 @@ const LikedVideosPage = () => {
             <VideoSmall video={video} key={video._id} />
           ))
         ) : (
-          <div className="text-xs text-[#aaa]">Loading...</div>
+          <SmallVideosSkeleton className="w-full" />
         )}
       </div>
     </div>

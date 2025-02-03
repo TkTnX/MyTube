@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
 import { useChannelStore } from "../stores/useChannelStore";
+import { ChannelTopSkeleton } from "../components/Skeletons";
 
 const getChannel = async (username: string) => {
   try {
@@ -22,7 +23,7 @@ const ChannelLayout = () => {
   const { username } = useParams();
   const { setSubscribers } = useChannelStore();
   const getAuthorVideos = useChannelStore((state) => state.getAuthorVideos);
-  const { isLoading, isError, data, error } = useQuery({
+  const { isPending, isError, data, error } = useQuery({
     queryKey: ["channel", username],
     queryFn: async () => {
       if (!username) throw new Error("Username not found");
@@ -42,14 +43,14 @@ const ChannelLayout = () => {
     }
   }, [data, setSubscribers]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError || !data) return <div>Error: {error?.message}</div>;
+  if (isError && !isPending) return <div>Error: {error?.message}</div>;
   return (
     <div className="w-full overflow-x-hidden">
-      <ChannelTop channel={data} />
-      <ChannelLinks channelUsername={data.username} />
+      {isPending ? <ChannelTopSkeleton /> : <ChannelTop channel={data} />}
 
-      <Outlet context={data} />
+      <ChannelLinks channelUsername={data?.username || ""} />
+
+      {!isPending && <Outlet context={data} />}
     </div>
   );
 };

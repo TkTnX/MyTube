@@ -8,6 +8,7 @@ import UploadMedia from "../components/ui/UploadMedia";
 import axios from "axios";
 import Image from "../components/ui/Image";
 import useUpdateProfile from "../hooks/useUpdateProfile";
+import { UpdateChannelSkeleton } from "../components/Skeletons";
 
 const UpdateChannelPage = () => {
   const [coverImg, setCoverImg] = useState<string | null>(null);
@@ -32,7 +33,7 @@ const UpdateChannelPage = () => {
   }, [clerkUser, getUser, navigate]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <UpdateChannelSkeleton />;
   }
 
   if ((!isLoading && !user) || !user?._id) {

@@ -4,6 +4,7 @@ import PlaylistItem from "../components/Playlists/PlaylistItem";
 import { PlaylistType } from "../types";
 import { useUser } from "@clerk/clerk-react";
 import { usePlaylistsControls } from "../hooks/usePlaylistsControls";
+import { PlaylistVideosSkeleton } from "../components/Skeletons";
 
 const UserPlaylistsPage = () => {
   const { username } = useParams();
@@ -17,19 +18,17 @@ const UserPlaylistsPage = () => {
     },
   });
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <PlaylistVideosSkeleton className="mt-11" />;
   if (isError) return <div>Error: {error?.message}</div>;
   return (
-    <div className="">
-      <div className="flex flex-col gap-10 lg:gap-4 mt-11">
-        {data.map((playlist: PlaylistType) => (
-          <PlaylistItem
-            isMyPlaylist={user?.id === playlist.author.clerkId}
-            key={playlist._id}
-            playlist={{ ...playlist }}
-          />
-        ))}
-      </div>
+    <div className="flex flex-col gap-10 lg:gap-4 mt-11">
+      {data.map((playlist: PlaylistType) => (
+        <PlaylistItem
+          isMyPlaylist={user?.id === playlist.author.clerkId}
+          key={playlist._id}
+          playlist={{ ...playlist }}
+        />
+      ))}
     </div>
   );
 };

@@ -80,7 +80,7 @@ const VideoAddToPlaylist: React.FC<Props> = ({
               </button>
             ))
           ) : (
-            <p>Loading...</p>
+            <p className="text-xs text-[#888]">Loading...</p>
           )}
         </Box>
       </Modal>

@@ -4,6 +4,7 @@ import { useCategoriesControls } from "../hooks/useCategoriesControls";
 import Image from "../components/ui/Image";
 import VideosListItem from "../components/ui/VideosListItem";
 import { VideoType } from "../types";
+import { ExploreCategorySkeleton } from "../components/Skeletons";
 
 const ExploreCategoryPage = () => {
   const { category: categoryParams } = useParams();
@@ -16,9 +17,9 @@ const ExploreCategoryPage = () => {
   });
 
   if (isError) return <span>Error: {error?.message}</span>;
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <ExploreCategorySkeleton />;
   return (
-    <div className="">
+    <div className="mt-10">
       <div className="flex items-center gap-6">
         <Image
           src={data[0].img}

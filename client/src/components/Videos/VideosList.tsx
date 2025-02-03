@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import VideosListItem from "../ui/VideosListItem";
 import { useSearchParams } from "react-router-dom";
-import VideosSkeleton from "../ui/VideosSkeleton";
 import { useVideoControls } from "../../hooks/useVideoControls";
 import { useUserStore } from "../../stores/useUserStore";
 import { useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
+import { VideosListSkeleton } from "../Skeletons";
 
 const VideosList = () => {
   const [searchParams] = useSearchParams();
@@ -21,7 +21,7 @@ const VideosList = () => {
     if (clerkUser) getUser(clerkUser.id, "playlists");
   }, [clerkUser]);
 
-  if (isPending) return <VideosSkeleton />;
+  if (isPending) return <VideosListSkeleton />;
 
   if (isError || !data) {
     return <span>Error: {error.message}</span>;

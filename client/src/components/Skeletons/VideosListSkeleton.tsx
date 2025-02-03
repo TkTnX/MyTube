@@ -1,12 +1,11 @@
 import { twMerge } from "tailwind-merge";
 
-const VideosSkeleton = ({
-  className,
-  count,
-}: {
+type Props = {
   className?: string;
   count?: number;
-}) => {
+};
+
+const VideosListSkeleton: React.FC<Props> = ({ className, count }) => {
   return (
     <div
       className={twMerge(
@@ -24,4 +23,4 @@ const VideosSkeleton = ({
   );
 };
 
-export default VideosSkeleton;
+export default VideosListSkeleton;

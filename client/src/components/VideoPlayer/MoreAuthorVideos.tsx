@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { AuthorType, VideoType } from "../../types";
+import { UserType, VideoType } from "../../types";
 import VideoSmall from "../ui/VideoSmall";
 import axios from "axios";
+import { SmallVideosSkeleton } from "../Skeletons";
 
 const getAuthorVideos = async (authorId: string) => {
   try {
@@ -20,7 +21,7 @@ const MoreAuthorVideos = ({
   author,
   videoId,
 }: {
-  author: AuthorType;
+  author: UserType;
   videoId: string;
 }) => {
   const { isPending, data, isError } = useQuery({
@@ -38,7 +39,7 @@ const MoreAuthorVideos = ({
         From {author.username}
       </h5>
       {isPending ? (
-        <div>Loading...</div>
+        <SmallVideosSkeleton className="mt-3" />
       ) : (
         <div className="mt-3 flex flex-col gap-3">
           {data.filter((v: VideoType) => v._id !== videoId).length > 0 ? (

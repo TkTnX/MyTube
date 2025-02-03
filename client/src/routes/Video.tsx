@@ -17,6 +17,7 @@ import { useChannelStore } from "../stores/useChannelStore";
 import Comments from "../components/Comments/Comments";
 import { useVideoControls } from "../hooks/useVideoControls";
 import { twMerge } from "tailwind-merge";
+import VideoSkeleton from "../components/Skeletons/VideoSkeleton";
 
 const VideoPage = () => {
   const { id } = useParams();
@@ -50,15 +51,17 @@ const VideoPage = () => {
     }
   }, [data, id]);
 
-  if (isPending) return <div>Loading...</div>;
   if (isError) return <span>Error: {error.message}</span>;
+  if (isPending) return <VideoSkeleton />;
   if (!data) return <VideoNotFound />;
   return (
     <div className="w-full h-full mt-6 flex items-start flex-col xl:flex-row gap-4  2xl:gap-8">
       {/* PLAYER */}
       <div className="w-full xl:w-4/6 2xl:w-3/4">
         {/* VIDEO */}
+
         <VideoPlayer url={data.videoUrl} />
+
         <p
           className={twMerge(
             "mt-5 font-semibold text-xl ",

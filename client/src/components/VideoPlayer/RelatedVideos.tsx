@@ -1,7 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import VideoSmall from "../ui/VideoSmall";
-import { AuthorType, VideoType } from "../../types";
+import { UserType, VideoType } from "../../types";
+import { SmallVideosSkeleton } from "../Skeletons";
+
+type Props = {
+  videoCategory: string;
+  videoId: string;
+  author: UserType;
+};
 
 const getRelatedVideos = async (category: string) => {
   try {
@@ -16,15 +23,7 @@ const getRelatedVideos = async (category: string) => {
   }
 };
 
-const RelatedVideos = ({
-  videoCategory,
-  videoId,
-  author,
-}: {
-  videoCategory: string;
-  videoId: string;
-  author: AuthorType;
-}) => {
+const RelatedVideos: React.FC<Props> = ({ videoCategory, videoId, author }) => {
   const { isPending, isError, data } = useQuery({
     queryKey: ["relatedVideos", videoCategory],
     queryFn: () => getRelatedVideos(videoCategory),
@@ -38,7 +37,7 @@ const RelatedVideos = ({
       </h5>
       <div className="mt-3 flex flex-col gap-3">
         {isPending ? (
-          <div>Loading...</div>
+          <SmallVideosSkeleton className="mt-3" />
         ) : data.filter((v: VideoType) => v._id !== videoId).length > 0 ? (
           data.map((video: VideoType) => (
             <VideoSmall key={video._id} video={{ ...video, author }} />

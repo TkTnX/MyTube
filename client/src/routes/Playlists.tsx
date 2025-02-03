@@ -6,6 +6,7 @@ import { PlaylistType } from "../types";
 import { useQuery } from "@tanstack/react-query";
 import { usePlaylistsControls } from "../hooks/usePlaylistsControls";
 import { useEffect, useState } from "react";
+import { PlaylistVideosSkeleton } from "../components/Skeletons";
 
 const PlaylistsPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -42,7 +43,7 @@ const PlaylistsPage = () => {
 
       <div className="flex flex-col gap-10 lg:gap-4 mt-11">
         {isPending ? (
-          <p>Loading...</p>
+          <PlaylistVideosSkeleton />
         ) : data.length > 0 ? (
           data
             .filter(filter)

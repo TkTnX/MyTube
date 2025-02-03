@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useOutletContext } from "react-router-dom";
-import { AuthorType, VideoType } from "../types";
+import {  UserType, VideoType } from "../types";
 import axios from "axios";
 import VideosListItem from "../components/ui/VideosListItem";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import VideosSkeleton from "../components/ui/VideosSkeleton";
 import { Film } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
+import { VideosListSkeleton } from "../components/Skeletons";
 
 const responsive = {
   desktop: {
@@ -40,7 +40,7 @@ const getPopularVideos = async (id: string) => {
 };
 
 const ChannelPage = () => {
-  const channel: AuthorType = useOutletContext();
+  const channel: UserType = useOutletContext();
   const { user: clerkUser } = useUser();
 
   const { data, isError, error, isPending } = useQuery({
@@ -76,7 +76,7 @@ const ChannelPage = () => {
 
       <div className="mt-6">
         {isPending ? (
-          <VideosSkeleton />
+          <VideosListSkeleton />
         ) : (
           <Carousel
             removeArrowOnDeviceType={["tablet", "mobile"]}

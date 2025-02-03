@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useVideoControls } from "../../hooks/useVideoControls";
 import { useSearchParams } from "react-router-dom";
 import VideosListItem from "../ui/VideosListItem";
-import VideosSkeleton from "../ui/VideosSkeleton";
+import { VideosListSkeleton } from "../Skeletons";
 
 const ExploreBlockVideos = ({
   category,
@@ -25,7 +25,7 @@ const ExploreBlockVideos = ({
 
   if (isError) return <span>Error: {error.message}</span>;
 
-  if (isPending) return <VideosSkeleton className="mt-7" count={4} />;
+  if (isPending) return <VideosListSkeleton className="mt-7" count={4} />;
 
   if (data.length === 0)
     return (

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import ExploreBlock from "../components/Explore/ExploreBlock";
 import axios from "axios";
 import { CategoryType } from "../types";
+import { ExploreSkeleton } from "../components/Skeletons";
 
 const getCategories = async () => {
   try {
@@ -21,7 +22,7 @@ const ExplorePage = () => {
   });
 
   if (isError) return <span>Error: {error.message}</span>;
-  if (isPending) return <span>Loading...</span>;
+  if (isPending) return <ExploreSkeleton className="w-full" />;
   return (
     <div className="w-full vsm:h-[calc(100%-80px)] mt-7 flex flex-col gap-7">
       <ExploreBlock

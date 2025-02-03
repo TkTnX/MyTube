@@ -8,6 +8,7 @@ import { useUser } from "@clerk/clerk-react";
 import { VideoType } from "../types";
 import VideoPlaylistItem from "../components/ui/VideoPlaylistItem";
 import { useUserStore } from "../stores/useUserStore";
+import { PlaylistVideosSkeleton } from "../components/Skeletons";
 
 const PlaylistPage = () => {
   const { playlistId, username } = useParams();
@@ -31,15 +32,18 @@ const PlaylistPage = () => {
   const filter = (v: VideoType) =>
     v.title.toLowerCase().includes(searchValue.toLowerCase());
 
-  if (isPending) return <div>Loading...</div>;
   if (isError) return <div>Error: {error?.message}</div>;
   return (
     <div className="w-full mt-8">
       {/* PLAYLISTS TOP */}
-      <PlaylistItem
-        playlist={data}
-        className="w-full border border-[#31383d] p-6 rounded-3xl"
-      />
+      {isPending ? (
+        <PlaylistVideosSkeleton count={1} />
+      ) : (
+        <PlaylistItem
+          playlist={data}
+          className="w-full border border-[#31383d] p-6 rounded-3xl"
+        />
+      )}
 
       {/* PLAYLIST VIDEOS */}
       <div className="mt-8">
@@ -50,7 +54,9 @@ const PlaylistPage = () => {
         />
         {/* PLAYLIST VIDEOS LIST */}
         <div className="w-full mt-9 flex flex-col gap-8">
-          {data.videos.length > 0 ? (
+          {isPending ? (
+            <PlaylistVideosSkeleton count={5} />
+          ) : data.videos.length > 0 ? (
             data.videos
               .filter(filter)
               .map((video: VideoType) => (

@@ -2,13 +2,13 @@ import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ChannelVideosCategories } from "../constants";
 import { twMerge } from "tailwind-merge";
-import { AuthorType, VideoType } from "../types";
+import {  UserType, VideoType } from "../types";
 import VideosListItem from "../components/ui/VideosListItem";
 import { useChannelStore } from "../stores/useChannelStore";
-import VideosSkeleton from "../components/ui/VideosSkeleton";
+import { VideosListSkeleton } from "../components/Skeletons";
 
 const ChannelVideos = () => {
-  const channel: AuthorType = useOutletContext();
+  const channel: UserType = useOutletContext();
   const [currentCategory, setCurrentCategory] = useState(0);
   const { error, loading, authorVideos, getAuthorVideos } = useChannelStore();
 
@@ -43,7 +43,7 @@ const ChannelVideos = () => {
       </div>
       {loading ? (
         <div className="mt-7">
-          <VideosSkeleton className="w-full" />
+          <VideosListSkeleton className="w-full" />
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mt-7">
