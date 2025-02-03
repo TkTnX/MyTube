@@ -1,18 +1,25 @@
 import axios from "axios";
 import { VideoType } from "../types";
+type getVideosProps = {
+  category?: string;
+  limit?: number;
+  sortQuery?: string;
+  searchQuery?: string;
+};
 
 export const useVideoControls = ({ videoId }: { videoId: string }) => {
   // ФУНКЦИЯ ПОЛУЧЕНИЯ СПИСКА ВИДЕО
 
-  const getVideos = async (
-    category?: string,
-    limit?: number,
-    sortQuery?: string
-  ): Promise<VideoType[]> => {
+  const getVideos = async ({
+    category,
+    limit,
+    sortQuery,
+    searchQuery,
+  }: getVideosProps): Promise<VideoType[]> => {
     try {
       const videos = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/videos`,
-        { params: { category, limit, sortQuery } }
+        { params: { category, limit, sortQuery, searchQuery } }
       );
 
       return videos.data;

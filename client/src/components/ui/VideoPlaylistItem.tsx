@@ -9,13 +9,13 @@ import PlaylistAuthor from "../Playlists/PlaylistAuthor";
 
 type Props = {
   video: VideoType;
-  isPlaylistPage: boolean;
+  isPlaylistPage?: boolean;
   playlistId?: string;
 };
 
 const VideoPlaylistItem: React.FC<Props> = ({
   video,
-  isPlaylistPage,
+  isPlaylistPage = false,
   playlistId,
 }) => {
   return (

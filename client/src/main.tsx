@@ -11,6 +11,7 @@ import {
   Homepage,
   PlaylistPage,
   PlaylistsPage,
+  SearchPage,
   SignInPage,
   SignUpPage,
   UpdateChannelPage,
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
       {
         path: "/liked",
         element: <LikedVideosPage />,
+      },
+      {
+        path: "/search/:query",
+        element: <SearchPage />,
       },
     ],
   },

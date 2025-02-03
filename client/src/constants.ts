@@ -95,3 +95,21 @@ export const ChannelLinksList = [
 export const ChannelVideosCategories = ["Latest", "Popular", "Oldest"];
 
 export const ExploreFilters = ["Most Popular", "Newest", "Likes"];
+
+export const searchFiltersDate = [
+  { value: "day", title: "Day ago" },
+  { value: "week", title: "Week ago" },
+  { value: "month", title: "Month ago" },
+];
+
+export const searchFiltersSortBy = [
+  { value: "views", title: "Views" },
+  { value: "likes", title: "Likes" },
+];
+
+
+export const searchFiltersType = [
+  { value: "videos", title: "Videos" },
+  { value: "playlists", title: "Playlists" },
+  { value: "channels", title: "Channels" },
+]

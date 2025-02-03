@@ -14,7 +14,7 @@ const VideosList = () => {
   const { getVideos } = useVideoControls({ videoId: "" });
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["videos", searchParams.get("category")],
-    queryFn: () => getVideos(searchParams.get("category") || ""),
+    queryFn: () => getVideos({ category: searchParams.get("category") || "" }),
   });
 
   useEffect(() => {

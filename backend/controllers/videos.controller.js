@@ -14,17 +14,25 @@ export const getVideos = async (req, res) => {
     const category = req.query.category;
     const sortQuery = req.query.sortQuery;
     const limit = req.query.limit;
-
+    const searchQuery = req.query.searchQuery;
 
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const filter =
-      !category || category === "All"
-        ? {}
-        : category === "trending"
-        ? { createdAt: { $gte: sevenDaysAgo } }
-        : { category: category.toLowerCase() };
+    let filter = {};
+
+    if (category && category !== "All") {
+      if (category === "trending") {
+        filter.createdAt = { $gte: sevenDaysAgo };
+      } else {
+        filter.category = category.toLowerCase();
+      }
+    }
+
+    if (searchQuery) {
+      filter.title = { $regex: searchQuery, $options: "i" };
+    }
+
     const sort = () => {
       switch (sortQuery) {
         case "0":
@@ -41,8 +49,7 @@ export const getVideos = async (req, res) => {
     const videos = await Video.find(filter)
       .populate("author", "username img subscribers clerkId")
       .sort(sort())
-      .limit(limit || 0);
-
+      .limit(Number(limit) || 0);
     res.status(200).json(videos);
   } catch (error) {
     console.log(error);
