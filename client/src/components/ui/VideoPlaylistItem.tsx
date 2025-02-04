@@ -53,9 +53,10 @@ const VideoPlaylistItem: React.FC<Props> = ({
               videoId={video._id}
               likes={video.likes}
               dislikes={video.dislikes}
+              className="relative z-10"
             />
           </div>
-          <PlaylistAuthor author={video.author} />
+          <PlaylistAuthor className="relative z-10" author={video.author} />
         </div>
         <VideoDropdown
           playlistId={playlistId}

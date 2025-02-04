@@ -4,15 +4,20 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useUserStore } from "../../stores/useUserStore";
 import { useVideoControls } from "../../hooks/useVideoControls";
+import { twMerge } from "tailwind-merge";
 
-const LikeButtons = ({
-  videoId,
-  likes,
-  dislikes,
-}: {
+type Props = {
   videoId: string;
   likes: number;
   dislikes: number;
+  className?: string;
+};
+
+const LikeButtons: React.FC<Props> = ({
+  videoId,
+  likes,
+  dislikes,
+  className,
 }) => {
   const { user, getUser } = useUserStore();
   const [likesState, setLikesState] = useState(likes);
@@ -47,7 +52,12 @@ const LikeButtons = ({
   });
 
   return (
-    <div className="rounded-full bg-[#1d1d1d] flex items-center ">
+    <div
+      className={twMerge(
+        "rounded-full bg-[#1d1d1d] flex items-center ",
+        className
+      )}
+    >
       <button
         onClick={() => likeMutation.mutate()}
         className="flex items-center gap-2 py-2 px-4 hover:opacity-80 transition"
@@ -55,10 +65,10 @@ const LikeButtons = ({
         <ThumbsUp
           size={24}
           color="#fff"
-          fill={getIconColor(likeMutation, user?.likedVideos)}
+          fill={getIconColor(likeMutation, user?.likedVideos as string[])}
         />
         <span className="font-medium">
-          {getNewCount(likeMutation, user?.likedVideos, likesState)}
+          {getNewCount(likeMutation, user?.likedVideos as string[], likesState)}
         </span>
       </button>
       <div className="w-[1px] h-7 bg-[#343434]" />

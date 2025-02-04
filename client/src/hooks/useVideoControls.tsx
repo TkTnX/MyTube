@@ -99,7 +99,7 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
 
   const getIconColor = (
     mutation: { isPending: boolean },
-    userVideos: string[] | undefined
+    userVideos: string[] | undefined 
   ) => {
     if (mutation.isPending && userVideos) return "#fff";
     return userVideos?.includes(videoId) ? "#fff" : "none";

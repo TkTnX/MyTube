@@ -9,8 +9,8 @@ import ChannelItem from "../Channel/ChannelItem";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 import { PlaylistVideosSkeleton } from "../Skeletons";
 
-// * TODO: Сортировка 
-// TODO: Пофиксить - сделать у VideoPlaylistItem возможность делать лайки/дизлайки и переходить на канал, а не сразу на видео
+// * TODO: Сортировка
+//  TODO: Пофиксить - сделать у VideoPlaylistItem возможность  переходить на канал, а не сразу на видео
 // TODO: Кнопка "X" - стереть в поиске
 // TODO: Дополнить channel controls. Поискать в других компонентах функции
 // TODO: Проверить, почему playlists не появляются
