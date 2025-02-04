@@ -1,71 +1,61 @@
 import { useSearchParams } from "react-router-dom";
-import {
-  searchFiltersDate,
-  searchFiltersSortBy,
-  searchFiltersType,
-} from "../../constants";
+import { FILTERS_MAP, searchFiltersType } from "../../constants";
 
 const SearchFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const type = (searchParams.get("type") || "") as keyof typeof FILTERS_MAP;
   const handleChange = (key: string, value: string) => {
-    const newPrams = new URLSearchParams(searchParams);
-    newPrams.set(key, value);
-    setSearchParams(newPrams);
+    if (key === "type") {
+      setSearchParams(new URLSearchParams({ type: value }));
+    } else {
+      const newPrams = new URLSearchParams(searchParams);
+      newPrams.set(key, value);
+      setSearchParams(newPrams);
+    }
   };
 
   return (
     <div className="mt-6 flex items-center gap-2">
+      {FILTERS_MAP[type]?.map(
+        ({
+          key,
+          options,
+        }: {
+          key: string;
+          options: { value: string; title: string }[];
+        }) => (
+          <select
+            key={key}
+            defaultValue={searchParams.get(key) || ""}
+            onChange={(e) => handleChange(key, e.target.value)}
+            className="bg-[#333333] p-1 rounded-lg w-full vsm:w-auto text-xs "
+          >
+            {options.map((option: { value: string; title: string }) => (
+              <option
+                key={option.value}
+                value={option.value}
+                className="bg-[#111111]"
+              >
+                {option.title}
+              </option>
+            ))}
+          </select>
+        )
+      )}
       <select
-        defaultValue={searchParams.get("date") || ""}
-        onChange={(e) => handleChange("date", e.target.value)}
-        className="bg-[#333333] p-1 rounded-lg w-full vsm:w-auto text-xs "
-      >
-        <option value="" disabled selected hidden className="bg-[#111111] ">
-          <span className="text-[#aaa]">Upload Date:</span> Any Time
-        </option>
-        {searchFiltersDate.map((option) => (
-          <option value={option.value} className="bg-[#111111]">
-            {option.title}
-          </option>
-        ))}
-      </select>
-      <select
-        defaultValue={searchParams.get("sortBy") || ""}
-        onChange={(e) => handleChange("sortBy", e.target.value)}
-        className="bg-[#333333] p-1 rounded-lg w-full vsm:w-auto text-xs "
-      >
-        <option
-          value=""
-          disabled
-          selected
-          hidden
-          className="bg-[#111111] text-[#aaa]"
-        >
-          <span className="text-[#aaa]">Sort by:</span> Relevance
-        </option>
-        {searchFiltersSortBy.map((option) => (
-          <option value={option.value} className="bg-[#111111]">
-            {option.title}
-          </option>
-        ))}
-      </select>
-      <select
-        defaultValue={searchParams.get("type") || ""}
+        defaultValue={type}
         onChange={(e) => handleChange("type", e.target.value)}
         className="bg-[#333333] p-1 rounded-lg w-full vsm:w-auto text-xs "
       >
-        <option
-          value=""
-          disabled
-          selected
-          hidden
-          className="bg-[#111111] text-[#aaa]"
-        >
+        <option value="" disabled hidden className="bg-[#111111] text-[#aaa]">
           <span className="text-[#aaa]">Search type:</span> Videos
         </option>
         {searchFiltersType.map((option) => (
-          <option value={option.value} className="bg-[#111111]">
+          <option
+            key={option.value}
+            value={option.value}
+            className="bg-[#111111]"
+          >
             {option.title}
           </option>
         ))}

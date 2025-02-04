@@ -1,5 +1,23 @@
 import User from "../models/user.model.js";
 
+export const getChannels = async (req, res) => {
+  try {
+    const username = req.params.username;
+    if (!username) return res.status(404).json({ error: "User not found" });
+
+    const channels = await User.find({
+      username: { $regex: username, $options: "i" },
+    });
+
+    if (!channels) return res.status(404).json({ error: "No channels" });
+
+    res.status(200).json(channels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
 export const getChannel = async (req, res) => {
   try {
     const username = req.params.username;

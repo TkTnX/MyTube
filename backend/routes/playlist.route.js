@@ -7,9 +7,11 @@ import {
   getPlaylistById,
   getUserPlaylists,
   removeVideoFromPlaylist,
+  getPlaylistsByTitle,
 } from "../controllers/playlist.controlls.js";
 const router = express.Router();
 
+router.get("/:title", getPlaylistsByTitle)
 router.get("/:username", getUserPlaylists);
 router.get("/:username/:id", getPlaylistById);
 router.post("/", createPlaylist);

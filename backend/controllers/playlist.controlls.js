@@ -3,6 +3,29 @@ import Playlist from "../models/playlist.model.js";
 import User from "../models/user.model.js";
 import Video from "../models/video.model.js";
 
+export const getPlaylistsByTitle = async (req, res) => {
+  try {
+    const title = req.params.title;
+    if (!title) return res.status(400).json({ error: "No title provided" });
+
+    const playlists = await Playlist.find({
+      title: { $regex: title, $options: "i" },
+    })
+      .populate("author")
+      .populate({
+        path: "videos",
+        populate: "author",
+      });
+
+    if (!playlists)
+      return res.status(404).json({ error: "No playlists found" });
+    res.status(200).json(playlists);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
 export const getPlaylistById = async (req, res) => {
   try {
     const id = req.params.id;

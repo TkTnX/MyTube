@@ -1,7 +1,20 @@
 import axios from "axios";
 
 export const usePlaylistsControls = () => {
-  // ПОЛУЧЕНИЕ ПЛЕЙЛИСТОВ
+  // ПОЛУЧЕНИЕ ПЛЕЙЛИСТОВ ПО TITLE
+
+  const getPlaylists = async ({ title }: { title: string }) => {
+    try {
+      const playlists = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/playlist/${title}`
+      );
+      return playlists.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ПОЛУЧЕНИЕ ПЛЕЙЛИСТОВ ПОЛЬЗОВАТЕЛЯ
 
   const getUserPlaylists = async (username: string, sort?: string) => {
     try {
@@ -115,6 +128,7 @@ export const usePlaylistsControls = () => {
   };
 
   return {
+    getPlaylists,
     getUserPlaylists,
     createPlaylist,
     deletePlaylist,

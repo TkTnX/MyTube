@@ -1,15 +1,16 @@
 import { Search } from "lucide-react";
-import { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 const HeaderSearch = () => {
+  const params = useParams();
+  const [value, setValue] = useState(params.query || "");
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const value = formData.get("search");
 
-    if (value) navigate(`/search/${value}?type=videos`);
+    if (value) navigate(`/search/${value}?${searchParams.toString()}`); 
   };
 
   return (
@@ -21,6 +22,8 @@ const HeaderSearch = () => {
         <Search color="#888888" />
       </button>
       <input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
         name="search"
         type="text"
         placeholder="Search"
