@@ -9,18 +9,18 @@ const ExploreBlockVideos = ({
   currentFilter,
 }: {
   category: string;
-  currentFilter: number;
+  currentFilter: string;
 }) => {
   const { getVideos } = useVideoControls({ videoId: "" });
   const [searchParams] = useSearchParams();
   const { data, isError, isPending, error } = useQuery({
     queryKey: ["videos", currentFilter, category],
     queryFn: () =>
-      getVideos(
-        searchParams.get("category") || category,
-        4,
-        String(currentFilter)
-      ),
+      getVideos({
+        category: searchParams.get("category") || category,
+        limit: 4,
+        sortQuery: String(currentFilter),
+      }),
   });
 
   if (isError) return <span>Error: {error.message}</span>;

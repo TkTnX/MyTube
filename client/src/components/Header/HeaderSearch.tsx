@@ -10,7 +10,8 @@ const HeaderSearch = () => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (value) navigate(`/search/${value}?${searchParams.toString()}`); 
+    if (value)
+      navigate(`/search/${value}?${searchParams.toString() || "type=videos"}`);
   };
 
   return (

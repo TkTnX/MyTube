@@ -5,6 +5,7 @@ type getVideosProps = {
   limit?: number;
   sortQuery?: string;
   searchQuery?: string;
+  takeDate?: string;
 };
 
 export const useVideoControls = ({ videoId }: { videoId: string }) => {
@@ -15,11 +16,12 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
     limit,
     sortQuery,
     searchQuery,
+    takeDate,
   }: getVideosProps): Promise<VideoType[]> => {
     try {
       const videos = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/videos`,
-        { params: { category, limit, sortQuery, searchQuery } }
+        { params: { category, limit, sortQuery, searchQuery, takeDate } }
       );
 
       return videos.data;

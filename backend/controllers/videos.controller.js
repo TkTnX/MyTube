@@ -15,7 +15,7 @@ export const getVideos = async (req, res) => {
     const sortQuery = req.query.sortQuery;
     const limit = req.query.limit;
     const searchQuery = req.query.searchQuery;
-
+    const takeDate = req.query.takeDate;
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -29,17 +29,35 @@ export const getVideos = async (req, res) => {
       }
     }
 
+    switch (takeDate?.toLowerCase()) {
+      case "day":
+        filter.createdAt = {
+          $gte: new Date(new Date().setDate(new Date().getDate() - 1)),
+        };
+        break;
+      case "week":
+        filter.createdAt = { $gte: sevenDaysAgo };
+        break;
+      case "month":
+        filter.createdAt = {
+          $gte: new Date().setMonth(new Date().getMonth() - 1),
+        };
+        break;
+
+      default:
+        break;
+    }
+
     if (searchQuery) {
       filter.title = { $regex: searchQuery, $options: "i" };
     }
-
     const sort = () => {
-      switch (sortQuery) {
-        case "0":
+      switch (sortQuery?.toLowerCase()) {
+        case "views":
           return { views: -1 };
-        case "1":
+        case "newest":
           return { createdAt: -1 };
-        case "2":
+        case "likes":
           return { likes: -1 };
         default:
           return {};

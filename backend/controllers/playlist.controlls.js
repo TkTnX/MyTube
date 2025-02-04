@@ -6,11 +6,16 @@ import Video from "../models/video.model.js";
 export const getPlaylistsByTitle = async (req, res) => {
   try {
     const title = req.params.title;
+    const { sortVideos } = req.query;
     if (!title) return res.status(400).json({ error: "No title provided" });
+    const sort = {
+      videos: sortVideos === "high" ? 1 : -1,
+    };
 
     const playlists = await Playlist.find({
       title: { $regex: title, $options: "i" },
     })
+      .sort(sort)
       .populate("author")
       .populate({
         path: "videos",

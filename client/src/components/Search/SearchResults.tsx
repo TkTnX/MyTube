@@ -9,34 +9,42 @@ import ChannelItem from "../Channel/ChannelItem";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 import { PlaylistVideosSkeleton } from "../Skeletons";
 
-// * TODO: Получение результатов поиска для channels & playlists
-// * TODO: Скелетоны при поиске
-// * TODO: Сортировку отображать для конкретного типа - у Channels сортировка по подписчикам и колву видео, и тд
-// TODO: Сортировка
+// * TODO: Сортировка 
 // TODO: Пофиксить - сделать у VideoPlaylistItem возможность делать лайки/дизлайки и переходить на канал, а не сразу на видео
 // TODO: Кнопка "X" - стереть в поиске
 // TODO: Дополнить channel controls. Поискать в других компонентах функции
+// TODO: Проверить, почему playlists не появляются
 
 const SearchResults = ({ searchQuery }: { searchQuery: string }) => {
   const [searchParams] = useSearchParams();
-  const { type, sortBy, date } = Object.fromEntries(searchParams);
+  const params = Object.fromEntries(searchParams);
+  const { type = "videos", sortBy, date, videos, subscribers } = params;
+
   const { getVideos } = useVideoControls({ videoId: "" });
   const { getAuthors } = useChannelControls();
   const { getPlaylists } = usePlaylistsControls();
+
+  const queryKeys = [
+    "search",
+    searchQuery,
+    type,
+    sortBy,
+    date,
+    searchParams,
+    videos,
+    subscribers,
+  ];
+
+  const fetchers = {
+    videos: () => getVideos({ searchQuery, sortQuery: sortBy, takeDate: date }),
+    channels: () =>
+      getAuthors({ username: searchQuery, subscribersQuery: subscribers }),
+    playlists: () => getPlaylists({ title: searchQuery, sortVideos: videos }),
+  };
+
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["search", searchQuery, type, sortBy, date, searchParams],
-    queryFn: async () => {
-      switch (type) {
-        case "videos":
-          return await getVideos({ searchQuery });
-        case "channels":
-          return await getAuthors({ username: searchQuery });
-        case "playlists":
-          return await getPlaylists({ title: searchQuery });
-        default:
-          return await getVideos({ searchQuery });
-      }
-    },
+    queryKey: queryKeys,
+    queryFn: fetchers[type as keyof typeof fetchers] || fetchers.videos,
   });
 
   if (isError) return <span>Error: {error.message}</span>;

@@ -2,18 +2,22 @@ import { Link } from "react-router-dom";
 import Image from "../ui/Image";
 import ExploreBlockFilters from "./ExploreBlockFilters";
 import ExploreBlockVideos from "./ExploreBlockVideos";
-import { useState } from "react";
+import React, { useState } from "react";
 
-const ExploreBlock = ({
-  imgPath,
-  title,
-  action,
-  videosLength,
-}: {
+const filterCategories = ["Most Popular", "Newest", "Likes"];
+
+type Props = {
   imgPath: string;
   title: string;
   action: string;
   videosLength?: number;
+};
+
+const ExploreBlock: React.FC<Props> = ({
+  imgPath,
+  title,
+  action,
+  videosLength,
 }) => {
   const [currentFilter, setCurrentFilter] = useState(0);
   if (videosLength === 0) return null;
@@ -46,7 +50,10 @@ const ExploreBlock = ({
         />
       </div>
       {/* Videos */}
-      <ExploreBlockVideos currentFilter={currentFilter} category={action} />
+      <ExploreBlockVideos
+        currentFilter={filterCategories[currentFilter]}
+        category={action}
+      />
     </div>
   );
 };

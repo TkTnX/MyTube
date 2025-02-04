@@ -3,10 +3,17 @@ import axios from "axios";
 export const usePlaylistsControls = () => {
   // ПОЛУЧЕНИЕ ПЛЕЙЛИСТОВ ПО TITLE
 
-  const getPlaylists = async ({ title }: { title: string }) => {
+  const getPlaylists = async ({
+    title,
+    sortVideos,
+  }: {
+    title: string;
+    sortVideos?: string;
+  }) => {
     try {
       const playlists = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/playlist/${title}`
+        `${import.meta.env.VITE_BACKEND_URL}/playlist/${title}`,
+        { params: {  sortVideos } }
       );
       return playlists.data;
     } catch (error) {

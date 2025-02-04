@@ -138,12 +138,6 @@ export const FILTERS_MAP = {
     { key: "date", options: searchFiltersVideosDate },
     { key: "sortBy", options: searchFiltersVideosSortBy },
   ],
-  channels: [
-    { key: "subscribers", options: searchFiltersChannelsSubscribers },
-    { key: "videos", options: searchFiltersChannelsVideos },
-  ],
-  playlists: [
-    { key: "views", options: searchFiltersPlaylistsViews },
-    { key: "videos", options: searchFiltersChannelsVideos },
-  ],
+  channels: [{ key: "subscribers", options: searchFiltersChannelsSubscribers }],
+  playlists: [{ key: "videos", options: searchFiltersChannelsVideos }],
 } as const;

@@ -2,12 +2,27 @@ import User from "../models/user.model.js";
 
 export const getChannels = async (req, res) => {
   try {
+    const { subscribersQuery } = req.query;
     const username = req.params.username;
     if (!username) return res.status(404).json({ error: "User not found" });
 
-    const channels = await User.find({
-      username: { $regex: username, $options: "i" },
-    });
+    const sort = {
+      subscribers: subscribersQuery === "high" ? -1 : 1,
+    };
+
+    const channels = await User.aggregate([
+      {
+        $match: { username: { $regex: username, $options: "i" } },
+      },
+      {
+        $addFields: {
+          subscribersCount: { $size: { $ifNull: ["$subscribers", []] } },
+        },
+      },
+      {
+        $sort: sort,
+      },
+    ]);
 
     if (!channels) return res.status(404).json({ error: "No channels" });
 
