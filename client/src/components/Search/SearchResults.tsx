@@ -9,11 +9,10 @@ import ChannelItem from "../Channel/ChannelItem";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 import { PlaylistVideosSkeleton } from "../Skeletons";
 
-// * TODO: Сортировка
-//  TODO: Пофиксить - сделать у VideoPlaylistItem возможность  переходить на канал, а не сразу на видео
-// TODO: Кнопка "X" - стереть в поиске
-// TODO: Дополнить channel controls. Поискать в других компонентах функции
-// TODO: Проверить, почему playlists не появляются
+// * TODO: Кнопка "X" - стереть в поиске
+// * TODO: Дополнить channel controls. Поискать в других компонентах функции
+// * TODO: Проверить, почему playlists не появляются
+// * TODO: Скролл для скроллбара
 
 const SearchResults = ({ searchQuery }: { searchQuery: string }) => {
   const [searchParams] = useSearchParams();

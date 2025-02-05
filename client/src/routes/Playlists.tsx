@@ -4,9 +4,9 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { PlaylistType } from "../types";
 import { useQuery } from "@tanstack/react-query";
-import { usePlaylistsControls } from "../hooks/usePlaylistsControls";
 import { useEffect, useState } from "react";
 import { PlaylistVideosSkeleton } from "../components/Skeletons";
+import { usePlaylistsControls } from "../hooks/usePlaylistsControls";
 
 const PlaylistsPage = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -20,14 +20,14 @@ const PlaylistsPage = () => {
   }, [clerkUser, navigate]);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["playlists", searchParams.get("sort")],
+    queryKey: ["playlist", searchParams.get("sort")],
     queryFn: () => {
-      if (!clerkUser || !clerkUser.username) return [];
       return getUserPlaylists(
-        clerkUser.username,
+        clerkUser?.username as string,
         searchParams.get("sort") || ""
       );
     },
+    enabled: !!clerkUser?.username,
   });
 
   const filter = (playlist: PlaylistType) =>

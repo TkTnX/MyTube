@@ -17,7 +17,7 @@ const SidebarNavigationPlaylistItem = () => {
   const { playlistId } = useParams();
 
   const { data } = useQuery({
-    queryKey: ["playlist", playlistId],
+    queryKey: ["playlist"],
     queryFn: () => {
       if (clerkUser) return getUserPlaylists(clerkUser.username as string);
     },

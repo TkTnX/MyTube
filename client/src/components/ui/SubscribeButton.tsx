@@ -1,28 +1,9 @@
-import axios from "axios";
 import { twMerge } from "tailwind-merge";
 import { UserType } from "../../types";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useChannelStore } from "../../stores/useChannelStore";
-
-const onSubscribe = async ({
-  channelId,
-  clerkUserId,
-}: {
-  channelId: string;
-  clerkUserId: string;
-}) => {
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/channels/subscribe/${channelId}`,
-      { clerkUserId }
-    );
-
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { useChannelControls } from "../../hooks/useChannelControls";
 
 type SubscribeButtonProps = {
   channelId: string;
@@ -35,6 +16,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   user,
   className,
 }) => {
+  const { onSubscribe } = useChannelControls();
   const { subscribers, setSubscribers } = useChannelStore();
   const [subscribed, setSubscribed] = useState(
     user?.subscriptions.includes(channelId)

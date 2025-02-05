@@ -13,7 +13,7 @@ export const usePlaylistsControls = () => {
     try {
       const playlists = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/playlist/${title}`,
-        { params: {  sortVideos } }
+        { params: { sortVideos } }
       );
       return playlists.data;
     } catch (error) {
@@ -26,9 +26,8 @@ export const usePlaylistsControls = () => {
   const getUserPlaylists = async (username: string, sort?: string) => {
     try {
       const playlists = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/playlist/${username}${
-          sort ? `?sort=${sort}` : ""
-        }`
+        `${import.meta.env.VITE_BACKEND_URL}/playlist/user/${username}`,
+        { params: { sort } }
       );
       return playlists.data;
     } catch (error) {

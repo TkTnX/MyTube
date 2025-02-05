@@ -2,25 +2,14 @@ import { Outlet, useParams } from "react-router-dom";
 import ChannelTop from "../components/Channel/ChannelTop";
 import ChannelLinks from "../components/Channel/ChannelLinks";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect } from "react";
 import { useChannelStore } from "../stores/useChannelStore";
 import { ChannelTopSkeleton } from "../components/Skeletons";
-
-const getChannel = async (username: string) => {
-  try {
-    const channel = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/channels/${username}`
-    );
-
-    return channel.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+import { useChannelControls } from "../hooks/useChannelControls";
 
 const ChannelLayout = () => {
   const { username } = useParams();
+  const { getChannel } = useChannelControls();
   const { setSubscribers } = useChannelStore();
   const getAuthorVideos = useChannelStore((state) => state.getAuthorVideos);
   const { isPending, isError, data, error } = useQuery({

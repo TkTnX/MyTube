@@ -22,5 +22,42 @@ export const useChannelControls = () => {
     }
   };
 
-  return { getAuthors };
+  // ПОЛУЧЕНИЕ КАНАЛА ПО USERNAME
+
+  const getChannel = async (username: string) => {
+    try {
+      const channel = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/channels/${username}`
+      );
+
+      return channel.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  // ПОДПИСКА НА КАНАЛ
+
+  
+  const onSubscribe = async ({
+    channelId,
+    clerkUserId,
+  }: {
+    channelId: string;
+    clerkUserId: string;
+  }) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/channels/subscribe/${channelId}`,
+        { clerkUserId }
+      );
+  
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { getAuthors, onSubscribe, getChannel };
 };

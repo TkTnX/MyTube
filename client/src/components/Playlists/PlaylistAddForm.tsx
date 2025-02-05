@@ -11,6 +11,7 @@ type Props = {
   userId: string;
   type: "edit" | "add";
   playlistId?: string;
+  className?: string;
 };
 
 const PlaylistAddForm: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const PlaylistAddForm: React.FC<Props> = ({
   userId,
   type,
   playlistId,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const { createPlaylist, editPlaylist } = usePlaylistsControls();
@@ -59,7 +61,7 @@ const PlaylistAddForm: React.FC<Props> = ({
   };
 
   return (
-    <div>
+    <div className={className}>
       <button className="w-full" onClick={() => setOpen(true)}>
         {children}
       </button>

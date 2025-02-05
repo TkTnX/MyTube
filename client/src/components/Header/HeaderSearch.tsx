@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
@@ -30,6 +30,11 @@ const HeaderSearch = () => {
         placeholder="Search"
         className="block bg-inherit outline-none py-2 lg:py-3 flex-1 placeholder:text-[#888888]"
       />
+      {value && (
+        <button type="button" onClick={() => setValue("")}>
+          <X color="#888888" />
+        </button>
+      )}
     </form>
   );
 };

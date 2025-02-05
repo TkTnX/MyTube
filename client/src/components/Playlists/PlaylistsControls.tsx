@@ -17,7 +17,7 @@ const PlaylistsControls: React.FC<Props> = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
-    <div className="flex items-center justify-between flex-col vsm:flex-row gap-2 vsm:gap-0">
+    <div className="flex items-center lg:justify-between flex-col justify-center  flex-wrap  vsm:flex-row gap-2 vsm:gap-2">
       <select
         value={searchParams.get("sort") || ""}
         onChange={(e) => setSearchParams({ sort: e.target.value })}
@@ -48,8 +48,8 @@ const PlaylistsControls: React.FC<Props> = ({
         )}
       </select>
 
-      <div className="w-full vsm:w-auto flex items-center gap-2">
-        <form className="flex items-center gap-2 py-1 pl-4 bg-[#1d1d1d] rounded-full">
+      <div className="w-full vsm:w-auto flex flex-col vsm:flex-row items-center gap-2">
+        <form className="flex w-full vsm:w-auto items-center gap-2 py-1 pl-4 bg-[#1d1d1d] rounded-full">
           <Search color="#aaa" />
           <input
             onChange={(e) => setSearchValue(e.target.value)}
@@ -59,8 +59,8 @@ const PlaylistsControls: React.FC<Props> = ({
           />
         </form>
         {!isPlaylistPage && (
-          <PlaylistAddForm type="add" userId={userId}>
-            <button className="flex items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition">
+          <PlaylistAddForm className="w-full" type="add" userId={userId}>
+            <button className="flex w-full justify-center vsm:w-auto items-center gap-2 bg-[#1d1d1d] py-1 px-4 rounded-3xl hover:opacity-80 transition ">
               <Plus /> <span>Create</span>
             </button>
           </PlaylistAddForm>
