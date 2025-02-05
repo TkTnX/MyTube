@@ -9,8 +9,8 @@ import ChannelItem from "../Channel/ChannelItem";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 import { PlaylistVideosSkeleton } from "../Skeletons";
 
-// * TODO: На телефонах кнопка /search отображать поиск
 // TODO: Страница subscribtions, Где будут выводиться авторы, на которых подписан и их видео. Сверху список подписок(аватарки). При нажатии отоброжать их видео
+// TODO: На странице плейлиста надпись на поиске "Search playlists" заменить на "Search videos"
 const SearchResults = ({ searchQuery }: { searchQuery: string }) => {
   const [searchParams] = useSearchParams();
   const params = Object.fromEntries(searchParams);
@@ -48,25 +48,18 @@ const SearchResults = ({ searchQuery }: { searchQuery: string }) => {
   if (isPending)
     return <PlaylistVideosSkeleton className="mt-11 gap-10" count={10} />;
   if (!data) return <p>No results</p>;
+
+  const renderItems = (item: VideoType | UserType | PlaylistType) => {
+    if (type === "channels")
+      return <ChannelItem channel={item as UserType} key={item._id} />;
+    if (type === "playlists")
+      return <PlaylistItem playlist={item as PlaylistType} key={item._id} />;
+    return <VideoPlaylistItem video={item as VideoType} key={item._id} />;
+  };
+
   return (
     <div className="w-full mt-11 flex flex-col gap-10">
-      {data.length > 0 ? (
-        type === "videos" ? (
-          data.map((video: VideoType) => (
-            <VideoPlaylistItem key={video._id} video={video} />
-          ))
-        ) : type === "channels" ? (
-          data.map((channel: UserType) => (
-            <ChannelItem key={channel._id} channel={channel} />
-          ))
-        ) : (
-          data.map((playlist: PlaylistType) => (
-            <PlaylistItem playlist={playlist} key={playlist._id} />
-          ))
-        )
-      ) : (
-        <p>No results</p>
-      )}
+      {data.length > 0 ? data.map(renderItems) : <p>No results</p>}
     </div>
   );
 };

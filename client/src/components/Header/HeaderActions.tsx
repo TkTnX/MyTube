@@ -11,9 +11,13 @@ import { Link } from "react-router-dom";
 const HeaderActions = () => {
   return (
     <div className="flex items-center  gap-2 xl:gap-6">
-      <button className="md:hidden hover:opacity-80 transition" type="button">
+      <Link
+        to="/search"
+        className="md:hidden hover:opacity-80 transition"
+        type="button"
+      >
         <Search color="#fff" width={24} height={24} />
-      </button>
+      </Link>
       <Link to="/create" className="hover:opacity-80 transition">
         <Image
           width="24"
