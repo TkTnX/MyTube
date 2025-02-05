@@ -94,6 +94,8 @@ export const getVideo = async (req, res) => {
 export const createVideo = async (req, res) => {
   const newVideo = await Video.create(req.body);
   const video = await newVideo.save();
+  if (!video) return res.status(500).json({ error: "Internal server error" });
+
   await Category.findOneAndUpdate(
     {
       title: video.category.charAt(0).toUpperCase() + video.category.slice(1),
@@ -102,6 +104,11 @@ export const createVideo = async (req, res) => {
       $push: { videos: video._id },
     }
   );
+
+  await User.findOneAndUpdate(video.author._id, {
+    $push: { videos: video._id },
+  });
+
   res.status(200).json(video);
 };
 
@@ -276,6 +283,10 @@ export const deleteVideo = async (req, res) => {
       },
       { $pull: { videos: video._id } }
     );
+
+    await User.findOneAndUpdate(video.author._id, {
+      $pull: { videos: video._id },
+    });
 
     res.status(200).json({ message: "Video deleted successfully" });
   } catch (error) {

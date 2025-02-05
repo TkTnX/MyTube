@@ -9,7 +9,10 @@ import ChannelItem from "../Channel/ChannelItem";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 import { PlaylistVideosSkeleton } from "../Skeletons";
 
-// TODO: Страница subscribtions, Где будут выводиться авторы, на которых подписан и их видео. Сверху список подписок(аватарки). При нажатии отоброжать их видео
+// TODO: Страница subscriptions - доработать
+// TODO: Фильтрация, как в макете
+// TODO: Скелетоны загрузки при получении данных
+// TODO: Страница /subscriptions/:channel в котором будут выводиться видео автора
 // TODO: На странице плейлиста надпись на поиске "Search playlists" заменить на "Search videos"
 const SearchResults = ({ searchQuery }: { searchQuery: string }) => {
   const [searchParams] = useSearchParams();

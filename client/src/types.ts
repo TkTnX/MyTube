@@ -15,7 +15,8 @@ export type UserType = {
   playlists: PlaylistType[];
   watchLater: string[];
   subscribers: string[];
-  subscriptions: string[];
+  subscriptions: string[] | UserType[];
+  videos: string[] | VideoType[];
   coverImg?: string;
   description?: string;
   createdAt: Date;

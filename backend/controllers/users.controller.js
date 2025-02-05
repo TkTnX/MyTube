@@ -5,9 +5,9 @@ export const getUser = async (req, res) => {
     clerkId: req.params.id,
   }).populate(
     populate !== undefined
-      ? populate === "playlists"
-        ? { path: populate, populate: "videos" }
-        : { path: populate, populate: "author" }
+      ? populate === "playlists" || populate === "subscriptions"
+        ? { path: populate, populate: { path: "videos", populate: "author" } }
+        : { path: populate }
       : ""
   );
   res.status(200).json(user);

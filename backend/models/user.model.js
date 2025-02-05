@@ -50,6 +50,12 @@ const userModel = new Schema(
     },
     subscriptions: {
       type: [Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
+    },
+    videos: {
+      type: [Schema.Types.ObjectId],
+      ref: "Video",
       default: [],
     },
   },

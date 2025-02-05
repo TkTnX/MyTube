@@ -17,12 +17,14 @@ export const useUserStore = create<UserStore>((set) => ({
   getUser: async (clerkUserId, populate = null) => {
     try {
       set({ loading: true });
-      const user = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/users/${clerkUserId}?${
-          populate ? "populate=" + populate : ""
-        }`
-      );
-      set({ user: user.data, error: false, loading: false });
+      const user = await axios
+        .get(
+          `${import.meta.env.VITE_BACKEND_URL}/users/${clerkUserId}?${
+            populate ? "populate=" + populate : ""
+          }`
+        )
+        .finally(() => set({ loading: false, error: false }));
+      set({ user: user.data });
     } catch (error) {
       console.log(error);
       set({ error: true });

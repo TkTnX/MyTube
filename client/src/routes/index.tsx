@@ -13,6 +13,8 @@ import PlaylistsPage from "./Playlists";
 import UserPlaylistsPage from "./UserPlaylists";
 import PlaylistPage from "./Playlist";
 import SearchPage from "./Search";
+import SearchEmptyPage from "./SearchEmpty";
+import SubscriptionsPage from "./Subscriptions";
 export {
   Homepage,
   SignInPage,
@@ -29,4 +31,6 @@ export {
   UserPlaylistsPage,
   PlaylistPage,
   SearchPage,
+  SearchEmptyPage,
+  SubscriptionsPage,
 };
