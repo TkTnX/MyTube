@@ -27,6 +27,7 @@ import { ToastContainer } from "react-toastify";
 import { VideoNotFound } from "./components/VideoPlayer";
 import ChannelLayout from "./layouts/ChannelLayout";
 import LikedVideosPage from "./routes/LikedVideos";
+import SearchEmptyPage from "./routes/SearchEmpty";
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
       {
         path: "/liked",
         element: <LikedVideosPage />,
+      },
+      {
+        path: "/search/",
+        element: <SearchEmptyPage />,
       },
       {
         path: "/search/:query",

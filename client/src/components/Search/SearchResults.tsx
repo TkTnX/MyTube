@@ -9,11 +9,8 @@ import ChannelItem from "../Channel/ChannelItem";
 import { usePlaylistsControls } from "../../hooks/usePlaylistsControls";
 import { PlaylistVideosSkeleton } from "../Skeletons";
 
-// * TODO: Кнопка "X" - стереть в поиске
-// * TODO: Дополнить channel controls. Поискать в других компонентах функции
-// * TODO: Проверить, почему playlists не появляются
-// * TODO: Скролл для скроллбара
-
+// * TODO: На телефонах кнопка /search отображать поиск
+// TODO: Страница subscribtions, Где будут выводиться авторы, на которых подписан и их видео. Сверху список подписок(аватарки). При нажатии отоброжать их видео
 const SearchResults = ({ searchQuery }: { searchQuery: string }) => {
   const [searchParams] = useSearchParams();
   const params = Object.fromEntries(searchParams);

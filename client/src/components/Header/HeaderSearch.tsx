@@ -1,8 +1,9 @@
 import { Search, X } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
-const HeaderSearch = () => {
+const HeaderSearch = ({ isMobile = false }: { isMobile?: boolean }) => {
   const params = useParams();
   const [value, setValue] = useState(params.query || "");
   const navigate = useNavigate();
@@ -17,7 +18,10 @@ const HeaderSearch = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="hidden md:flex items-center gap-3  border border-[#2a2a2a] rounded-full px-4  w-[400px] xl:w-[727px]"
+      className={twMerge(
+        "hidden md:flex items-center gap-3  border border-[#2a2a2a] rounded-full px-4  w-[400px] xl:w-[727px]",
+        isMobile && "flex md:flex"
+      )}
     >
       <button type="button">
         <Search color="#888888" />
