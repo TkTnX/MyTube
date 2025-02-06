@@ -16,10 +16,7 @@
 
 # Технологии
 
-- MongoDB
-- Mongoose
-- Express
-- svix
+
 
 ## Frontend
 
@@ -34,4 +31,7 @@
 
 ## Backend
 
--
+- MongoDB
+- Mongoose
+- Express
+- svix
