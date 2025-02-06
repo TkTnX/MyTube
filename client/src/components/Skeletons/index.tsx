@@ -5,4 +5,14 @@ import PlaylistVideosSkeleton from "./PlaylistVideosSkeleton";
 import UpdateChannelSkeleton from "./UpdateChannelSkeleton";
 import ExploreCategorySkeleton from "./ExploreCategorySkeleton";
 import ExploreSkeleton from "./ExploreSkeleton";
-export { VideosListSkeleton, SmallVideosSkeleton, ChannelTopSkeleton, PlaylistVideosSkeleton, UpdateChannelSkeleton, ExploreCategorySkeleton, ExploreSkeleton };
+import SubscriptionsChannelsSkeleton from "./SubscriptionsChannelsSkeleton";
+export {
+  VideosListSkeleton,
+  SmallVideosSkeleton,
+  ChannelTopSkeleton,
+  PlaylistVideosSkeleton,
+  UpdateChannelSkeleton,
+  ExploreCategorySkeleton,
+  ExploreSkeleton,
+  SubscriptionsChannelsSkeleton,
+};

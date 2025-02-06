@@ -141,3 +141,15 @@ export const FILTERS_MAP = {
   channels: [{ key: "subscribers", options: searchFiltersChannelsSubscribers }],
   playlists: [{ key: "videos", options: searchFiltersChannelsVideos }],
 } as const;
+
+export const SubscriptionsFiltersList = {
+  show: [
+    { value: "all", title: "All" },
+    { value: "channels", title: "Channels" },
+    { value: "videos", title: "Videos" },
+  ],
+  sortBy: [
+    { value: "newest", title: "Newest" },
+    { value: "oldest", title: "Oldest" },
+  ],
+};

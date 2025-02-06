@@ -15,6 +15,7 @@ import {
   SearchPage,
   SignInPage,
   SignUpPage,
+  SubscriptionsChannelPage,
   SubscriptionsPage,
   UpdateChannelPage,
   UserPlaylistsPage,
@@ -29,6 +30,7 @@ import { ToastContainer } from "react-toastify";
 import { VideoNotFound } from "./components/VideoPlayer";
 import ChannelLayout from "./layouts/ChannelLayout";
 import LikedVideosPage from "./routes/LikedVideos";
+import SubscriptionsLayout from "./layouts/SubscriptionsLayout";
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
@@ -107,9 +109,19 @@ const router = createBrowserRouter([
         path: "/search/:query",
         element: <SearchPage />,
       },
+
       {
-        path: "/subscriptions",
-        element: <SubscriptionsPage />,
+        element: <SubscriptionsLayout />,
+        children: [
+          {
+            path: "/subscriptions",
+            element: <SubscriptionsPage />,
+          },
+          {
+            path: "/subscriptions/:username",
+            element: <SubscriptionsChannelPage />,
+          },
+        ],
       },
     ],
   },

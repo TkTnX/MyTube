@@ -1,6 +1,6 @@
 import { Plus, Search } from "lucide-react";
 import PlaylistAddForm from "./PlaylistAddForm";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import React from "react";
 
 type Props = {
@@ -15,7 +15,7 @@ const PlaylistsControls: React.FC<Props> = ({
   isPlaylistPage = false,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const location = useLocation();
   return (
     <div className="flex items-center lg:justify-between flex-col justify-center  flex-wrap  vsm:flex-row gap-2 vsm:gap-2">
       <select
@@ -54,7 +54,9 @@ const PlaylistsControls: React.FC<Props> = ({
           <input
             onChange={(e) => setSearchValue(e.target.value)}
             type="text"
-            placeholder="Search playlists"
+            placeholder={`Search ${
+              location.pathname === "/playlists" ? "playlists" : "videos"
+            }`}
             className="placeholder:text-[#aaa] bg-inherit outline-none flex-1 pr-4 rounded-full"
           />
         </form>

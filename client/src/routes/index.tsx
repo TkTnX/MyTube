@@ -15,6 +15,7 @@ import PlaylistPage from "./Playlist";
 import SearchPage from "./Search";
 import SearchEmptyPage from "./SearchEmpty";
 import SubscriptionsPage from "./Subscriptions";
+import SubscriptionsChannelPage from "./SubscriptionsChannel";
 export {
   Homepage,
   SignInPage,
@@ -33,4 +34,5 @@ export {
   SearchPage,
   SearchEmptyPage,
   SubscriptionsPage,
+  SubscriptionsChannelPage,
 };
