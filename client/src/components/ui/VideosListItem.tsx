@@ -56,7 +56,7 @@ const VideosListItem = ({
             • <span>{format(video.createdAt)}</span>
           </div>
         </div>
-        <VideoDropdown video={video}>
+        <VideoDropdown isPlaylistPage={false} video={video}>
           <button>
             <MoreVertical size={24} />
           </button>

@@ -16,7 +16,7 @@ const Sidebar = () => {
         !isOpen && "md:min-w-0 !text-center"
       )}
     >
-      <div className="block md:hidden w-full pb-4 pt-3 vsm:px-0 vsm:pb-0 vsm:pt-0">
+      <div className="block md:hidden w-full pb-4 pt-3 vsm:px-0 vsm:pb-0 vsm:pt-0 ">
         <SidebarNavigationList items={SidebarNavigationItemsSmall} />
       </div>
 

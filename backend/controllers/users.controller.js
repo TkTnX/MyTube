@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import cron from "node-cron";
 export const getUser = async (req, res) => {
   const populate = req.query.populate;
   const user = await User.findOne({
@@ -10,6 +11,14 @@ export const getUser = async (req, res) => {
         : { path: populate }
       : ""
   );
+
+  cron.schedule("0 0 * * 0", async () => {
+    try {
+      await User.updateMany({}, { $set: { history: [] } });
+    } catch (error) {
+      console.log(error);
+    }
+  });
   res.status(200).json(user);
 };
 

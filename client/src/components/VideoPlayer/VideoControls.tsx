@@ -25,7 +25,7 @@ const VideoControls = ({ data }: { data: VideoType }) => {
           likes={data.likes}
           dislikes={data.dislikes}
         />
-        <VideoDropdown video={data}>
+        <VideoDropdown isPlaylistPage={false} video={data}>
           <button className="rounded-full p-2 w-10 h-10 bg-[#1d1d1d]">
             <MoreHorizontal size={24} color="#fff" />
           </button>

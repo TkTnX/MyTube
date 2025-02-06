@@ -1,4 +1,4 @@
-import { AuthorType } from "../../types";
+import {  UserType } from "../../types";
 import MoreAuthorVideos from "./MoreAuthorVideos";
 import RelatedVideos from "./RelatedVideos";
 
@@ -7,7 +7,7 @@ const MoreVideos = ({
   id,
   category,
 }: {
-  author: AuthorType;
+  author: UserType;
   id: string;
   category: string;
 }) => {

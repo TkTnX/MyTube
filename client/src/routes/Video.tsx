@@ -36,7 +36,7 @@ const VideoPage = () => {
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["video", id],
-    queryFn: () => getVideo(id!),
+    queryFn: () => getVideo(id!, clerkUser?.id || null),
     staleTime: 0,
   });
 

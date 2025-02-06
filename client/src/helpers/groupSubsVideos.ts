@@ -1,4 +1,4 @@
-import { UserType, VideoType } from "../types";
+import {  VideoType } from "../types";
 
 const getDateLabel = (date: string) => {
   const createdAt = new Date(date);
@@ -17,8 +17,7 @@ const getDateLabel = (date: string) => {
   });
 };
 
-export const groupSubsVideos = (subs: UserType[], sort: string) => {
-  const videos = subs.flatMap((sub) => sub.videos as VideoType[]);
+export const groupSubsVideos = (videos: VideoType[], sort: string) => {
 
   const groupedVideos = videos.reduce((acc, video) => {
     const dateLabel = getDateLabel(video?.createdAt);

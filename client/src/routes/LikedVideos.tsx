@@ -11,6 +11,10 @@ const LikedVideosPage = () => {
   useEffect(() => {
     getUser(clerkUser?.id as string, "likedVideos");
   }, [clerkUser, getUser, user?.likedVideos.length]);
+  if (user?.likedVideos.length === 0)
+    return (
+      <p className="text-sm text-[#aaa]">You don't have liked videos yet</p>
+    );
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold">Your liked videos</h2>

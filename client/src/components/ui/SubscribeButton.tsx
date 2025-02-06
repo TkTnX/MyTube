@@ -19,11 +19,15 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   const { onSubscribe } = useChannelControls();
   const { subscribers, setSubscribers } = useChannelStore();
   const [subscribed, setSubscribed] = useState(
-    user?.subscriptions.includes(channelId)
+    typeof user?.subscriptions[0] === "string" &&
+      (user.subscriptions as string[]).includes(channelId)
   );
 
   useEffect(() => {
-    setSubscribed(user?.subscriptions.includes(channelId));
+    setSubscribed(
+      typeof user?.subscriptions[0] === "string" &&
+        (user.subscriptions as string[]).includes(channelId)
+    );
   }, [user, channelId]);
 
   const mutation = useMutation({

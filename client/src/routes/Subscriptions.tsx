@@ -7,7 +7,7 @@ const SubscriptionsPage = () => {
 
   return (
     <div className="max-w-full overflow-x-hidden w-full">
-      <SubscriptionsVideos subs={subs as UserType[]} />
+      <SubscriptionsVideos subs={subs as UserType[] || []} />
     </div>
   );
 };

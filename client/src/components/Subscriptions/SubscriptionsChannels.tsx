@@ -10,9 +10,10 @@ type Props = {
 
 const SubscriptionsChannels: React.FC<Props> = ({ subs, value }) => {
   const location = useLocation();
-  if (!subs) return <SubscriptionsChannelsSkeleton />;
-  const filteredSubs = subs.filter((sub) =>
-    sub.username.toLowerCase().includes(value.toLowerCase())
+  if (!subs || typeof subs[0] === "string")
+    return <SubscriptionsChannelsSkeleton />;
+  const filteredSubs = subs?.filter((sub) =>
+    sub?.username?.toLowerCase().includes(value.toLowerCase())
   );
   return (
     <div>

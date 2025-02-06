@@ -33,10 +33,13 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
 
   // ФУНКЦИЯ ПОЛУЧЕНИЯ ВИДЕО
 
-  const getVideo = async (id: string): Promise<VideoType | null> => {
+  const getVideo = async (id: string, clerkUserId: string | null): Promise<VideoType | null> => {
     try {
       const video = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/videos/${id}`
+        `${import.meta.env.VITE_BACKEND_URL}/videos/${id}`,
+        {
+          params: { clerkUserId },
+        }
       );
 
       return video.data;
@@ -99,7 +102,7 @@ export const useVideoControls = ({ videoId }: { videoId: string }) => {
 
   const getIconColor = (
     mutation: { isPending: boolean },
-    userVideos: string[] | undefined 
+    userVideos: string[] | undefined
   ) => {
     if (mutation.isPending && userVideos) return "#fff";
     return userVideos?.includes(videoId) ? "#fff" : "none";
